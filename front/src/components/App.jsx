@@ -7,6 +7,10 @@ import Etapes from "../pages/Etapes";
 import AlphabetHome from "../pages/AlphabetHome";
 import LayoutExercice from './sequences/Exercices/Layout'
 import GraphemesHome from "../pages/GraphemesHome";
+import { fetchAllExerciceForSequences } from "../hooks/useDb";
+import { fetchAllSequences } from "../hooks/useDb";
+import { fetchAllStages } from "../hooks/useDb";
+
 // import db from '../Dexie'
 
 import SequenceHome from "../pages/SequenceHome";
@@ -20,9 +24,12 @@ import D from '../components/Exercises/D'
 import E from '../components/Exercises/E'
 import H from '../components/Exercises/H'
 import G from '../components/Exercises/G'
-
-
 import LayoutAlphabet from '../pages/ExoGraphoAlphabetique'
+
+
+const allSequences = fetchAllSequences();
+console.log(allSequences);
+
 
 const App = () => {
     return <HashRouter>

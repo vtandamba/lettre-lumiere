@@ -1,51 +1,59 @@
-export const fetchAllStages = async (db) => {
-    try {
-      const allStages = await db?.stages.toArray();
-    //   console.log('etapes', allStages); 
-      return allStages; 
-    } catch (error) {
-      console.error("Erreur lors de la récupération des étapes:", error);
-      throw error; 
-    }
-  }
 
-  fetchAllStages().then(allStages => {
+//  ici on recupere fech les données de db.sqlite qui sont dans l'api http ... 
     
-  }).catch(error => {
-    throw new Error(error)
-  });
+const urlSequences = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.sequences.php';
+const urlExercices = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.exercices.php';
+const urlStages = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.stages.php';
 
+export const fetchAllStages = async () => {
+    try {
+        const response = await fetch(urlStages);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des étapes');
+        }
+        return response.json();
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
 
-export const fetchAllSequences = async(db) => {
-    try{
-        const allSequences = await db?.sequences.toArray();
-        // console.log('sequences', allSequences);
-        return allSequences;
-    }catch(error) {
-        console.error("Erreur lors de la récupération des étapes:", error);
+export const fetchAllSequences = async() => {
+    try {
+        const response = await fetch(urlSequences);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des séquences');
+        }
+        return response.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération des séquences:", error);
         throw error; 
     }
 }
 
-export const fetchOneSequence = async(db, id) => {
-  try{
-    console.log(id)
-       const sequence =  await db?.sequences.get(parseInt(id, 10));
-      console.log(sequence)
-      return sequence
-  }catch(error) {
-    console.error("Erreur lors de la récupération des étapes:", error);
-    throw error; 
+export const fetchOneSequence = async(id) => {
+    try {
+        const response = await fetch(`${urlSequences}?id=${id}`);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération de la séquence');
+        }
+        return response.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération de la séquence:", error);
+        throw error; 
     }
 }
 
-export const fetchAllExerciceForSequences = async (db, id) => {
-  try {
-    const exercices = await db?.exercises.where({ sequenceId: Number(id) }).toArray();
-    console.log(exercices);
-    return exercices;
-  } catch (error) {
-    console.error("Erreur lors de la récupération des exercices :", error);
-    throw error;
-  }
+export const fetchAllExerciceForSequences = async (id) => {
+    try {
+        const response = await fetch(`${urlExercices}?sequenceId=${id}`);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des exercices');
+        }
+        return response.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération des exercices:", error);
+        throw error;
+    }
 };
+

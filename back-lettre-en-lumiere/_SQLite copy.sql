@@ -1,25 +1,14 @@
 -- SQLite
--- Suppression de la table l_USER si elle existe
-DROP TABLE IF EXISTS l_USER;
 -- Suppression de la table l_SEQUENCES si elle existe
 DROP TABLE IF EXISTS l_SEQUENCES;
 -- Suppression de la table l_STAGES si elle existe
 DROP TABLE IF EXISTS l_STAGES;
 -- Suppression de la table l_EXERCICES si elle existe
 DROP TABLE IF EXISTS l_EXERCICES;
--- Suppression de la table l_USER-PROGRESS si elle existe
-DROP TABLE IF EXISTS l_USER-PROGRESS;
--- Suppression de la table l_USER-PROGRESS si elle existe
-DROP TABLE IF EXISTS l_USER-PROGRESS_SEQ;
+-- Suppression de la table l_TYPE_EXERCICE si elle existe
+DROP TABLE IF EXISTS l_EXERCICES;
 
--- Création de la table l_SEQUENCES
-CREATE TABLE IF NOT EXISTS l_USER (
-    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_nom VARCHAR,
-    user_prenom VARCHAR,
-    user_password VARCHAR
-    
-);
+
 -- Création de la table l_SEQUENCES
 CREATE TABLE IF NOT EXISTS l_SEQUENCES (
     sequence_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +16,7 @@ CREATE TABLE IF NOT EXISTS l_SEQUENCES (
     stage_id INTEGER,
     seq_description VARCHAR,
     seq_content VARCHAR,
-    
+    seq_medal VARCHAR
 );
 -- Création de la table l_STAGES
 CREATE TABLE IF NOT EXISTS l_STAGES (
@@ -41,35 +30,19 @@ CREATE TABLE IF NOT EXISTS l_EXERCICES (
     sequence_id INTEGER,
     exo_type VARCHAR,
     exo_consigne VARCHAR,
-    exo_content TEXT,
+    exo_complete BOOLEAN,
+    exo_content VARCHAR,
+    exo_image VARCHAR,
     exo_etiquette VARCHAR,
     exo_ordre INTEGER
 );
--- Création de la table l_USER-PROGRESS
-CREATE TABLE IF NOT EXISTS l_USER-PROGRESS (
-    user_progress_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    usp_score VARCHAR,
-    user_id INTEGER
-    
-);
-
--- Création de la table l_USER-PROGRESS_SEQ
-CREATE TABLE IF NOT EXISTS l_USER-PROGRESS_SEQ (
-    user_progress_exo_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    usp_score VARCHAR,
-    user_id INTEGER
-    sequence_id INTEGER
-    
-);
-
-
 -- Insertion de données dans la table l_SEQUENCES
 INSERT INTO l_SEQUENCES (
         seq_title,
         stage_id,
         seq_description,
-        seq_content
-
+        seq_content,
+        seq_medal
     )
 VALUES (
         'a-e-i',
@@ -112,48 +85,59 @@ INSERT INTO l_EXERCICES (
         sequence_id,
         exo_type,
         exo_consigne,
-        exo_choices,
+        exo_complete,
+        exo_content,
+        exo_image,
+        exo_etiquette,
         exo_ordre
     )
 VALUES (
         1,
         'A1',
         'Ecoute et répète',
-        '[{value : "la", image: "null"},{value: "le", image: "null"}, {value : "li", image: "null"}, {value:"ma", image : "null"}, {value : "mi", image : "null"}, {value : "pe", "null"}]',
+        0,
+        '{"choices": ["la", "le", "li", "ma", "mi", "pe"], "answer": null}',
+        NULL,
+        NULL,
         1
     ),
     (
         1,
         'B1',
         'Trouve la bonne syllabe',
-        '[{value : "la", image : "null"}, {value : "le", image : "null"}, {value : "li", image : "null"}, {value : "ma", image : "null"}, {value : "mi", image : "null"}, {value : "pe", image : "null"}]',
+        0,
+        '{"choices": ["la", "le", "li", "ma", "mi", "pe"], "answer": null}',
+        NULL,
+        NULL,
         2
     ),
     (
         1,
         'C1',
         'Écris la syllabe (avec modèle)',
-        '[{value : "la" , image : "null"}, {value : "le" , image : "null"}, {value : "li" , image : "null"}, {value : "ma" , image : "null"}, {value : "mi" , image : "null"}, {value : "pe" , image : "null"}  ]',
+        0,
+        '{"choices": ["la", "le", "li", "ma", "mi", "pe"], "answer": null}',
+        NULL,
+        "la",
         3
     ),
     (
         1,
         'D1',
         'Trouve les 3 écritures de la même syllabe',
-        '[{ value : "la", image : "null"}, 
-        { value : "le", image : "null"}, 
-        { value : "li", image : "null"}, 
-        { value : "ma", image : "null"}, 
-        { value : "mi", image : "null"}, 
-        { value : "pe", image : "null"}  
-        ]',
+        0,
+        '{"choices": ["la", "le", "li", "ma", "mi", "pe"], "answer": null}',
+        NULL,
+        "la",
         4
     ),
     (
         1,
         'E1',
         'Écris la syllabe (sans modèle)',
-        ' [{value : "la", image: null }, {value : "le", image: null }, {value : "li", image: null }, {value : "ma", image: null }, {value : "mi", image: null }, {value : "pe", image: null }] ',
+        0,
+        '{"choices": ["la", "le", "li", "ma", "mi", "pe"], "answer": null}',
+        NULL,
         "la",
         5
     ),
@@ -161,6 +145,9 @@ VALUES (
         1,
         'G1',
         'Trouve la bonne syllabe le plus vite possible.',
-        ' [{value : "la", image : null}, {value : "le", image : null}, {value : "li", image : null}, {value : "ma", image : null}, {value : "mi", image : null}, {value : "pe", image : null}] ',
+        0,
+        '{"choices": ["la", "le", "li", "ma", "mi", "pe"], "answer": null}',
+        NULL,
+        "la",
         6
     );
