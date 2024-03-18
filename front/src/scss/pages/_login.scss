@@ -1,0 +1,62 @@
+
+.login {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: $fond-exos;
+    margin-top: 20vh;
+    width: fit-content;
+    padding: 2rem 5rem;
+    margin-left: auto;
+    margin-right: auto;
+  
+    &__quit {
+  
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      right: 5rem;
+      font-family: 'Satoshi';
+      font-size: 1.8rem;
+      color: $noir;
+      font-weight: bold;
+      background-color: white;
+      padding: 0.5rem 2rem;
+      border-radius: 5px;
+    }
+  
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+  
+      &__label {
+        font-family: 'Satoshi';
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
+      }
+  
+      &__input {
+        background-color: transparent;
+        border: $gris 2px solid;
+        border-radius: 5px;
+        min-height: 5rem;
+        min-width: 18vw;
+        padding-left: 1rem;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+  
+      &__submit {
+        align-self: flex-end;
+        background-color: $kepel;
+        border: none;
+        font-size: 1.8rem;
+        padding: 0.3rem 1.2rem;
+        border-radius: 2px;
+      }
+    }
+  }
+  

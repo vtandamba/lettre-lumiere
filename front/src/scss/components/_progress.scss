@@ -1,0 +1,81 @@
+.exercice {
+    .progress {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(204, 204, 204, 0.8);
+        box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.50);
+        border: 1px solid #d4d4d4;
+        border-radius: 10px;
+        height: 3.3vh;
+        overflow: hidden;
+        width: 35vw;
+    
+        &__part {
+    
+            background-color: #E3E4E5;
+            height: inherit;
+            flex: 1;
+            text-align: center;
+            margin: 1px;
+    
+            &--true{
+                margin-left: 0;
+                background-image: url('../../assets/images/layoutexercices/true.svg');
+                background-color: rgba(20, 174, 92, 0.56);
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 15px;
+                transition: color .2s ease-in-out background-color .3s ease-in-out;
+            }
+    
+            &--false{
+                margin-left: 0;
+                background-image: url('../../assets/images/layoutexercices/false.svg');
+                background-color: rgba(255, 166, 41, 0.56);
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 15px;
+                transition: color .2s ease-in-out background-color .3s ease-in-out;
+            }
+    
+            &:last-child {
+                margin-right: 0
+            }
+        }
+    
+    
+    }
+}
+
+.layout{
+    .progress-global{
+        display: flex;
+        flex-direction: column;
+        gap:2.5rem;
+        position: fixed; 
+        left: 2rem; 
+        top: 50%; 
+        transform: translateY(-50%);
+        z-index: 1000; 
+
+        .progress-item{
+           @extend %progress;
+
+            &--orange{
+                background-color: $orange ;
+                transition : all .2s ease-in-out
+            }
+
+
+            &--vert{
+                background-color: $vert ;
+                transition : all .2s ease-in-out
+            }
+        }
+    }
+}
+
+
+
+

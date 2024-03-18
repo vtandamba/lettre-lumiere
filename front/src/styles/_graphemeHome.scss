@@ -1,0 +1,73 @@
+.graphemes{
+    display: flex;
+    flex-direction: column;
+    &__title{
+        font-size: 3rem;
+        font-family: 'Satoshi', sans-serif;
+        padding: 2.5rem 2rem;
+        background-color: $vert;
+        border-radius: 5px;
+        width: fit-content;
+        margin: 5rem 0 5rem 2rem;
+        color: $blanc;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+        cursor: pointer;
+    }
+
+    .list{
+        margin-left: 5rem;
+    }
+    .grapheme{
+
+        &__elements{
+            display: flex;
+            gap:3rem
+        }
+
+        &__fonts{
+            border-radius: 5px;
+        }
+        &__item{
+            width: 5vw;
+            font-size: 2.1rem;
+            padding: 0.7rem 2rem;
+       
+            display: flex;
+            justify-content:center ;
+            align-items: center;
+        
+
+            &--verdana{
+                font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+
+            &--belleallure{
+                font-family: 'Belle Allure',sans-serif;
+            }
+
+        }
+    }
+
+    &__next{
+        color: $blanc;
+        font-size: 2.3rem;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-family: 'Satoshi', sans-serif;
+        border-radius: 5px;
+        padding: 2.5rem 2rem;
+        background-color: $vert;
+        width: fit-content;
+        align-self: flex-end;
+        margin: 0 5rem 2rem 0;
+        a{
+            color: $blanc 
+        }
+        img{
+        width: 25px;
+        }
+    }
+
+
+}

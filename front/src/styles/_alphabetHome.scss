@@ -1,0 +1,80 @@
+
+
+.alphabet{
+    max-width: 100%;
+
+    &__container{
+        display: flex;
+        flex-direction: column;
+        gap:7vh    }
+    
+    &__list {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius:10px;
+        margin: 0 2rem;
+        background-color: $kepel;
+       
+        padding: 3.2rem 2rem;
+        max-width: 100%;
+    }
+    
+    &__listItem {
+        font-family: 'Belle Allure', sans-serif;
+        color: $noir;
+        font-size: clamp(10px,2.5vw,57px);
+        height:fit-content
+    }
+    
+    &__title {
+    
+        margin: 2vw;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        background-color: $rubriques;
+        color: $blanc;
+        width: fit-content;
+        font-size: 1.8rem;
+        font-family: 'Satoshi', sans-serif;
+        color: $noir;
+        padding: 2.7vh 3.3vw;
+        border-radius: 15px;
+        cursor: pointer;
+    
+        &__1 {
+            padding: 15%;
+    
+        }
+    }
+    
+    .entrainement {
+        display: flex;
+        justify-content: center;
+        flex-direction: column-reverse;
+        position: absolute;
+        width: 200px;
+        height: 100px;
+        background-color: $rubriques;
+        border-radius: 15px;
+        margin-left: 42%;
+        margin-top: 5%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    
+        &__test {
+            display: flex;
+        }
+    
+        &__bouton {
+            font-size: 23px;
+            color: $blanc;
+            margin-left: 7%;
+            margin-top: 5%;
+    
+        }
+    
+        &__logo {
+            width: 20%;
+            margin-left: 10%;
+        }
+    }
+}

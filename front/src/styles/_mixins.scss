@@ -1,0 +1,23 @@
+@mixin cadre{
+    padding: 0.5rem 1rem;
+    border: 1px $kepel solid;
+    border-radius: 5px;
+    background-color: $gris;
+}
+
+@mixin button{
+    align-self: flex-end;
+    font-size: 1.7rem;
+    margin: 5vh 10vh 0 0;
+    padding: 1.3rem 1.7rem;
+    background-color: $kepel;
+    font-family: 'Satoshi', sans-serif;
+    color: $blanc;
+    border:none ;
+    cursor: pointer;
+    color: $blanc;
+    &.disable{
+        background-color: $gris;
+        pointer-events: none;
+    }
+}

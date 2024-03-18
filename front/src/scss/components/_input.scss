@@ -1,0 +1,17 @@
+.exercice{
+    &__input{
+        &:focus {
+            border: none;
+        }
+
+        &.true {
+            background-color: $vert;
+            color: $blanc;
+        }
+
+        &.false {
+            background-color: $rouge;
+            color: $blanc
+        }
+    }
+}

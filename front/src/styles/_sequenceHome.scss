@@ -1,0 +1,27 @@
+.sequence{
+
+    .header{
+        padding: 1rem 2.7rem;
+        &__title{
+            display: flex;
+            justify-content: center;
+            align-items:center ;
+            gap:6px;
+            font-size: 2.5rem;
+        }
+        &__etape{
+            background-color: $vert;
+            padding: 0.5rem 2.5rem
+        }
+
+        &__sequence{
+            color: $kepel;
+            font-size: 2rem;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

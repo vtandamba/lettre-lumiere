@@ -1,0 +1,364 @@
+.rubrique {
+    color: $rubriques;
+    font-size: 1.7vw;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: right;
+    font-weight: bold;
+
+    span {
+
+        display: flex;
+        font-size: 1.3vw;
+        font-weight: 100;
+        justify-content: center;
+        align-items: center;
+        text-align: right;
+        height: 12vh;
+        width: 15vw;
+
+
+    }
+
+    &__titre {
+        background-color: $rubriques;
+        clip-path: polygon(0% 20%, 60% 20%, 66% 23%, 100% 50%, 66% 76%, 60% 80%, 0% 80%);
+        color: $blanc;
+        text-transform: capitalize;
+    }
+
+
+
+}
+
+.exercice1 {
+    column-count: 2;
+    /* Divise la liste en deux colonnes */
+    column-gap: 10vw;
+    /* Espacement entre les colonnes */
+    // width: 100%;
+    margin: 5vh 30vw;
+
+
+    &__span {
+        width: 4vw;
+        min-height: 5vh;
+        text-align: center;
+        margin: 1vh 1vw;
+
+    }
+
+    &__lettre {
+        @include cadre();
+        width: 15vw;
+        padding: 1vw;
+        text-align: center;
+        margin-bottom: 2vh;
+
+        font-size: 2rem;
+        text-decoration: underline;
+        text-decoration-color: $kepel;
+        text-decoration-thickness: 1px;
+
+        &-belleAllure {
+            font-family: 'Belle Allure', sans-serif;
+            margin-left: 1vw;
+
+        }
+
+        &-verdana {
+            font-family: Verdana, sans-serif;
+            margin-right: 1vw;
+
+        }
+    }
+
+    &__iconHp {
+        width: 1vw;
+        margin: 1vw;
+    }
+
+    &__liste {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+}
+
+.grapheme {
+    display: flex;
+
+}
+
+.exercices {
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $blanc;
+        padding: 1rem 2rem;
+        font-size: 2rem;
+        font-family: 'Satoshi', sans-serif;
+    }
+
+    .user,
+    .quit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2px
+    }
+
+    .user {
+
+        border: 2px $kepel solid;
+        padding: 0.3rem 1.2rem;
+        border-radius: 5px;
+
+        &__img {
+            width: 30px;
+            color: $kepel
+        }
+    }
+
+    .quit {
+        letter-spacing: 2px;
+        color: $blanc;
+        background-color: red;
+        padding: 0.6rem 1.4rem;
+        border-radius: 5px;
+        align-items: normal;
+
+        &__img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+}
+
+
+.exercice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10vh;
+    font-family: 'Satoshi', sans-serif;
+
+    // .false {
+    //     background-color: $rouge;
+    //     color: $blanc;
+    //     border: none;
+    //     animation: responseFalse 0.3s ease-in-out;
+    // }
+
+    // .true {
+    //     background-color: $vert;
+    //     color: $blanc;
+    //     border: none;
+    // }
+
+    &__count {
+        margin: 0rem 10vh 5rem auto;
+        text-align: center;
+        font-size: 5rem;
+        font-family: 'Satoshi', sans-serif;
+        background-color: $choix-mot;
+        padding: 1rem 2rem;
+        border-radius: 5px;
+    }
+
+    &__sound {
+        font-size: 4rem;
+        cursor: pointer;
+        max-width: 6rem;
+        @include cadre();
+        background-image: url('../assets/images/haut-parleur.svg');
+        background-repeat: no-repeat;
+        background-size: 10px;
+        background-position: bottom 5px right 2px;
+        margin-bottom: 5vh;
+    }
+
+
+    &__letter,
+    &__grapheme {
+        @include cadre();
+        font-size: 3rem;
+    }
+
+    &__input {
+        @include cadre();
+        background-color: $fond-exos;
+        margin-top: 5rem;
+        font-size: 2.5rem;
+        min-width: 4vw;
+        max-width:8vw;
+        min-height: 8vh;
+        display: flex;
+        justify-content: center;
+
+        &:focus {
+            border: none;
+        }
+
+        &.true {
+            background-color: $vert;
+            color: $blanc;
+        }
+
+        &.false {
+            background-color: $rouge;
+            color: $blanc
+        }
+
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem
+    }
+
+    &__response {
+        color: $rouge;
+        font-size: 1.7rem;
+    }
+
+    &__result {
+        font-size: 1.7rem;
+    }
+
+
+    .alphabet {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 3rem;
+        width: 35%;
+
+        &__item {
+            font-size: 2.5rem;
+            cursor: pointer;
+            @include cadre();
+
+            &.true {
+                background-color: $vert;
+                transition: background-color .3s ease-out;
+            }
+
+            &.false {
+                background-color: $rouge;
+                transition: background-color .3s ease-out;
+            }
+
+       
+
+        }
+    }
+
+    &__validate {
+        align-self: flex-end;
+        display: flex;
+        align-items: center;
+        font-size: 2.2rem;
+        margin: 5vh 10vh 2rem 0;
+        padding: 1.3rem 1.7rem;
+        gap:3px;
+        background-color: $kepel;
+        font-family: 'Satoshi', sans-serif;
+        color: $blanc;
+        border: none;
+        cursor: pointer;
+        color: $blanc;
+
+        a {
+            color: $blanc
+        }
+
+        &.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+
+    &__submit{
+        display: flex;
+        align-items: center;
+        background-color: $vert;
+        color: $blanc;
+        border: none;
+        font-size: 1.8rem;
+        margin-top: 2rem;
+        padding: 0.5rem 2rem;
+        gap:3px
+    }
+
+
+    .list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+   
+        gap: 2rem;
+     
+
+        &__item {
+            font-size: 3rem;
+            cursor: pointer;
+            @include cadre();
+            padding: 1.1rem 1.4rem;
+
+            &--lowercase {
+                text-transform: lowercase;
+            }
+
+            &--belleallure {
+                font-family: 'Belle Allure', sans-serif;
+                text-transform: lowercase;
+            }
+
+            &.choosen {
+                background-color: $kepel;
+            }
+
+            &.true {
+                background-color: $vert;
+                color: $blanc;
+            }
+
+            &.false {
+                background-color: $rouge;
+                color: $blanc
+            }
+
+            &--sound{
+              
+                cursor: pointer;
+               
+                background-image: url('../assets/images/haut-parleur.svg');
+                background-repeat: no-repeat;
+                background-size: 10px;
+                background-position: bottom 5px right 2px;
+                margin-bottom: 5vh;
+            }
+
+        }
+
+
+    }
+
+
+}
+
+.validate {
+    @include button();
+}

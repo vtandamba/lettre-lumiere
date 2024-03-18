@@ -1,0 +1,119 @@
+.index{
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // background-color: $blanc;
+        padding: 1rem 0
+      }
+    
+      &__logo {
+        width: clamp(100px, 15vw, 500px);
+      }
+    
+      &__logout {
+        font-size: 1.8rem;
+        font-family: 'Satoshi', sans-serif;
+        margin-right: 1.5rem;
+        border: 1px $noir solid;
+        border-radius: 5px;
+        padding: 0.4rem 1rem
+      }
+    
+      &__message {
+        padding-top: 4vh;
+        text-align: center;
+        font-size: 2rem;
+        font-family: 'Satoshi', sans-serif;
+      }
+    
+    
+      &__logoBrain {
+        width: clamp(270px, 22vw, 567px);
+        height: clamp(320px, 30vh, 698px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        /* Assurez-vous que la position est définie comme relative */
+    
+        &::before {
+          content: "";
+          position: absolute;
+          width: 100%;
+          height: 90%;
+          border-radius: 50%;
+          background-color: rgba(59, 155, 165, 0.5);
+          z-index: -1;
+        }
+    
+        img {
+          max-width: 100%;
+          /* Assurez-vous que l'image ne dépasse pas la taille du conteneur */
+          height: auto;
+          /* Assurez-vous que l'image conserve son ratio hauteur/largeur */
+          cursor: pointer;
+        }
+      }
+
+      .parts {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5vh;
+    
+        &__alphabet,
+        &__phonemes,
+        &__chrono {
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 1rem;
+          font-size: 2.3rem;
+          padding: 1rem;
+          min-width: 10vw;
+          background-color: #FFF;
+          border-radius: 3px;
+          font-family: Verdana, Geneva, Tahoma, sans-serif;
+          font-weight: bold;
+          color: $noir;
+          box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+          width: 200px;
+          height: 100px;
+          border-radius: 15px;
+          color: $blanc;
+        }
+    
+        &__alphabet {
+          bottom: 2vh;
+          left: calc(50% - 30vw);
+          color: $violet
+          /* Mettre à jour la position pour aligner à gauche */
+        }
+    
+        &__phonemes {
+          bottom: 2vh;
+          right: calc(50% - 30vw);
+          color: $violet-clair;
+    
+          /* Mettre à jour la position pour aligner à droite */
+        }
+    
+        &__chrono {
+          bottom: -20vh;
+          // position: absolute;
+          left: 50%;
+          /* Aligner au centre */
+          transform: translateX(-50%);
+          /* Déplacer de moitié de la largeur */
+        }
+    
+      }
+}
+
+.section__chrono--logo{
+  width: 6vw;
+}

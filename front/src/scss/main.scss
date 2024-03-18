@@ -1,0 +1,36 @@
+//Import des variables et des styles de base
+
+@import 'base/reset';
+@import 'base/base';
+@import 'base/fonts';
+@import 'base/typographies';
+@import 'base/variables';
+
+//Import des abstracts
+
+@import 'abstracts/placeholders';
+
+
+//Import des layout
+
+@import 'layout/sequence/layout';
+
+
+
+
+//Import des composants
+
+@import 'components/progress';
+@import 'components/buttons';
+@import 'components/input';
+@import 'components/exercice';
+
+//Import des styles unitaires de pages
+
+@import 'pages/alphabetHome';
+@import 'pages/graphemesHome';
+@import 'pages/etapesHome';
+@import 'pages/sequenceHome';
+@import 'pages/home';
+@import 'pages/index';
+@import 'pages/login';
