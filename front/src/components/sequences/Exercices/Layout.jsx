@@ -16,7 +16,7 @@ const Layout = ({ db }) => {
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
 
     const [exercisesScore, setExercisesScore] = useState([]);
-
+    const [score, setScore] = useState({ exercisesScore, date: Date.now() });
     useEffect(() => {
         const loadExercises = async () => {
             try {
@@ -37,7 +37,7 @@ const Layout = ({ db }) => {
         }
 
         loadExercises();
-        
+
         loadSequence();
     }, [db, id]);
 
@@ -67,14 +67,14 @@ const Layout = ({ db }) => {
 
 
     useEffect(() => {
-      
+
         if (attemptCount + 1 === 4) {
 
             setAttemptCount(0);
             setCurrentExerciseIndex(prevIndex => prevIndex + 1);
         }
-       
-    }, [attemptCount]); 
+
+    }, [attemptCount]);
 
 
 
@@ -83,14 +83,45 @@ const Layout = ({ db }) => {
     };
 
     useEffect(() => {
+
         if (shouldGoToNextExercise) {
+
+            // Envoyer la requête POST à l'API
+            const scoreData = {
+                pro_score: 10,
+                user_id: 1
+            };
+            // Envoi de la requête POST à l'API
+            fetch('https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(scoreData)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de l\'envoi du score');
+                    }
+                    console.log('Score ajouté avec succès');
+                    // Effectuez les actions supplémentaires ici si nécessaire
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'envoi du score :', error);
+                    // Gérez l'erreur ici si nécessaire
+                });
+
+
+            // fin faire le post
+
             setAttemptCount(0);
             setCurrentExerciseIndex(prevIndex => prevIndex + 1);
             setShouldGoToNextExercise(false); // Réinitialisez le drapeau
         }
+
     }, [shouldGoToNextExercise]);
-    
-    
+
+
 
     const recordAnswer = (percent) => {
         const updatedScores = [...exercisesScore];
@@ -103,10 +134,10 @@ const Layout = ({ db }) => {
         const componentName = getExerciseComponentName(exercise.exo_type);
         if (componentName) {
             const ExerciseComponent = React.lazy(() => import(`./${componentName}.jsx`));
-           
+
             return (
-                <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress size={80}/></div>}>
-                    <ExerciseComponent key={exercise.exerciseId} data={exercise} onAttemptMade={onAttemptMade} score={recordAnswer}/>
+                <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress size={80} /></div>}>
+                    <ExerciseComponent key={exercise.exerciseId} data={exercise} onAttemptMade={onAttemptMade} score={recordAnswer} />
                 </Suspense>
             );
         } else {
@@ -115,19 +146,19 @@ const Layout = ({ db }) => {
         }
     };
 
-  
+
 
     return (
         <div className="layout">
             <header className="header">
                 <div className="header__infos">
-                <div className="header__etape">
+                    <div className="header__etape">
                         <img src={imgEtape} alt="" />
                         <p>Etape 1</p>
-                    </div> 
-                    <p className="header__sequence"> {sequence}</p> 
+                    </div>
+                    <p className="header__sequence"> {sequence}</p>
                 </div>
-                <Link to={`/etapes/${id}`}><img src={homeIcon} alt="" className="header__home"/></Link>
+                <Link to={`/etapes/${id}`}><img src={homeIcon} alt="" className="header__home" /></Link>
                 <ul className="progress-global">
                     {exercisesScore.map((score, index) => (
                         <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
@@ -136,11 +167,11 @@ const Layout = ({ db }) => {
                 </ul>
             </header>
             <main className="exercice">
-               
+
                 {exercises.length > 0 && renderExerciseComponent(exercises[currentExerciseIndex])}
                 <button onClick={goToNextExercise} disabled={currentExerciseIndex === exercises.length - 1} className="exercice__validate">Suivant</button>
             </main>
-         
+
         </div>
     );
 };
