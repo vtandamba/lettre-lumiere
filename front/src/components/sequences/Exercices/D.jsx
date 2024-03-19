@@ -70,7 +70,7 @@ const D = (props) => {
     useEffect(() => {
         if (item)
         {
-            speak(item.value)
+            speak(item)
         }      
     }, [item])
 
