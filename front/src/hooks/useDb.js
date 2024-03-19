@@ -44,9 +44,22 @@ export const fetchOneSequence = async(id) => {
     }
 }
 
-export const fetchAllExerciceForSequences = async (id) => {
+// les exercices 
+export const fetchAllExercice = async () => {
     try {
-        const response = await fetch(`${urlExercices}?sequenceId=${id}`);
+        const response = await fetch(`${urlExercices}`);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des exercices');
+        }
+        return response.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération des exercices:", error);
+        throw error;
+    }
+};
+export const fetchAllExerciceForSequences = async (sequenceId) => {
+    try {
+        const response = await fetch(`${urlExercices}?sequence_id=${sequenceId}`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des exercices');
         }
@@ -57,3 +70,16 @@ export const fetchAllExerciceForSequences = async (id) => {
     }
 };
 
+// les séquences
+export const fetchSeqByStageId = async (stageId) => {
+    try {
+        const response = await fetch(`${urlSequences}?stage_id=${stageId}`);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération de la séquence');
+        }
+        return response.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération de la séquence:", error);
+        throw error; 
+    }
+};

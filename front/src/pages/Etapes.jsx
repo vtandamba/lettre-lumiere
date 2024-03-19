@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchAllStages, fetchAllSequences } from "../hooks/useDb";
+import { fetchAllStages, fetchAllSequences, fetchSeqByStageId } from "../hooks/useDb";
 import EtapeBlue from './../assets/images/etapes/EtapeBlue.svg'
 import Etape from "../components/Etape";
 import EtapeContent from "../components/EtapeContent";
@@ -19,6 +19,7 @@ const Etapes = (props) => {
 
   const [etapes, setEtapes] = useState([]);
   const [sequences, setSequences] = useState([]);
+  const [seqById, setSeqById] = useState([]);
 
   fetchAllStages(db);
   fetchAllSequences(db);
