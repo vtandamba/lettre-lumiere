@@ -31,7 +31,7 @@ const A = () => {
     const colors = ['#3CA83D', '#F26A1B', '#F2E52E', '#7BA1CE', '#B05C0E', '#F20002', '#000000', '#B9829E', '#7B0D80', '#EEEEEE'];
 
     const sounds = [sound1, sound2, sound3, sound4, sound5, sound6, sound7, sound8, sound9, sound10];
-    
+
     const graphemes = {
         1: ['in', 'un'],
         2: ['an', 'en'],
@@ -51,7 +51,7 @@ const A = () => {
     };
 
     const handleOpenModal = (lettre, index) => {
-    
+
         setOpen(true);
     };
 
@@ -59,8 +59,8 @@ const A = () => {
         setOpen(false);
     };
 
-      // Fonction pour déterminer si une couleur est sombre ou claire
-      const isDarkColor = (color) => {
+    // Fonction pour déterminer si une couleur est sombre ou claire
+    const isDarkColor = (color) => {
         // Convertir la couleur en RVB
         const rgb = parseInt(color.substring(1), 16);
         // Calculer la luminosité (luma)
@@ -69,7 +69,7 @@ const A = () => {
         return luma < 0.5;
     };
 
-    
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -83,121 +83,121 @@ const A = () => {
     };
 
     const handleClick = (index) => {
-     
-        if(index >= 0 && index < sounds.length) {
-          let audio = new Audio(sounds[index]);
-          audio.play();
+
+        if (index >= 0 && index < sounds.length) {
+            let audio = new Audio(sounds[index]);
+            audio.play();
         } else {
-          console.log('Index hors de portée');
+            console.log('Index hors de portée');
         }
-      };
+    };
 
     return (<React.Fragment>
-                <h2 className="exercice__consigne" onClick={(evt)=> speak(evt.target.textContent)}>Ecoute et répète</h2>
-                {(params.categorie === "graphemes") ?
-                    <ul >
-                        {Object.keys(graphemes).map((key, index) => {
-                            // Déterminer si la couleur de fond est sombre ou claire
-                            const textColor = isDarkColor(colors[index]) ? '#FFFFFF' : '#000000';
-                            return (
-                            
-                                <div key={key} className="grapheme" >
-                                    <img className="exercice1__iconHp"
-                                        src={hautParleur}
-                                        alt={`${graphemes[key]} `}
-                                        onClick={()=>handleClick(index)}/>
-                                    <li className="exercice1__liste">
-                                        <div className="exercice1__lettre exercice__letter--verdana exercice__group" 
-                                             style={{ backgroundColor: colors[index], color: textColor }}>
-                                            {graphemes[key].map((element, index) => (
-                                                <p key={index}>{element}</p>
-                                            ))}
-                                        </div>
-                                        <div className="exercice__letter exercice__letter--belleAllure exercice__group" style={{ backgroundColor: colors[index], color: textColor }}>
-                                            {graphemes[key].map((element, index) => (
-                                                <p key={index}>{element}</p>
-                                            ))}
-                                        </div>
-                                    </li>
-                                   
+        <h2 className="exercice__consigne" onClick={(evt) => speak(evt.target.textContent)}>Ecoute et répète</h2>
+        {(params.categorie === "graphemes") ?
+            <ul >
+                {Object.keys(graphemes).map((key, index) => {
+                    // Déterminer si la couleur de fond est sombre ou claire
+                    const textColor = isDarkColor(colors[index]) ? '#FFFFFF' : '#000000';
+                    return (
+
+                        <div key={key} className="grapheme" >
+                            <img className="exercice__iconHp"
+                                src={hautParleur}
+                                alt={`${graphemes[key]} `}
+                                onClick={() => handleClick(index)} />
+                            <li className="exerciceA__liste">
+                                <div className="exercice__letter exercice__letter--verdana exercice__group"
+                                    style={{ backgroundColor: colors[index], color: textColor }}>
+                                    {graphemes[key].map((element, index) => (
+                                        <p key={index}>{element}</p>
+                                    ))}
                                 </div>
-                            );
-                        })}
+                                <div className="exercice__letter exercice__letter--belleAllure exercice__group" style={{ backgroundColor: colors[index], color: textColor }}>
+                                    {graphemes[key].map((element, index) => (
+                                        <p key={index}>{element}</p>
+                                    ))}
+                                </div>
+                            </li>
+
+                        </div>
+                    );
+                })}
+            </ul>
+            :
+            <React.Fragment>
+                <div>
+                    <h2 className="rubrique"> <span className="rubrique__titre">Alphabet </span>  <span > les minuscules </span></h2>
+                    <ul className="exerciceA">
+                        {alphabet.map((lettre, index) => (
+                            <li className="exerciceA__liste" key={index}>
+                                <img className="exerciceA__iconHp"
+                                    src={hautParleur}
+                                    alt={`${lettre}`}
+                                    id="haut-parleur"
+                                    onClick={() => handleSpeakerClick(lettre)} />
+
+                                <span className="exerciceA__lettre exerciceA__letter--verdana ">{lettre.toLowerCase()}</span>
+                                <span className="exerciceA__lettre exerciceA__letter--belleAllure"> {lettre.toLowerCase()} </span>
+                                <img className="exerciceA__iconHp"
+                                    src={videoLogo}
+                                    alt={`${lettre} video`}
+                                    id="haut-parleur"
+                                    onClick={() => handleOpenModal(lettre, index)} />
+                            </li>
+                        ))}
                     </ul>
-                     :
-                    <React.Fragment>
-                         <div>
-                            <h2 className="rubrique"> <span className="rubrique__titre">Alphabet </span>  <span > les minuscules </span></h2>
-                            <ul className="exercice">
-                                {alphabet.map((lettre, index) => (
-                                    <li className="exercice__list" key={index}>
-                                        <img className="exercice__iconHp"
-                                            src={hautParleur}
-                                            alt={`${lettre}`}
-                                            id="haut-parleur"
-                                            onClick={() => handleSpeakerClick(lettre)} />
-
-                                        <span className="exercice__letter exercice__letter--verdana ">{lettre.toLowerCase()}</span>
-                                        <span className="exercice__lettre exercice__letter--belleAllure"> {lettre.toLowerCase()} </span>
-                                        <img className="exercice__iconHp"
-                                            src={videoLogo}
-                                            alt={`${lettre} video`}
-                                            id="haut-parleur"
-                                            onClick={() => handleOpenModal(lettre, index)} />
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                </div>
 
 
-                        <div>    
-                             <h2 className="rubrique"> <span className="rubrique__titre">Alphabet </span>  <span > LES MAJUSCULES </span></h2>
-                            <ul className="exercice1">
-                                {alphabet.map((lettre, index) => (
-                                    <li className="exercice1__liste" key={index}>
-                                        <img className="exercice1__iconHp"
-                                            src={hautParleur}
-                                            alt={`${lettre} `}
-                                            id="haut-parleur"
-                                            onClick={() => handleSpeakerClick(lettre)} />
+                <div>
+                    <h2 className="rubrique"> <span className="rubrique__titre">Alphabet </span>  <span > LES MAJUSCULES </span></h2>
+                    <ul className="exerciceA">
+                        {alphabet.map((lettre, index) => (
+                            <li className="exerciceA__liste" key={index}>
+                                <img className="exerciceA__iconHp"
+                                    src={hautParleur}
+                                    alt={`${lettre} `}
+                                    id="haut-parleur"
+                                    onClick={() => handleSpeakerClick(lettre)} />
 
-                                        <span className="exercice1__lettre exercice1__lettre-verdana">{lettre}</span>
-                                        <span className="exercice1__lettre exercice1__lettre-belleAllure"> {lettre} </span>
-                                        <img className="exercice1__iconHp"
-                                            src={videoLogo}
-                                            alt={`${lettre} video`}
-                                            id="haut-parleur"
-                                            onClick={() => handleOpenModal(lettre, index)} />
-                                    </li>
-                                ))}
-                            </ul>
+                                <span className="exerciceA__lettre exerciceA__lettre--verdana">{lettre}</span>
+                                <span className="exerciceA__lettre exerciceA__lettre--belleAllure"> {lettre} </span>
+                                <img className="exerciceA__iconHp"
+                                    src={videoLogo}
+                                    alt={`${lettre} video`}
+                                    id="haut-parleur"
+                                    onClick={() => handleOpenModal(lettre, index)} />
+                            </li>
+                        ))}
+                    </ul>
 
 
-                        </div>
-                    </React.Fragment>
-                  }
-                <p className="exercice__validate">
-                    <Link to={`/${params?.categorie}/exercices/b1`}>
-                        Suivant
-                    </Link>
-                    <IoArrowForwardSharp />
-                </p>
-    
-        
-                <Modal
-                    open={open}
-                    onClose={handleCloseModal}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
-                    
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            
-                            <video style={{ width: "20vw" }} src={videoSrc} controls />
-                        </Typography>
-                    </Box>
-                </Modal>
+                </div>
+            </React.Fragment>
+        }
+        <p className="exercice__validate">
+            <Link to={`/${params?.categorie}/exercices/b1`}>
+                Suivant
+            </Link>
+            <IoArrowForwardSharp />
+        </p>
+
+
+        <Modal
+            open={open}
+            onClose={handleCloseModal}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <Box sx={style}>
+
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+
+                    <video style={{ width: "20vw" }} src={videoSrc} controls />
+                </Typography>
+            </Box>
+        </Modal>
     </React.Fragment>)
 
 }

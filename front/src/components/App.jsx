@@ -10,6 +10,7 @@ import GraphemesHome from "../pages/GraphemesHome";
 import { fetchAllExerciceForSequences } from "../hooks/useDb";
 import { fetchAllSequences } from "../hooks/useDb";
 import { fetchAllStages } from "../hooks/useDb";
+import { fetchSeqByStageId } from "../hooks/useDb";
 
 // import db from '../Dexie'
 
@@ -27,15 +28,19 @@ import G from '../components/Exercises/G'
 import LayoutAlphabet from '../pages/ExoGraphoAlphabetique'
 
 // useEffect(()=> {
-    
+
 // }, [])
 
 const allSequences = fetchAllSequences();
 console.log(allSequences);
-const allExerciceForSequences = fetchAllExerciceForSequences();
-console.log(allExerciceForSequences);
-const  allStages = fetchAllStages();
+const allExerciceForSequences = fetchAllExerciceForSequences(1);
+console.log("by seq_id ===> ", allExerciceForSequences);
+const allStages = fetchAllStages();
 console.log(allStages);
+
+
+const allSeqBystageId = fetchSeqByStageId(4);
+console.log('by id  ===>  ', allSeqBystageId);
 
 
 const App = () => {

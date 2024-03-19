@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchAllStages, fetchAllSequences } from "../hooks/useDb";
+import { fetchAllStages, fetchAllSequences, fetchSeqByStageId } from "../hooks/useDb";
 import EtapeBlue from './../assets/images/etapes/EtapeBlue.svg'
 import Etape from "../components/Etape";
 import EtapeContent from "../components/EtapeContent";
@@ -19,6 +19,7 @@ const Etapes = (props) => {
 
   const [etapes, setEtapes] = useState([]);
   const [sequences, setSequences] = useState([]);
+  const [seqById, setSeqById] = useState([]);
 
   fetchAllStages(db);
   fetchAllSequences(db);
@@ -78,7 +79,8 @@ const Etapes = (props) => {
             <Typography className="Etape__container">
               {sequences.filter((sequence) => sequence.stage_id === stage.stage_id)
                 .map((s) => {
-                  return  <Link to={`${s.sequence_id}`}><EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /></Link>
+                  console.log('la sequence ', sequences)
+                  return <Link to={`${s.sequence_id}`}><EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /></Link>
                 })}
 
             </Typography>

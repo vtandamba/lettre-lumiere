@@ -17,7 +17,7 @@
         align-items: center;
         text-align: right;
         height: 12vh;
-        width: 15vw;
+        width: 30vw;
 
 
     }
@@ -33,7 +33,7 @@
 
 }
 
-.exercice1 {
+.exerciceA {
     column-count: 2;
     /* Divise la liste en deux colonnes */
     column-gap: 10vw;
@@ -55,16 +55,25 @@
         width: 10vw;
         padding: 1vw;
         text-align: center;
-        margin-bottom: 2vh;
+        margin: 1vh 1vw;
 
         font-size: 2rem;
         text-decoration: underline;
         text-decoration-color: $kepel;
         text-decoration-thickness: 1px;
 
+        &--belleAlure {
+            font-family: 'Belle Allure', sans-serif;
+            margin-left: 1vw;
+        }
+
+        &--verdana {
+            font-family: Verdana, sans-serif;
+            margin-right: 1vw;
+        }
     }
 
-  
+
 
     &__liste {
         display: flex;
@@ -136,8 +145,8 @@
     margin-top: 10vh;
     font-family: 'Satoshi', sans-serif;
 
-    &__consigne{
-        margin:0 0 6rem 0;
+    &__consigne {
+        margin: 0 0 6rem 0;
         font-size: 3rem;
         font-family: 'Satoshi', sans-serif;
     }
@@ -147,7 +156,7 @@
         margin: 1vw;
     }
 
-    &__group{
+    &__group {
         min-width: 10vh;
         display: flex;
         flex-direction: column;
@@ -164,7 +173,7 @@
         font-family: 'Satoshi', sans-serif;
         background-color: $choix-mot;
         padding: 1rem 2rem;
-        min-width:5vw;
+        min-width: 5vw;
         border-radius: 5px;
     }
 
@@ -173,9 +182,9 @@
         cursor: pointer;
         min-width: 13rem;
         display: flex;
-        justify-content:center; 
+        justify-content: center;
         @extend %learning-block;
-        background-color: rgba(59,155,165,0.56);
+        background-color: rgba(59, 155, 165, 0.56);
         border: none;
         background-image: url('../../assets/images/haut-parleur.svg');
         background-repeat: no-repeat;
@@ -190,7 +199,7 @@
         @extend %learning-block;
         font-size: 3rem;
 
-        
+
         &--belleAllure {
             font-family: 'Belle Allure', sans-serif;
             margin-left: 1vw;
@@ -204,9 +213,7 @@
         }
     }
 
-    &--group{
-
-    }
+    &--group {}
 
     &__input {
         @extend %learning-block;
@@ -214,7 +221,7 @@
         margin-top: 5rem;
         font-size: 2.5rem;
         min-width: 4vw;
-        max-width:8vw;
+        max-width: 8vw;
         min-height: 8vh;
         display: flex;
         justify-content: center;
@@ -276,7 +283,7 @@
                 transition: background-color .3s ease-out;
             }
 
-       
+
 
         }
     }
@@ -288,7 +295,7 @@
         font-size: 2.2rem;
         margin: 5vh 10vh 2rem 0;
         padding: 1.3rem 1.7rem;
-        gap:3px;
+        gap: 3px;
         background-color: $kepel;
         font-family: 'Satoshi', sans-serif;
         color: $blanc;
@@ -306,7 +313,7 @@
         }
     }
 
-    &__submit{
+    &__submit {
         display: flex;
         align-items: center;
         background-color: $vert;
@@ -315,7 +322,7 @@
         font-size: 1.8rem;
         margin-top: 2rem;
         padding: 0.5rem 2rem;
-        gap:3px
+        gap: 3px
     }
 
 
@@ -328,7 +335,7 @@
         align-items: center;
         justify-content: space-around;
         gap: 2rem;
-        width:50%;
+        width: 50%;
         flex-wrap: wrap;
 
         &__item {
@@ -336,7 +343,8 @@
             cursor: pointer;
             @extend %learning-block;
             padding: 1.1rem 1.4rem;
-            flex:1;
+            flex: 1;
+
             &--lowercase {
                 text-transform: lowercase;
             }
@@ -361,16 +369,16 @@
                 color: $blanc
             }
 
-            &--sound{
-              
+            &--sound {
+
                 cursor: pointer;
-               
+
                 background-image: url('../../assets/images/haut-parleur.svg');
                 background-repeat: no-repeat;
                 background-size: 10px;
                 background-position: top 5px right 2px;
                 margin-bottom: 5vh;
-             
+
             }
 
         }
@@ -382,17 +390,17 @@
         margin-top: 15vh;
         width: 100%;
         position: absolute;
-        bottom:10vh;
+        bottom: 10vh;
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    
+
     &__valid {
         border-radius: 5px;
         margin-right: 2rem;
-        color:$blanc;
+        color: $blanc;
         cursor: pointer;
         position: absolute;
         right: 2rem;
@@ -412,4 +420,3 @@
 
 
 }
-
