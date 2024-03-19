@@ -9,15 +9,15 @@ const G = (props) => {
 
     const { data } = props;
     const [tabItems, setTabItems, score] = useState([]);
-    const [displayItems, setDisplayItems] = useState(data?.content.choices.map(el => {
+    const [displayItems, setDisplayItems] = useState(JSON.parse(data?.exo_choices).map(el => {
                                                                                 return {
-                                                                                    value: el, 
+                                                                                    value: el.value, 
                                                                                     state: 'initial'
                                                                                 };
                                                                             }));
     const [item, setItem] = useState('');
     const [attemptCount, setAttemptCount] = useState(0);
-    const [tabResponses, setTabResponses] = useState(new Array(7).fill(null));
+    const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
     const navigate = useNavigate();
 
    
@@ -94,7 +94,7 @@ const G = (props) => {
             setTabItems(newTabItems);
 
 
-            if (times.current <= 7 || secondes.textContent === false) {
+            if (times.current <= 4 || secondes.textContent === false) {
                 setTimeout(() => {
                     // evt.target.classList.remove('true', 'false');
                     tabItems?.forEach((item) => {return{...item, state: 'initial'}});

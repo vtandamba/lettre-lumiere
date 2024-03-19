@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -26,6 +26,9 @@ import H from '../components/Exercises/H'
 import G from '../components/Exercises/G'
 import LayoutAlphabet from '../pages/ExoGraphoAlphabetique'
 
+// useEffect(()=> {
+    
+// }, [])
 
 const allSequences = fetchAllSequences();
 console.log(allSequences);

@@ -34,8 +34,8 @@ const D = (props) => {
 
       useEffect(() => {
         const init = () => {
-          let choices = data?.content.choices.map(el => ({
-            value: el,
+          let choices = JSON.parse(data?.exo_choices).map(el => ({
+            value: el.value,
             state: 'initial',
             isAlreadyChosen: false
           }));
@@ -44,9 +44,9 @@ const D = (props) => {
           choices = [...choices]; // Créez une nouvelle référence pour le tableau
          
           // Suppression de la double utilisation erronée de getElementRandom
-          let newItem = getElementRandom(data?.content.choices);
+          let newItem = getElementRandom(JSON.parse(data?.exo_choices)).value;
           while (answerAlreadyTaken.includes(newItem)) {
-              const filteredChoices = data?.content.choices.filter(choice => !answerAlreadyTaken.includes(choice));
+              const filteredChoices = JSON.parse(data?.exo_choices).filter(choice => !answerAlreadyTaken.includes(choice));
               newItem = getElementRandom(filteredChoices);
           }
           setItem(newItem);
@@ -70,7 +70,7 @@ const D = (props) => {
     useEffect(() => {
         if (item)
         {
-            speak(item)
+            speak(item.value)
         }      
     }, [item])
 
@@ -119,7 +119,7 @@ const D = (props) => {
                     setAttemptCount(prevCount => {
                         if (prevCount + 1 < tabResponses.length) {
                             //Prochain essaie
-                            setItem(getElementRandom(data?.content.choices));
+                            setItem(getElementRandom(JSON.parse(data?.exo_choices)).value);
                         }
                         return prevCount + 1;
                     });
@@ -164,7 +164,7 @@ const D = (props) => {
 
 
     return <React.Fragment>
-                <h2 className="exercice__consigne">{data.consigne}</h2>
+                <h2 className="exercice__consigne">{data.exo_consigne}</h2>
                 <p className="exercice__sound" onClick={()=>speak(item)}>?</p>
                 <ul className="list">
                     {allItemsWithStyles?.map((item, index) => (

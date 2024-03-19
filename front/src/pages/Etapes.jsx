@@ -42,10 +42,12 @@ const Etapes = (props) => {
   useEffect(() => {
     const loadStages = async () => {
       const loadedStages = await fetchAllStages(db);
+      console.log(loadedStages);
       setEtapes(loadedStages);
     };
     const loadSequences = async () => {
       const loadedSequences = await fetchAllSequences(db);
+      console.log(loadedSequences);
       setSequences(loadedSequences);
     }
     loadStages();
@@ -67,16 +69,16 @@ const Etapes = (props) => {
           >
             <Typography className="Etape">
               <Etape
-                etapeTitre={stage.name}
+                etapeTitre={stage.sta_name}
                 EtapeCouleur={EtapeBlue}
               />
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <Typography className="Etape__container">
-              {sequences.filter((sequence) => sequence.stageId === stage.stageId)
+              {sequences.filter((sequence) => sequence.stage_id === stage.stage_id)
                 .map((s) => {
-                  return  <Link to={`${s.sequenceId}`}><EtapeContent content={s.title.toUpperCase().replace(/-/g, "   ")} /></Link>
+                  return  <Link to={`${s.sequence_id}`}><EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /></Link>
                 })}
 
             </Typography>

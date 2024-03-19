@@ -21,6 +21,7 @@ const Layout = ({ db }) => {
             try {
                 const exercisesList = await fetchAllExerciceForSequences(db, id);
                 const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
+                console.log(exercisesList)
                 setExercises(sortedExercises);
                 setExercisesScore(new Array(exercisesList.length).fill(0))
             } catch (error) {
@@ -38,9 +39,9 @@ const Layout = ({ db }) => {
         loadSequence();
     }, [db, id]);
 
-    // const goToNextExercise = () => {
-    //     setCurrentExerciseIndex((prevIndex) => prevIndex + 1);
-    // };
+    const goToNextExercise = () => {
+        setCurrentExerciseIndex((prevIndex) => prevIndex + 1);
+    };
 
 
     const getExerciseComponentName = (exerciseType) => {
@@ -97,7 +98,7 @@ const Layout = ({ db }) => {
     };
 
     const renderExerciseComponent = (exercise) => {
-        const componentName = getExerciseComponentName(exercise.type);
+        const componentName = getExerciseComponentName(exercise.exo_type);
         if (componentName) {
             const ExerciseComponent = React.lazy(() => import(`./${componentName}.jsx`));
            
@@ -135,7 +136,7 @@ const Layout = ({ db }) => {
             <main className="exercice">
                
                 {exercises.length > 0 && renderExerciseComponent(exercises[currentExerciseIndex])}
-                {/* <button onClick={goToNextExercise} disabled={currentExerciseIndex === exercises.length - 1} className="exercice__validate">Suivant</button> */}
+                <button onClick={goToNextExercise} disabled={currentExerciseIndex === exercises.length - 1} className="exercice__validate">Suivant</button>
             </main>
          
         </div>

@@ -4,13 +4,13 @@ import speak from "../../../hooks/useSpeak";
 
 const E = (props) => {
     const { data, onAttemptMade, score } = props;
-    const [item, setItem] = useState(getElementRandom(data?.content.choices));
+    const [item, setItem] = useState(getElementRandom(JSON.parse(data?.exo_choices)));
     const [input, setInput] = useState("");
     const [attemptCount, setAttemptCount] = useState(0); 
     const [tabResponses, setTabResponses] = useState([null, null, null, null]);
 
     useEffect(() => {
-        speak(item);
+        speak(item.value);
     }, [item])
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const E = (props) => {
     const handleSubmit = (event) => {
         event.preventDefault(); 
         console.log(input);
-        const isCorrect = input.trim().toUpperCase() === item.toUpperCase();
+        const isCorrect = input.trim().toUpperCase() === item.value.toUpperCase();
      
         const newTabResponses = [...tabResponses];
         newTabResponses[attemptCount] = isCorrect;
@@ -35,13 +35,13 @@ const E = (props) => {
         setInput(""); //Réinitialise l'input après avoir entré sa réponse
 
         if (attemptCount + 1 < tabResponses.length) {
-            setItem(getElementRandom(data?.content.choices));
+            setItem(getElementRandom(JSON.parse(data?.exo_choices)));
         }
     }
 
     return <React.Fragment>
                 <h2 className="exercice__consigne">{data.consigne}</h2>
-                <p className="exercice__sound" onClick={() => speak(item)}>?</p>
+                <p className="exercice__sound" onClick={() => speak(item.value)}>?</p>
                 <form onSubmit={handleSubmit} className="exercice__form">
                     <input type="text" value={input} className="exercice__input" onChange={(evt) => setInput(evt.target.value)} autoFocus />
                 </form>
