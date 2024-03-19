@@ -15,7 +15,8 @@ const SequenceHome = ({ db }) => {
 
     const params = useParams();
     const id = params?.sequence;
-
+    // Convertir sequenceId en entier
+    const idSeq = parseInt(id, 10);
 
     const [sequence, setSequence] = useState();
     const [exercises, setExercises] = useState([]);
@@ -39,14 +40,14 @@ const SequenceHome = ({ db }) => {
 
         const loadSequences = async () => {
 
-            const loadedSequences = await fetchOneSequence(db, id);
+            const loadedSequences = await fetchOneSequence(  idSeq);
             setSequence(loadedSequences);
             console.log(loadedSequences)
         };
 
         const loadExercises = async () => {
             try {
-                const exercisesList = await fetchAllExerciceForSequences(db, id);
+                const exercisesList = await fetchAllExerciceForSequences( idSeq);
                 const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
                 console.log(exercisesList);
                 setExercises(sortedExercises);
@@ -59,7 +60,7 @@ const SequenceHome = ({ db }) => {
         loadExercises();
         console.log(exercises);
         loadSequences();
-    }, [db, id]);
+    }, [db, idSeq]);
 
     useEffect(() => {
         setOpen(true);
@@ -75,53 +76,53 @@ const SequenceHome = ({ db }) => {
 
     return <div className="sequence">
 
-            <header className="header">
-                <div className="header__title">
-                    
-                    <div className="header__etape">
-                        <img src={imgEtape} alt="" />
-                        <p>Etape 1</p>
-                    </div> 
-                    <p className="header__sequence">{sequence?.title}</p>
+        <header className="header">
+            <div className="header__title">
+
+                <div className="header__etape">
+                    <img src={imgEtape} alt="" />
+                    <p>Etape {sequence?.stage_id}</p>
                 </div>
+                <p className="header__sequence">{sequence?.title}</p>
+            </div>
 
-                <div className="header__percent">
-                    <p>0 %</p>
-                    <img src={argentMedal} alt="medaille"/>
-                </div>
-                
-                <div className="header__actions">
-                    <img src={videoCam} alt="Video Cam" onClick={()=>setOpen(true)}/>
-                </div>
-            </header>
-            <main className="exercises">
-                <Modal
-                    open={open}
-                    onClose={handleCloseModal}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <Box sx={style}>
+            <div className="header__percent">
+                <p>0 %</p>
+                <img src={argentMedal} alt="medaille" />
+            </div>
 
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            <video style={{ width: "40vw" }} src={videoSrc} controls autoPlay />
-                        </Typography>
-                    </Box>
-                </Modal>
-                <ul className="exercises__list">
-                    {exercises.map((el, index) => {
-                        return <li className="exercises__item" key={index}>
-                                <div className="progress">
+            <div className="header__actions">
+                <img src={videoCam} alt="Video Cam" onClick={() => setOpen(true)} />
+            </div>
+        </header>
+        <main className="exercises">
+            <Modal
+                open={open}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
 
-                                </div>
-                                <p className="consigne">{el.exo_consigne}</p>
-                            </li>
-                    })}
-                </ul>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <video style={{ width: "40vw" }} src={videoSrc} controls autoPlay />
+                    </Typography>
+                </Box>
+            </Modal>
+            <ul className="exercises__list">
+                {exercises.map((el, index) => {
+                    return <li className="exercises__item" key={index}>
+                        <div className="progress">
 
-                <Link to="exo"><div className="exercises__start">Commencer</div></Link>
-                <Outlet />
-            </main>
+                        </div>
+                        <p className="consigne">{el.exo_consigne}</p>
+                    </li>
+                })}
+            </ul>
+
+            <Link to="exo"><div className="exercises__start">Commencer</div></Link>
+            <Outlet />
+        </main>
     </div>
 
 }
