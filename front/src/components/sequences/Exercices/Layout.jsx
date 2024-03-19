@@ -31,7 +31,8 @@ const Layout = ({ db }) => {
 
         const loadSequence = async () => {
             const sequence = await fetchOneSequence(db, id);
-            setSequence(sequence.title)
+            setSequence(sequence.seq_title)
+            console.log(sequence)
         }
 
         loadExercises();

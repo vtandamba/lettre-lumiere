@@ -33,7 +33,7 @@ export const fetchAllSequences = async() => {
 
 export const fetchOneSequence = async(id) => {
     try {
-        const response = await fetch(`${urlSequences}?id=${id}`);
+        const response = await fetch(`${urlSequences}?sequence_id=${id}`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération de la séquence');
         }
