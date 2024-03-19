@@ -31,6 +31,8 @@ export const fetchAllSequences = async() => {
     }
 }
 
+
+
 export const fetchOneSequence = async(id) => {
     try {
         const response = await fetch(`${urlSequences}?sequence_id=${id}`);
@@ -43,10 +45,12 @@ export const fetchOneSequence = async(id) => {
         throw error; 
     }
 }
+  
+
 
 export const fetchAllExerciceForSequences = async (id) => {
     try {
-        const response = await fetch(`${urlExercices}?sequenceId=${id}`);
+        const response = await fetch(`${urlExercices}?sequence_id=${id}`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des exercices');
         }
