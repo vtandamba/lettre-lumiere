@@ -15,9 +15,9 @@ const AlphabetHome = () => {
             <Link to="/home">
                 <img src={logoLettres} alt="" className="index__logo" />
             </Link>
-           
-            <Link to={'/home'}><button class="bouton__croix">
-                QUITTER <span class="close-icon">&times;</span>
+
+            <Link to={'/home'}><button className="bouton__croix">
+                QUITTER <span className="close-icon">&times;</span>
             </button>
             </Link>
 
@@ -25,8 +25,8 @@ const AlphabetHome = () => {
         <main className="alphabet">
 
 
-            <section class="alphabet__title" onClick={() => speak("l'alphabet")}>
-                <p class="section__1">a b c</p>
+            <section className="alphabet__title" onClick={() => speak("l'alphabet")}>
+                <p className="section__1">a b c</p>
             </section>
 
             <div className="alphabet__container">
@@ -36,9 +36,9 @@ const AlphabetHome = () => {
                         <span className="alphabet__listItem " key={index}>{lettre}</span>
                     ))}
                 </div>
-            
 
-          
+
+
                 <div className="alphabet__list">
                     {alphabet.map((lettre, index) => (
                         <span className="alphabet__listItem" key={index}>{lettre.toLowerCase()}</span>
@@ -49,11 +49,11 @@ const AlphabetHome = () => {
 
 
             <Link to="/alphabet/exercices/a1">
-                <section class="entrainement">
+                <section className="entrainement">
 
-                    <div class="entrainement__test">
-                        <p class="entrainement__bouton">S'entraîner</p>
-                        <img class="entrainement__logo" src={courreur} alt="entrainement" />
+                    <div className="entrainement__test">
+                        <p className="entrainement__bouton">S'entraîner</p>
+                        <img className="entrainement__logo" src={courreur} alt="entrainement" />
                     </div>
 
                 </section>

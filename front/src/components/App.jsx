@@ -29,6 +29,10 @@ import LayoutAlphabet from '../pages/ExoGraphoAlphabetique'
 
 const allSequences = fetchAllSequences();
 console.log(allSequences);
+const allExerciceForSequences = fetchAllExerciceForSequences();
+console.log(allExerciceForSequences);
+const  allStages = fetchAllStages();
+console.log(allStages);
 
 
 const App = () => {

@@ -8,11 +8,11 @@ const Index = () => {
     return (<div className="index">
         <header className="index__header">
             <img src={logoLettres} alt="Page des étapes" className="index__logo" />
-            <button class="bouton__croix">
-                <Link to="/" style={{color: "#000"}}>
-                    QUITTER <span class="close-icon">&times;</span>
+            <button className="bouton__croix">
+                <Link to="/" style={{ color: "#000" }}>
+                    QUITTER <span className="close-icon">&times;</span>
                 </Link>
-             
+
             </button>
         </header>
         <main>
@@ -22,8 +22,8 @@ const Index = () => {
             <div >
 
             </div> */}
-            <div class="progress-container">
-                <div class="progress-bar" data-percentage="10"> </div>
+            <div className="progress-container">
+                <div className="progress-bar" data-percentage="10"> </div>
             </div>
             <p className="index__message">Bonjour, José !</p>
 
@@ -47,7 +47,7 @@ const Index = () => {
                 </Link>
                 <Link to="/test">
                     <div className="parts__chrono">
-                        <img class="section__chrono--logo" src={logoChrono} alt="Logo Chrono"/>
+                        <img className="section__chrono--logo" src={logoChrono} alt="Logo Chrono" />
                     </div>
                 </Link>
 
