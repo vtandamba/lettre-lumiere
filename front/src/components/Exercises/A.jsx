@@ -102,12 +102,12 @@ const A = () => {
                             return (
                             
                                 <div key={key} className="grapheme" >
-                                    <img className="exercice__iconHp"
+                                    <img className="exercice1__iconHp"
                                         src={hautParleur}
                                         alt={`${graphemes[key]} `}
                                         onClick={()=>handleClick(index)}/>
                                     <li className="exercice1__liste">
-                                        <div className="exercice__letter exercice__letter--verdana exercice__group" 
+                                        <div className="exercice1__lettre exercice__letter--verdana exercice__group" 
                                              style={{ backgroundColor: colors[index], color: textColor }}>
                                             {graphemes[key].map((element, index) => (
                                                 <p key={index}>{element}</p>
