@@ -7,6 +7,7 @@ import imgEtape from '../../../assets/images/layoutexercices/etape.png';
 const Layout = ({ db }) => {
     const params = useParams();
     const id = params?.sequence;
+    const idSeq = parseInt(id, 10);
     const [exercises, setExercises] = useState([]);
     const [sequence, setSequence] = useState();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
@@ -19,7 +20,7 @@ const Layout = ({ db }) => {
     useEffect(() => {
         const loadExercises = async () => {
             try {
-                const exercisesList = await fetchAllExerciceForSequences(db, id);
+                const exercisesList = await fetchAllExerciceForSequences(idSeq);
                 const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
                 console.log(exercisesList)
                 setExercises(sortedExercises);
@@ -30,7 +31,7 @@ const Layout = ({ db }) => {
         };
 
         const loadSequence = async () => {
-            const sequence = await fetchOneSequence(db, id);
+            const sequence = await fetchOneSequence(idSeq);
             setSequence(sequence.seq_title)
             console.log(sequence)
         }
