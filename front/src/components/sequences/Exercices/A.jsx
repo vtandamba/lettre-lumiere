@@ -10,6 +10,8 @@ const A = (props) => {
     //map
     ///flatMap
     console.log(JSON.parse(data.exo_choices))
+
+
     useEffect(() => {
         console.table(tabResponses);
         const allListened = tabResponses.every(response => response === true);
@@ -21,7 +23,7 @@ const A = (props) => {
     }, [tabResponses, onAttemptMade]); // Dépendances de l'effet
 
     const handleChoiceClick = (index) => {
-        speak(data.exo_choices[index].value);
+        speak(JSON.parse(data.exo_choices)[index].value);
         const updatedTabResponses = tabResponses.map((response, i) => 
             i === index ? true : response
         );
