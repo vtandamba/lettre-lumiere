@@ -3,19 +3,43 @@
  include '../includes/db_connect.php';
  include '../includes/header.php';
 
-
-    // Endpoint pour récupérer tous les etapes
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        // Exécuter une requête SQL pour récupérer toutes les données des utilisateurs
+ 
+// Endpoint pour récupérer toutes les étapes ou une séquence en fonction de l'ID de l'étape
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Vérifier si un ID d'étape est présent dans la requête
+    if (isset($_GET['stage_id'])) {
+        // Récupérer l'ID de l'étape à partir de la requête GET
+        $stage_id = $_GET['stage_id'];
+        
+        // Exécuter une requête SQL pour récupérer les données de la séquence en fonction de l'ID de l'étape
+        $query = "SELECT * FROM l_SEQUENCES WHERE stage_id = :stage_id";
+        $statement = $pdo->prepare($query);
+        $statement->execute(['stage_id' => $stage_id]);
+        $sequence = $statement->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Vérifier si la séquence existe
+        if ($sequence) {
+            // Retourner les données de la séquence au format JSON
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($sequence);
+        } else {
+            // Retourner une erreur si la séquence n'existe pas
+            http_response_code(404);
+            echo json_encode(array('message' => 'Séquence non trouvée'));
+        }
+    } else {
+        // Si aucun ID d'étape n'est spécifié, récupérez toutes les séquences
         $query = "SELECT * FROM l_SEQUENCES";
         $statement = $pdo->query($query);
         $sequences = $statement->fetchAll(PDO::FETCH_ASSOC);
-
+        
+        // Retourner toutes les séquences au format JSON
         http_response_code(200);
         header('Content-Type: application/json');
         echo json_encode($sequences);
-    } 
-
+    }
+}
 
     
 // Endpoint pour ajouter une séquence
@@ -73,6 +97,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(array('message' => 'Erreur lors de l\'ajout de la séquence'));
     }
 }
-
 
 ?>

@@ -78,7 +78,8 @@ const Etapes = (props) => {
             <Typography className="Etape__container">
               {sequences.filter((sequence) => sequence.stage_id === stage.stage_id)
                 .map((s) => {
-                  return  <Link to={`${s.sequence_id}`}><EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /></Link>
+                  console.log('la sequence ', sequences)
+                  return <Link to={`${s.sequence_id}`}><EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /></Link>
                 })}
 
             </Typography>
