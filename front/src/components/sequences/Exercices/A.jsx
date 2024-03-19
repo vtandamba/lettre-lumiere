@@ -3,14 +3,15 @@ import { Link } from "react-router-dom";
 import speak from "../../../hooks/useSpeak"
 const A = (props) => {
     const {data, onAttemptMade, score} = props;
-    const [tabResponses, setTabResponses] = useState(new Array(data?.content.choices.length).fill(null));
+    const [tabResponses, setTabResponses] = useState(new Array(6).fill(null));
 
     //every
     //some
     //map
     ///flatMap
+    console.log(JSON.parse(data.exo_choices))
     useEffect(() => {
-
+        console.table(tabResponses);
         const allListened = tabResponses.every(response => response === true);
 
         if (allListened) {
@@ -20,20 +21,20 @@ const A = (props) => {
     }, [tabResponses, onAttemptMade]); // Dépendances de l'effet
 
     const handleChoiceClick = (index) => {
-        speak(data.content.choices[index]);
-   
+        speak(data.exo_choices[index].value);
         const updatedTabResponses = tabResponses.map((response, i) => 
             i === index ? true : response
         );
         setTabResponses(updatedTabResponses);
+        console.log(tabResponses);
     };
     return <React.Fragment>
-                <h1 className="exercice__consigne">{data?.consigne}</h1>
+                <h1 className="exercice__consigne">{data?.exo_consigne}</h1>
                 <ul className="list">
-                    {data && data.content.choices.map((e, index) => <li 
+                    {data && JSON.parse(data.exo_choices).map((e, index) => <li 
                                                                         key={index}
                                                                         className="list__item list__item--sound" 
-                                                                        onClick={()=>handleChoiceClick(index)}>{e}</li>)}
+                                                                        onClick={()=>handleChoiceClick(index)}>{e.value}</li>)}
                 </ul>
                 <div className="exercice__footer">
                 <ul className="progress">

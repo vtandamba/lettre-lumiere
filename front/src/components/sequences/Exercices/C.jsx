@@ -3,11 +3,11 @@ import speak from "../../../hooks/useSpeak";
 
 const C = (props) => {
     const { data, onAttemptMade, score } = props;
-    const [syllabes, setSyllabes] = useState(data?.content.choices);
+    const [syllabes, setSyllabes] = useState(JSON.parse(data?.exo_choices));
     const [currentSyllabeIndex, setCurrentSyllabeIndex] = useState(0);
     const [userInput, setUserInput] = useState("");
     const [showSyllabe, setShowSyllabe] = useState(true);
-    const [tabResponses, setTabResponses] = useState([null, null, null, null]);
+    const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
 
@@ -24,7 +24,7 @@ const C = (props) => {
             const timer = setTimeout(() => {
                 if (syllabes) {
                     setShowSyllabe(false);
-                    speak(syllabes[currentSyllabeIndex]);
+                    speak(syllabes[currentSyllabeIndex].value);
                 }
             }, 3000);
             return () => clearTimeout(timer);
@@ -37,7 +37,7 @@ const C = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const isCorrect = userInput.trim().toLowerCase() === syllabes[currentSyllabeIndex]?.toLowerCase();
+        const isCorrect = userInput.trim().toLowerCase() === syllabes[currentSyllabeIndex]?.value.toLowerCase();
         const newTabResponses = tabResponses.map((res, index) => 
             index === attemptCount ? isCorrect : res
         );
@@ -56,10 +56,10 @@ const C = (props) => {
 
     return (
         <React.Fragment>
-            <h2 className="exercice__consigne">{data.consigne}</h2>
+            <h2 className="exercice__consigne">{data.exo_consigne}</h2>
             <div>
                 
-                    {showSyllabe ? <p className="exercice__grapheme">{syllabes[currentSyllabeIndex]}</p> : 
+                    {showSyllabe ? <p className="exercice__grapheme">{syllabes[currentSyllabeIndex].value}</p> : 
                         <form onSubmit={handleSubmit} className="exercice__form">
                             <input type="text" value={userInput} onChange={handleInputChange} autoFocus className="exercice__input"/>
                         </form>

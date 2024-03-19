@@ -30,9 +30,7 @@ const SequenceHome = ({ db }) => {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: 700,
-
         bgcolor: 'background.paper',
-
         boxShadow: 24,
         p: 4,
     };
@@ -41,9 +39,9 @@ const SequenceHome = ({ db }) => {
 
         const loadSequences = async () => {
 
-            const loadedStages = await fetchOneSequence(db, id);
-            setSequence(loadedStages);
-            console.log(sequence)
+            const loadedSequences = await fetchOneSequence(db, id);
+            setSequence(loadedSequences);
+            console.log(loadedSequences)
         };
 
         const loadExercises = async () => {
@@ -116,7 +114,7 @@ const SequenceHome = ({ db }) => {
                                 <div className="progress">
 
                                 </div>
-                                <p className="consigne">{el.consigne}</p>
+                                <p className="consigne">{el.exo_consigne}</p>
                             </li>
                     })}
                 </ul>

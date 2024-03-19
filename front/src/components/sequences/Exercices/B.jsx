@@ -13,9 +13,9 @@ const B = (props) => {
 
 
     useEffect(() => {
-        if (data?.content.choices) {
-            const initialTabItems = data.content.choices.map(el => ({
-                value: el, 
+        if (data?.exo_choices) {
+            const initialTabItems = JSON.parse(data.exo_choices).map(el => ({
+                value: el.value, 
                 state: 'initial',
                 isAlreadyChosen: false
             }));
@@ -33,7 +33,7 @@ const B = (props) => {
             setTabItems(updatedTabItems);
           
         }
-    }, [data?.content.choices]);
+    }, [data?.exo_choices]);
 
     useEffect(() => {
         if (attemptCount > 0 && attemptCount < tabResponses.length ) {
@@ -108,7 +108,7 @@ const B = (props) => {
 
     return (
         <React.Fragment>
-            <p className="exercice__consigne">{data.consigne}</p>
+            <p className="exercice__consigne">{data.exo_consigne}</p>
             <p className="exercice__sound" onClick={() => speak(answer)}>?</p>
             <ul className="list">
                 {tabItems?.map((e, index) => (
