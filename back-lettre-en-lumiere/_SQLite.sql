@@ -1,3 +1,17 @@
+-- Suppression de la table l_USER si elle existe
+DROP TABLE IF EXISTS l_USER;
+-- Suppression de la table l_SEQUENCES si elle existe
+DROP TABLE IF EXISTS l_SEQUENCES;
+-- Suppression de la table l_STAGES si elle existe
+DROP TABLE IF EXISTS l_STAGES;
+-- Suppression de la table l_EXERCICES si elle existe
+DROP TABLE IF EXISTS l_EXERCICES;
+-- Suppression de la table l_USER_PROGRESS si elle existe
+DROP TABLE IF EXISTS l_USER_PROGRESS;
+-- Suppression de la table l_USER_PROGRESS_SEQ si elle existe
+DROP TABLE IF EXISTS l_USER_PROGRESS_SEQ;
+
+
 -- Création de la table l_USER
 CREATE TABLE IF NOT EXISTS l_USER (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -60,6 +74,9 @@ PRAGMA foreign_keys = ON;
 
 -- insertion
 -- Insertion de données dans la table l_SEQUENCES
+INSERT INTO l_USER (user_nom, user_prenom, user_password)
+VALUES ('lego', 'rose', 'admin1');
+
 INSERT INTO l_SEQUENCES (
         seq_title,
         stage_id,

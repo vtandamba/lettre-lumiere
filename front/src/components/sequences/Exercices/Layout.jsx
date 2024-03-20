@@ -5,6 +5,7 @@ import homeIcon from '../../../assets/images/layoutexercices/home.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
 const Layout = ({ db }) => {
+
     const params = useParams();
     const id = params?.sequence;
     const idSeq = parseInt(id, 10);
@@ -16,7 +17,8 @@ const Layout = ({ db }) => {
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
 
     const [exercisesScore, setExercisesScore] = useState([]);
-    const [score, setScore] = useState({ exercisesScore, date: Date.now() });
+    
+    const url = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php';
     useEffect(() => {
         const loadExercises = async () => {
             try {
@@ -88,11 +90,10 @@ const Layout = ({ db }) => {
 
             // Envoyer la requête POST à l'API
             const scoreData = {
-                pro_score: 10,
-                user_id: 1
+                pro_score: 10
             };
             // Envoi de la requête POST à l'API
-            fetch('https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php', {
+            fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -103,7 +104,7 @@ const Layout = ({ db }) => {
                     if (!response.ok) {
                         throw new Error('Erreur lors de l\'envoi du score');
                     }
-                    console.log('Score ajouté avec succès');
+                    console.log('=================');
                     // Effectuez les actions supplémentaires ici si nécessaire
                 })
                 .catch(error => {
