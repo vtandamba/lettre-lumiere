@@ -8,35 +8,32 @@ DROP TABLE IF EXISTS l_STAGES;
 DROP TABLE IF EXISTS l_EXERCICES;
 -- Suppression de la table l_USER_PROGRESS si elle existe
 DROP TABLE IF EXISTS l_USER_PROGRESS;
--- Suppression de la table l_USER_PROGRESS_SEQ si elle existe
-DROP TABLE IF EXISTS l_USER_PROGRESS_SEQ;
-
-
+-- Suppression de la table l_PROGRESS_SEQ si elle existe
+DROP TABLE IF EXISTS l_PROGRESS_SEQ;
 -- Création de la table l_USER
 CREATE TABLE IF NOT EXISTS l_USER (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_nom VARCHAR,
-    user_prenom VARCHAR,
+    user_name VARCHAR,
+    user_surname VARCHAR,
     user_password VARCHAR
 );
-
--- Création de la table l_SEQUENCES
-CREATE TABLE IF NOT EXISTS l_SEQUENCES (
-    sequence_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    seq_title VARCHAR,
-    stage_id INTEGER,
-    seq_description VARCHAR,
-    seq_content VARCHAR,
-    FOREIGN KEY (stage_id) REFERENCES l_STAGES(stage_id)
-);
-
 -- Création de la table l_STAGES
 CREATE TABLE IF NOT EXISTS l_STAGES (
     stage_id INTEGER PRIMARY KEY AUTOINCREMENT,
     sta_name VARCHAR,
     sta_description VARCHAR
 );
-
+-- Création de la table l_SEQUENCES
+CREATE TABLE IF NOT EXISTS l_SEQUENCES (
+    sequence_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    seq_title VARCHAR,
+    stage_id INTEGER,
+    progress_id INTEGER,
+    seq_description VARCHAR,
+    seq_content VARCHAR,
+    FOREIGN KEY (progress_id) REFERENCES l_PROGRESS_SEQ(progress_id),
+    FOREIGN KEY (stage_id) REFERENCES l_STAGES(stage_id)
+);
 -- Création de la table l_EXERCICES
 CREATE TABLE IF NOT EXISTS l_EXERCICES (
     exercice_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -47,7 +44,6 @@ CREATE TABLE IF NOT EXISTS l_EXERCICES (
     exo_ordre INTEGER,
     FOREIGN KEY (sequence_id) REFERENCES l_SEQUENCES(sequence_id)
 );
-
 -- Création de la table l_USER_PROGRESS
 CREATE TABLE IF NOT EXISTS l_USER_PROGRESS (
     progress_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -58,9 +54,8 @@ CREATE TABLE IF NOT EXISTS l_USER_PROGRESS (
     FOREIGN KEY (user_id) REFERENCES l_USER(user_id),
     FOREIGN KEY (exercice_id) REFERENCES l_EXERCICES(exercice_id)
 );
-
--- Création de la table l_USER_PROGRESS_SEQ
-CREATE TABLE IF NOT EXISTS l_USER_PROGRESS_SEQ (
+-- Création de la table l_PROGRESS_SEQ
+CREATE TABLE IF NOT EXISTS l_PROGRESS_SEQ (
     completed BOOLEAN,
     user_id INTEGER,
     sequence_id INTEGER,
@@ -68,38 +63,37 @@ CREATE TABLE IF NOT EXISTS l_USER_PROGRESS_SEQ (
     FOREIGN KEY (user_id) REFERENCES l_USER(user_id),
     FOREIGN KEY (sequence_id) REFERENCES l_SEQUENCES(sequence_id)
 );
-
 -- Activer les contraintes de clé étrangère
 PRAGMA foreign_keys = ON;
-
 -- insertion
 -- Insertion de données dans la table l_SEQUENCES
-INSERT INTO l_USER (user_nom, user_prenom, user_password)
-VALUES ('lego', 'rose', 'admin1');
-
+INSERT INTO l_USER (user_name, user_surname, user_password)
+VALUES ('lego', 'rose', 'admin1'),
+    ('burr', 'camille', 'admin2');
 INSERT INTO l_SEQUENCES (
         seq_title,
         stage_id,
+        progress_id,
         seq_description,
         seq_content
     )
-VALUES ('a-e-i', 1, 'Les voyelles', '["a", "e", "i"]'),
-    ('o-u-é', 1, 'Les voyelles', '["o", "u", "é"]'),
-    ('l', 1, 'La lettre L', '["l"]'),
-    ('r', 1, 'La lettre R', '["r"]'),
+VALUES ('a-e-i', 1, NULL, 'Les voyelles', '["a", "e", "i"]'),
+    ('o-u-é', 1, NULL, 'Les voyelles', '["o", "u", "é"]'),
+    ('l', 1, NULL, 'La lettre L', '["l"]'),
+    ('r', 1, NULL, 'La lettre R', '["r"]'),
     (
         'lettre muette',
         1,
+        NULL,
         'Lettre Muette',
         '["lettre muette"]'
     ),
-    ('f', 2, 'La lettre F', '["f"]'),
-    ('j', 2, 'La lettre J', '["j"]'),
-    ('v', 3, 'La lettre V', '["v"]'),
-    ('b', 3, 'La lettre B', '["b"]'),
-    ('CH', 4, 'CH', '["ch"]'),
-    ('P', 4, 'La lettre P', '["p"]');
-
+    ('f', 2, NULL, 'La lettre F', '["f"]'),
+    ('j', 2, NULL, 'La lettre J', '["j"]'),
+    ('v', 3, NULL, 'La lettre V', '["v"]'),
+    ('b', 3, NULL, 'La lettre B', '["b"]'),
+    ('CH', 4, NULL, 'CH', '["ch"]'),
+    ('P', 4, NULL, 'La lettre P', '["p"]');
 -- Insertion de données dans la table l_STAGES
 INSERT INTO l_STAGES (sta_name, sta_description)
 VALUES ('Etape 1', 'Etape 1'),
@@ -107,7 +101,6 @@ VALUES ('Etape 1', 'Etape 1'),
     ('Etape 3', 'Etape 3'),
     ('Etape 4', 'Etape 4'),
     ('Etape 5', 'Etape 5');
-
 -- Insertion de données dans la table l_EXERCICES
 INSERT INTO l_EXERCICES (
         sequence_id,
