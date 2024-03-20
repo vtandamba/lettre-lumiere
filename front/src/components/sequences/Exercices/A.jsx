@@ -13,7 +13,7 @@ const A = (props) => {
 
 
     useEffect(() => {
-        console.table(tabResponses);
+        
         const allListened = tabResponses.every(response => response === true);
 
         if (allListened) {
@@ -28,7 +28,7 @@ const A = (props) => {
             i === index ? true : response
         );
         setTabResponses(updatedTabResponses);
-        console.log(tabResponses);
+       
     };
     return <React.Fragment>
                 <h1 className="exercice__consigne">{data?.exo_consigne}</h1>
