@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "redux-react-session": "^2.6.1"
+  }
+}
