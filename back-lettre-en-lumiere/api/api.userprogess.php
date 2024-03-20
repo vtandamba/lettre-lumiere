@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insérer les données de score utilisateur dans la base de données
-    $query = "INSERT INTO l_USER_PROGRESS (pro_score, exercice_id, user_id, pro_date) VALUES (:pro_score; :exercice_id, :user_id, :pro_date )";
+    $query = "INSERT INTO l_USER_PROGRESS (pro_score, exercice_id, user_id, pro_date) VALUES (:pro_score, :exercice_id, :user_id, :pro_date )";
     $statement = $pdo->prepare($query);
     $statement->bindParam(':pro_score', $pro_score);
     $statement->bindParam(':user_id', $user_id);
