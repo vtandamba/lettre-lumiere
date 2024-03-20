@@ -25,21 +25,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Vérifier si les données sont valides
     if (
-        (!isset($_POST['pro_score'])) 
+        (!isset($_POST['pro_score']) && !isset($_POST['exercice_id']) && !isset($_POST['user_id'])) 
     ) {
         http_response_code(400); // Code 400 pour une mauvaise requête
         echo json_encode(array('message' => 'Paramètres manquants'));
         exit;
     } else {
         $pro_score = $_POST['pro_score'];
-        // $user_id = $_POST['user_id'];
+        $user_id = $_POST['user_id'];
+        $exercice_id = $_POST['exercice_id'];
+        $DateAndTime = date('m-d-Y h:i:s a', time());  
     }
 
     // Insérer les données de score utilisateur dans la base de données
-    $query = "INSERT INTO l_USER_PROGRESS (pro_score) VALUES (:pro_score )";
+    $query = "INSERT INTO l_USER_PROGRESS (pro_score, exercice_id, user_id, pro_date) VALUES (:pro_score; :exercice_id, :user_id, :pro_date )";
     $statement = $pdo->prepare($query);
     $statement->bindParam(':pro_score', $pro_score);
-    // $statement->bindParam(':user_id', $user_id);
+    $statement->bindParam(':user_id', $user_id);
+    $statement->bindParam(':exercice_id', $exercice_id);
+    $statement->bindParam(':pro_date', $DateAndTime);
 
     $success = $statement->execute();
 

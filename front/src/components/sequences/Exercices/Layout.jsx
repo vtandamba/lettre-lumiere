@@ -90,7 +90,9 @@ const Layout = ({ db }) => {
 
             // Envoyer la requête POST à l'API
             const scoreData = {
-                pro_score: exercisesScore[currentExerciseIndex]
+                pro_score: exercisesScore[currentExerciseIndex],
+                user_id:1,
+                exercice_id:1
             };
             // Envoi de la requête POST à l'API
             fetch(url, {
