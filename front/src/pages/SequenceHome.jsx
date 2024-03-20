@@ -75,7 +75,7 @@ const SequenceHome = ({ db }) => {
 
 
     return <div className="sequence">
-
+        {process.env.REACT_APP_NAME_VARIABLE}
         <header className="header">
             <div className="header__title">
 
