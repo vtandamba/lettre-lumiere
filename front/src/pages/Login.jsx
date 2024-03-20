@@ -24,7 +24,8 @@ const Login = () =>{
             if (response){
                 
             }
-            localStorage.setItem('user_id', response.user_id)
+            localStorage.setItem('user_id', response.user_id);
+            localStorage.setItem('user_name', response.user_name);
 
         }catch(error){
             setFormErrors('Combinaison usename - Password incorrecte');
