@@ -11,13 +11,14 @@ const Layout = ({ db }) => {
     const idSeq = parseInt(id, 10);
     const [exercises, setExercises] = useState([]);
     const [sequence, setSequence] = useState();
+    const [sequences, setSequences] = useState();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
 
     const [attemptCount, setAttemptCount] = useState(0);
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
 
     const [exercisesScore, setExercisesScore] = useState([]);
-    
+
     const url = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php';
     useEffect(() => {
         const loadExercises = async () => {
@@ -33,9 +34,12 @@ const Layout = ({ db }) => {
         };
 
         const loadSequence = async () => {
-            const sequence = await fetchOneSequence(idSeq);
-            setSequence(sequence.seq_title)
-            console.log(sequence)
+            const data = await fetchOneSequence(idSeq);
+            setSequences(data)
+            setSequence(data.seq_title);
+
+            console.log('idsequence ==== >', idSeq)
+            console.log('les sequences ==== >', data)
         }
 
         loadExercises();
@@ -157,7 +161,10 @@ const Layout = ({ db }) => {
                 <div className="header__infos">
                     <div className="header__etape">
                         <img src={imgEtape} alt="" />
-                        <p>Etape 1</p>
+
+                        <p>Etape {sequences && sequences.map((s, index) => (
+                            <span key={index}>{s.stage_id}{index < sequences.length - 1 && ', '}</span>
+                        ))}</p>
                     </div>
                     <p className="header__sequence"> {sequence}</p>
                 </div>

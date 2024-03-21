@@ -131,7 +131,9 @@ const SequenceHome = ({ db }) => {
 
                 <div className="header__etape">
                     <img src={imgEtape} alt="" />
-                    <p>Etape {sequence?.stage_id}</p>
+                    <p>Etape {sequence && sequence.map((s, index) => (
+                        <span key={index}>{s.stage_id}{index < sequence.length - 1 && ', '}</span>
+                    ))}</p>
                 </div>
                 <p className="header__sequence">{sequence?.title}</p>
             </div>

@@ -4,31 +4,50 @@
  include '../includes/header.php';
 
 
-    // Endpoint pour récupérer la progression utilisateur
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-
-        if (!isset($_GET['user_id']) && !isset($_GET['exercice_id'])){
-            $query = "SELECT pro_score, pro_date AS most_recent_date 
+ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Vérifier si les paramètres user_id et exercice_id sont définis dans l'URL
+    if(isset($_GET['user_id']) && isset($_GET['exercice_id'])) {
+        // Exécuter une requête SQL pour récupérer les données pour un utilisateur et un exercice spécifiques
+        $query = "SELECT pro_score, pro_date AS most_recent_date 
             FROM l_USER_PROGRESS
             WHERE exercice_id = :exercice_id AND user_id = :user_id
             GROUP BY user_id, exercice_id";
-            $statement = $pdo->prepare($query);
-            $statement->bindParam(':user_id', $user_id);
-            $statement->bindParam(':exercice_id', $exercice_id);
-            $success = $statement->fetchAll(PDO::FETCH_ASSOC);
-        }else{
-               // Exécuter une requête SQL pour récupérer toutes les données des utilisateurs
-                $query = "SELECT * FROM l_USER_PROGRESS ";
-                $statement = $pdo->query($query);
-                $success = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(':user_id', $_GET['user_id']);
+        $statement->bindParam(':exercice_id', $_GET['exercice_id']);
+        $statement->execute();
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        // Vérifier si des données ont été trouvées pour l'utilisateur et l'exercice spécifiés
+        if($data) {
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($data);
+        } else {
+            // Aucune donnée trouvée pour l'utilisateur et l'exercice spécifiés
+            http_response_code(404);
+            echo json_encode(array('message' => 'Aucune donnée trouvée pour l\'utilisateur et l\'exercice spécifiés'));
         }
-        http_response_code(200);
-        header('Content-Type: application/json');
-        echo json_encode($success);
+    } else {
+        // Si les paramètres user_id et exercice_id ne sont pas définis, récupérer toutes les étapes
+        $query = "SELECT * FROM l_USER_PROGRESS";
+        $statement = $pdo->query($query);
+        $stages = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-       
-    } 
+        // Vérifier s'il y a des étapes
+        if($stages) {
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($stages);
+        } else {
+            // Aucune étape trouvée
+            http_response_code(404);
+            echo json_encode(array('message' => 'Aucune étape trouvée'));
+        }
+    }
+}
 
+    
     // Endpoint pour ajouter un progrès utilisateur
 
 // Endpoint pour ajouter un progrès utilisateur
