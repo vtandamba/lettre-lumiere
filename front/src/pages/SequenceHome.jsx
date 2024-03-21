@@ -119,9 +119,7 @@ const SequenceHome = ({ db }) => {
   
 
     // Si une erreur s'est produite lors du chargement des données
-    if (error) {
-        return <div>Erreur : {error}</div>;
-    }
+  
 
 
     return <div className="sequence">
@@ -162,7 +160,7 @@ const SequenceHome = ({ db }) => {
 
             
             {
-            exercises ? (
+            exercises.length ? (
                 isLoading ? (
                 <div className="circular-progress">
                     <CircularProgress size={140} />
