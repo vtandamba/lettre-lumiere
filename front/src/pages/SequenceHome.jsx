@@ -44,17 +44,18 @@ const SequenceHome = ({ db }) => {
         const loadSequences = async () => {
 
             const loadedSequences = await fetchOneSequence(idSeq);
-            setSequence(loadedSequences.find((sequence) => sequence.sequence_id === idSeq));
+            setSequence(loadedSequences);
+            console.log(loadedSequences[0])
         };
 
         const loadExercises = async () => {
             setIsLoading(true);
-            setError(null); 
+            setError(null);
             try {
-                
-                const exercisesList = await fetchAllExerciceForSequences( idSeq);
+
+                const exercisesList = await fetchAllExerciceForSequences(idSeq);
                 const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
-                console.log('liste dexos',exercisesList);
+                console.log('liste dexos', exercisesList);
                 setExercises(sortedExercises);
             } catch (error) {
                 setError("Impossible de charger les exercices");
@@ -65,15 +66,15 @@ const SequenceHome = ({ db }) => {
         };
 
 
-       
-        
+
+
 
 
         loadExercises();
         loadSequences();
-    
+
     }, [idSeq]);
-    
+
 
     useEffect(() => {
 
@@ -88,7 +89,7 @@ const SequenceHome = ({ db }) => {
                     console.log(`Score pour l'exercice ${exercice.exercice_id}:`, data.pro_score);
                     return data[0].pro_score;
                 });
-        
+
                 const scores = await Promise.all(scorePromises);
                 setTabScore(scores);
                 console.log('Tous les scores ont été récupérés:', scores);
@@ -96,14 +97,14 @@ const SequenceHome = ({ db }) => {
                 console.error("Erreur lors de la récupération des scores:", error);
             }
         };
-        
+
 
         exercisesScore();
-     
-       
+
+
     }, [exercises])
 
-  
+
 
     useEffect(() => {
         setOpen(true);
@@ -116,7 +117,7 @@ const SequenceHome = ({ db }) => {
         setOpen(false);
     };
 
-  
+
 
     // Si une erreur s'est produite lors du chargement des données
     if (error) {
@@ -162,37 +163,37 @@ const SequenceHome = ({ db }) => {
                 </Box>
             </Modal> */}
 
-            
-            {
-            exercises ? (
-                isLoading ? (
-                <div className="circular-progress">
-                    <CircularProgress size={140} />
-                </div>
-                ) : (
-                <ul className="exercises__list">
-                    {exercises.map((el, index) => {
-                    let progressClass = "";
-                    if (tabScore[index] <= 49) {
-                        progressClass = "progress-item--orange";
-                    } else if (tabScore[index] >= 50) {
-                        progressClass = "progress-item--vert";
-                    }
 
-                    return (
-                        <li className="exercises__item" key={index}>
-                        <div className={`progress-item ${progressClass}`}></div>
-                        <p className="consigne">{el.exo_consigne}</p>
-                        </li>
-                    );
-                    })}
-                </ul>
+            {
+                exercises ? (
+                    isLoading ? (
+                        <div className="circular-progress">
+                            <CircularProgress size={140} />
+                        </div>
+                    ) : (
+                        <ul className="exercises__list">
+                            {exercises.map((el, index) => {
+                                let progressClass = "";
+                                if (tabScore[index] <= 49) {
+                                    progressClass = "progress-item--orange";
+                                } else if (tabScore[index] >= 50) {
+                                    progressClass = "progress-item--vert";
+                                }
+
+                                return (
+                                    <li className="exercises__item" key={index}>
+                                        <div className={`progress-item ${progressClass}`}></div>
+                                        <p className="consigne">{el.exo_consigne}</p>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    )
+                ) : (
+                    <p className="">Aucun exercice enregistré pour cette séquence pour le moment</p>
                 )
-            ) : (
-                <p className="">Aucun exercice enregistré pour cette séquence pour le moment</p>
-            )
             }
-            
+
             <Link to="exo"><div className="exercises__start">Commencer</div></Link>
             <Outlet />
         </main>
