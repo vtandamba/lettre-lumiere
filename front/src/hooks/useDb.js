@@ -4,7 +4,7 @@
 const urlSequences = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.sequences.php';
 const urlExercices = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.exercices.php';
 const urlStages = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.stages.php';
-
+const urlUser = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.user.php'; 
 export const fetchAllStages = async () => {
     try {
         const response = await fetch(urlStages);
@@ -87,3 +87,20 @@ export const fetchSeqByStageId = async (stageId) => {
         throw error; 
     }
 };
+
+
+// le user
+export const fecthUser = async (userId) => {
+
+    try{
+        const response = await fetch(`${urlUser}?user_id=${userId}`);
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération de l\'utilisateur');
+        }
+        return response.json();
+
+    } catch (error){
+        console.error("Erreur lors de la récupération de  l\'utilisateur", error);
+        throw error; 
+    }
+}

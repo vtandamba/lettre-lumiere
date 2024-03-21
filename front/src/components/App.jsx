@@ -11,7 +11,7 @@ import { fetchAllExerciceForSequences } from "../hooks/useDb";
 import { fetchAllSequences } from "../hooks/useDb";
 import { fetchAllStages } from "../hooks/useDb";
 import { fetchSeqByStageId } from "../hooks/useDb";
-
+import { fecthUser } from "../hooks/useDb";
 // import db from '../Dexie'
 
 import SequenceHome from "../pages/SequenceHome";
@@ -30,7 +30,7 @@ import LayoutAlphabet from '../pages/ExoGraphoAlphabetique'
 // useEffect(()=> {
 
 // }, [])
-
+const idUser = localStorage.getItem('user_id');
 const allSequences = fetchAllSequences();
 console.log(allSequences);
 const allExerciceForSequences = fetchAllExerciceForSequences(1);
@@ -38,7 +38,9 @@ console.log("by seq_id ===> ", allExerciceForSequences);
 const allStages = fetchAllStages();
 console.log(allStages);
 
-
+console.log('the userId ========== >', idUser)
+const user = fecthUser(idUser);
+console.log('the user ========== >', user)
 const allSeqBystageId = fetchSeqByStageId(4);
 console.log('by id  ===>  ', allSeqBystageId);
 
