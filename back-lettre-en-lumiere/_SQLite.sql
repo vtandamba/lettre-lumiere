@@ -77,8 +77,20 @@ INSERT INTO l_SEQUENCES (
         seq_description,
         seq_content
     )
-VALUES ('a-e-i', 1, NULL, 'Les voyelles', '["a", "e", "i"]'),
-    ('o-u-é', 1, NULL, 'Les voyelles', '["o", "u", "é"]'),
+VALUES (
+        'a-e-i',
+        1,
+        NULL,
+        'Les voyelles',
+        '["a", "e", "i"]'
+    ),
+    (
+        'o-u-é',
+        1,
+        NULL,
+        'Les voyelles',
+        '["o", "u", "é"]'
+    ),
     ('l', 1, NULL, 'La lettre L', '["l"]'),
     ('r', 1, NULL, 'La lettre R', '["r"]'),
     (
@@ -150,9 +162,8 @@ VALUES (
         'Trouve la bonne syllabe le plus vite possible.',
         '[{"value": "la", "image": null}, {"value": "le", "image": null}, {"value": "li", "image": null}, {"value": "ma", "image": null}, {"value": "mi", "image": null}, {"value": "pe", "image": null}]',
         6
-    ),	
-	
-	(
+    ),
+    (
         2,
         'A1',
         'Ecoute et répète',
@@ -194,11 +205,7 @@ VALUES (
         '[{"value": "lé", "image": "null"}, {"value": "lo", "image": "null"}, {"value": "lu", "image": "null"}, {"value": "mo", "image": "null"}, {"value": "mu", "image": "null"}, {"value": "pé", "image": "null"}]',
         6
     ),
-	
-
-	
-	
-	(
+    (
         3,
         'A1',
         'Ecoute et répète',
@@ -239,21 +246,32 @@ VALUES (
         'Trouve la bonne syllabe le plus vite possible.',
         '[{"value": "la", "image": null}, {"value": "le", "image": null}, {"value": "li", "image": null}, {"value": "ma", "image": null}, {"value": "mi", "image": null}, {"value": "pe", "image": null}]',
         6
-    )
-	,
+    ),
     (
         3,
         'A2',
         'Écoutes et repètes ',
         '[{"value": "salé", "image": "salé.jpg"}, {"value": "sali", "image": "sali.jpg"}, {"value": "lavé", "image": "lavé.jpg"}, {"value": "lune", "image":"lune.jpg" }, {"value": "pile", "image": "pile.jpg"}, {"value": "vélo", "image": "vélo.avif"}]',
         7
-    )
-	,
+    ),
     (
         3,
         'B2',
         "Trouve le bon mot en fonction de l'image.",
         '[{"value": "salé", "image": "salé.jpg"}, {"value": "sali", "image": "sali.jpg"}, {"value": "lavé", "image": "lavé.jpg"}, {"value": "lune", "image":"lune.jpg" }, {"value": "pile", "image": "pile.jpg"}, {"value": "vélo", "image": "vélo.avif"}]',
         8
+    ),
+    (
+        3,
+        'C2 bis',
+        "Trouve le bon mot en fonction de l'image. (C2 bis)",
+        '[{"value": "salé", "image": "salé.jpg"}, {"value": "sali", "image": "sali.jpg"}, {"value": "lavé", "image": "lavé.jpg"}, {"value": "lune", "image":"lune.jpg" }, {"value": "pile", "image": "pile.jpg"}, {"value": "vélo", "image": "vélo.avif"}]',
+        9
+    ),
+    (
+        3,
+        'E2 bis',
+        "Trouve le bon mot en fonction de l'image. (E2 bis)",
+        '[{"value": "salé", "image": "salé.jpg"}, {"value": "sali", "image": "sali.jpg"}, {"value": "lavé", "image": "lavé.jpg"}, {"value": "lune", "image":"lune.jpg" }, {"value": "pile", "image": "pile.jpg"}, {"value": "vélo", "image": "vélo.avif"}]',
+        9
     );
-	
