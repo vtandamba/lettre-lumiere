@@ -28,7 +28,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             http_response_code(404);
             echo json_encode(array('message' => 'Utilisateur non trouvé'));
         }
-    } else {
+    }
+    elseif (isset($_GET['user_id'])) {
+        // Exécuter une requête SQL pour récupérer l'utilisateur en fonction de son ID
+        $query = "SELECT * FROM l_USER WHERE user_id = :user_id";
+        $statement = $pdo->prepare($query);
+        $statement->bindParam(':user_id', $_GET['user_id']);
+        $statement->execute();
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+    
+        // Vérifier si un utilisateur correspondant a été trouvé
+        if($user) {
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($user);
+        } else {
+            // Aucun utilisateur trouvé avec l'ID fourni
+            http_response_code(404);
+            echo json_encode(array('message' => 'Utilisateur non trouvé'));
+        }
+    }
+    
+    
+    else {
         // Les paramètres nom et mot de passe ne sont pas définis dans l'URL
         // Si aucun paramètre n'est fourni, afficher tous les utilisateurs
         $query = "SELECT * FROM l_USER";

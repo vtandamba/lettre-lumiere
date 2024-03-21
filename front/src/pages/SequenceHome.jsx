@@ -40,14 +40,14 @@ const SequenceHome = ({ db }) => {
 
         const loadSequences = async () => {
 
-            const loadedSequences = await fetchOneSequence(  idSeq);
+            const loadedSequences = await fetchOneSequence(idSeq);
             setSequence(loadedSequences);
-            console.log(loadedSequences)
+            console.log('les stages =====> ', loadedSequences)
         };
 
         const loadExercises = async () => {
             try {
-                const exercisesList = await fetchAllExerciceForSequences( idSeq);
+                const exercisesList = await fetchAllExerciceForSequences(idSeq);
                 const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
                 console.log(exercisesList);
                 setExercises(sortedExercises);
@@ -55,6 +55,7 @@ const SequenceHome = ({ db }) => {
                 console.error("Erreur lors du chargement des exercices :", error);
             }
         };
+
 
 
         loadExercises();
@@ -81,7 +82,9 @@ const SequenceHome = ({ db }) => {
 
                 <div className="header__etape">
                     <img src={imgEtape} alt="" />
-                    <p>Etape {sequence?.stage_id}</p>
+                    <p>Etape {sequence && sequence.map((s, index) => (
+                        <span key={index}>{s.stage_id}{index < sequence.length - 1 && ', '}</span>
+                    ))}</p>
                 </div>
                 <p className="header__sequence">{sequence?.title}</p>
             </div>

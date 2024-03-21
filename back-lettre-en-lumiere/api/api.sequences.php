@@ -4,8 +4,7 @@
  include '../includes/header.php';
 
  
-// Endpoint pour récupérer toutes les étapes ou une séquence en fonction de l'ID de l'étape
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Vérifier si un ID d'étape est présent dans la requête
     if (isset($_GET['stage_id'])) {
         // Récupérer l'ID de l'étape à partir de la requête GET
@@ -15,6 +14,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $query = "SELECT * FROM l_SEQUENCES WHERE stage_id = :stage_id";
         $statement = $pdo->prepare($query);
         $statement->execute(['stage_id' => $stage_id]);
+        $sequence = $statement->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Vérifier si la séquence existe
+        if ($sequence) {
+            // Retourner les données de la séquence au format JSON
+            http_response_code(200);
+            header('Content-Type: application/json');
+            echo json_encode($sequence);
+        } else {
+            // Retourner une erreur si la séquence n'existe pas
+            http_response_code(404);
+            echo json_encode(array('message' => 'Séquence non trouvée'));
+        }
+    } elseif (isset ($_GET['sequence_id'])) {
+        // Récupérer l'ID de la séquence à partir de la requête GET
+        $sequence_id = $_GET['sequence_id'];
+        
+        // Exécuter une requête SQL pour récupérer les données de la séquence en fonction de son ID
+        $query = "SELECT * FROM l_SEQUENCES WHERE sequence_id = :sequence_id";
+        $statement = $pdo->prepare($query);
+        $statement->execute(['sequence_id' => $sequence_id]);
         $sequence = $statement->fetchAll(PDO::FETCH_ASSOC);
         
         // Vérifier si la séquence existe
