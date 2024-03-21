@@ -7,8 +7,8 @@ const G = (props) => {
 
     const times = useRef(1);
 
-    const { data } = props;
-    const [tabItems, setTabItems, score] = useState([]);
+    const { data, score } = props;
+    const [tabItems, setTabItems] = useState([]);
     const [displayItems, setDisplayItems] = useState(JSON.parse(data?.exo_choices).map(el => {
                                                                                 return {
                                                                                     value: el.value, 
@@ -103,6 +103,8 @@ const G = (props) => {
                 }, 1000); 
              
             } else {
+                const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
+                score(scorePercent);
                 setTimeout(() => {
                     tabItems?.forEach((item) => {return{...item, state: 'initial'}});
                     navigate("/etapes"); 
@@ -116,7 +118,8 @@ const G = (props) => {
     const handleCountdownFinish = () => { // Comportement à adopter à la fin du compte à rebours
       
         setTimeout(() => {
-
+            const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
+            score(scorePercent);
             navigate("/graphemes"); 
         }, 2000); 
     
