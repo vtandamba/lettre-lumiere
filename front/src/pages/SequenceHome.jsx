@@ -10,6 +10,7 @@ import imgEtape from '../assets/images/layoutexercices/etape.png';
 import argentMedal from '../assets/gamification/médaille=argent.png';
 import bronzeMedal from '../assets/gamification/médaille=bronze.png';
 import orMedal from '../assets/gamification/médaille=or.png';
+import CountUp from 'react-countup';
 
 const SequenceHome = ({ db }) => {
 
@@ -21,6 +22,7 @@ const SequenceHome = ({ db }) => {
     const [sequence, setSequence] = useState();
     const [exercises, setExercises] = useState([]);
     const [tabScore, setTabScore] = useState([]);
+    const [finalScore, setFinalScore] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
@@ -65,11 +67,7 @@ const SequenceHome = ({ db }) => {
 
         };
 
-
-
-
-
-
+ 
         loadExercises();
         loadSequences();
 
@@ -80,16 +78,19 @@ const SequenceHome = ({ db }) => {
 
         const exercisesScore = async () => {
             try {
-                const scorePromises = exercises?.map(async (exercice) => {
-                    const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=1&exercice_id=${exercice.exercice_id}`);
+                const scorePromises = exercises?.map(async (exercise) => {
+                    const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=1&exercice_id=${exercise.exercice_id}`);
                     if (!response.ok) {
-                        throw new Error('Erreur lors de la récupération des scores');
+                      
+                        return null;
                     }
                     const data = await response.json();
-                    console.log(`Score pour l'exercice ${exercice.exercice_id}:`, data.pro_score);
-                    return data[0].pro_score;
+             
+                    const score = Array.isArray(data) && data.length > 0 && data[0].pro_score !== undefined ? data[0].pro_score : null;
+                    console.log(`Score pour l'exercice ${exercise.exercice_id}:`, score);
+                    return score;
                 });
-
+        
                 const scores = await Promise.all(scorePromises);
                 setTabScore(scores);
                 console.log('Tous les scores ont été récupérés:', scores);
@@ -97,19 +98,32 @@ const SequenceHome = ({ db }) => {
                 console.error("Erreur lors de la récupération des scores:", error);
             }
         };
-
-
+        
+    
         exercisesScore();
+       
+       
 
-
-    }, [exercises])
+    }, [exercises, ])
 
 
 
     useEffect(() => {
         setOpen(true);
-        // console.log('sequence',sequence)
-    }, [])
+        if (tabScore.length){
+            const getFinalScore = tabScore?.reduce((accumulator, currentValue) => {
+            
+                if (currentValue === null) {
+                    currentValue = 0;
+                }
+                return accumulator + currentValue;
+            }, 0) / tabScore.length;
+            setFinalScore(getFinalScore); 
+            console.log('sum ======>' , getFinalScore, tabScore?.length)
+        }
+       
+       
+    }, [tabScore])
 
 
 
@@ -138,7 +152,7 @@ const SequenceHome = ({ db }) => {
             </div>
 
             <div className="header__percent">
-                <p>0 %</p>
+                <p><CountUp end={finalScore}/> %</p>
                 <img src={argentMedal} alt="medaille" />
             </div>
 
@@ -170,32 +184,37 @@ const SequenceHome = ({ db }) => {
                 </div>
                 ) : (
                 <ul className="exercises__list">
-                    {exercises.map((el, index) => {
+                      {exercises.map((el, index) => {
                     let progressClass = "";
-                    if (tabScore[index] <= 49) {
-                        progressClass = "progress-item--orange";
+                 
+                    if (tabScore[index] === null) {
+                        progressClass = "progress-item--no-score"; 
+                    } else if (tabScore[index] <= 49) {
+                        progressClass = "progress-item--orange"; // Classe pour les scores inférieurs ou égaux à 49
                     } else if (tabScore[index] >= 50) {
-                        progressClass = "progress-item--vert";
+                        progressClass = "progress-item--vert"; // Classe pour les scores supérieurs ou égaux à 50
                     }
 
-
-                                return (
-                                    <li className="exercises__item" key={index}>
-                                        <div className={`progress-item ${progressClass}`}></div>
-                                        <p className="consigne">{el.exo_consigne}</p>
-                                    </li>
-                                );
-                            })}
-                        </ul>
+                        return (
+                            <li className="exercises__item" key={el.exercice_id}>
+                                <div className={`progress-item ${progressClass}`}></div>
+                                <p className="consigne">{el.exo_consigne}</p>
+                            </li>
+                        );
+                    })}
+                 </ul>
                     )
                 ) : (
-                    <p className="">Aucun exercice enregistré pour cette séquence pour le moment</p>
+                    <p className="exercises__error">Aucun exercice enregistré pour cette séquence pour le moment</p>
                 )
             }
 
-            <Link to="exo"><div className="exercises__start">Commencer</div></Link>
+            
             <Outlet />
         </main>
+        <footer>
+        <Link to="exo"><div className="sequence__start">Commencer</div></Link>
+        </footer>
     </div>
 
 }
