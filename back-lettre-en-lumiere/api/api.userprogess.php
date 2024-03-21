@@ -4,16 +4,29 @@
  include '../includes/header.php';
 
 
-    // Endpoint pour récupérer tous les etapes
+    // Endpoint pour récupérer la progression utilisateur
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        // Exécuter une requête SQL pour récupérer toutes les données des utilisateurs
-        $query = "SELECT * FROM l_USER_PROGRESS ";
-        $statement = $pdo->query($query);
-        $stages = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+        if (!isset($_GET['user_id']) && !isset($_GET['exercice_id'])){
+            $query = "SELECT pro_score, pro_date AS most_recent_date 
+            FROM l_USER_PROGRESS
+            WHERE exercice_id = :exercice_id AND user_id = :user_id
+            GROUP BY user_id, exercice_id";
+            $statement = $pdo->prepare($query);
+            $statement->bindParam(':user_id', $user_id);
+            $statement->bindParam(':exercice_id', $exercice_id);
+            $success = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }else{
+               // Exécuter une requête SQL pour récupérer toutes les données des utilisateurs
+                $query = "SELECT * FROM l_USER_PROGRESS ";
+                $statement = $pdo->query($query);
+                $success = $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
         http_response_code(200);
         header('Content-Type: application/json');
-        echo json_encode($stages);
+        echo json_encode($success);
+
+       
     } 
 
     // Endpoint pour ajouter un progrès utilisateur
@@ -55,6 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         http_response_code(500); // Code 500 pour erreur interne du serveur
         echo json_encode(array('message' => 'Erreur lors de l\'ajout du score'));
     }
+}
+
+//Récupérer les scores les plus récents
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+ 
 }
 
 ?>

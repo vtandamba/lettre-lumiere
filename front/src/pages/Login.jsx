@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/images/logo.png';
 import { GrFormClose } from "react-icons/gr";
@@ -14,15 +14,20 @@ const Login = () =>{
 
     const [formErrors, setFormErrors] = useState("");
 
+    // useEffect(() => {
+    //     if(localStorage.getItem('user_id')){
+    //         navigate('/home');
+    //     }
+    // })
+ 
+    
     const handleSubmit = async(evt) =>{
         evt.preventDefault();
-        if(localStorage.getItem('user_id')){
-            navigate('/home');
-        }
+      
         try{
             const response = await Auth.login(user);
             if (response){
-                
+                navigate('/home');
             }
             localStorage.setItem('user_id', response.user_id)
 

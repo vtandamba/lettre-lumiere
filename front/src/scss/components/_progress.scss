@@ -48,7 +48,7 @@
     }
 }
 
-.layout{
+
     .progress-global{
         display: flex;
         flex-direction: column;
@@ -59,22 +59,33 @@
         transform: translateY(-50%);
         z-index: 1000; 
 
-        .progress-item{
-           @extend %progress;
-
-            &--orange{
-                background-color: $orange ;
-                transition : all .2s ease-in-out
-            }
-
-
-            &--vert{
-                background-color: $vert ;
-                transition : all .2s ease-in-out
-            }
-        }
+        
     }
-}
+
+    .progress-item{
+        @extend %progress;
+
+         &--orange{
+             background-color: $orange ;
+             transition : all .2s ease-in-out
+         }
+
+
+         &--vert{
+             background-color: $vert ;
+             transition : all .2s ease-in-out
+         }
+     }
+
+     .circular-progress{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width:100%;
+        transform: translateY(90%);
+     }
+
 
 
 
