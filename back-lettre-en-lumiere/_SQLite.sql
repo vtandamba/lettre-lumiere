@@ -109,45 +109,111 @@ INSERT INTO l_EXERCICES (
         exo_choices,
         exo_ordre
     )
-VALUES (
-        1,
+VALUES 
+	
+	
+	(
+        2,
+        'A1',
+        'Ecoute et répète',
+        '[{"value": "lé", "image": "null"}, {"value": "lo", "image": "null"}, {"value": "lu", "image": "null"}, {"value": "mo", "image": "null"}, {"value": "mu", "image": "null"}, {"value": "pé", "image": "null"}]',
+        1
+    ),
+    (
+        2,
+        'B1',
+        'Trouve la bonne syllabe',
+        '[{"value": "lé", "image": "null"}, {"value": "lo", "image": "null"}, {"value": "lu", "image": "null"}, {"value": "mo", "image": "null"}, {"value": "mu", "image": "null"}, {"value": "pé", "image": "null"}]',
+        2
+    ),
+    (
+        2,
+        'C1',
+        'Écris la syllabe (avec modèle)',
+        '[{"value": "lé", "image": "null"}, {"value": "lo", "image": "null"}, {"value": "lu", "image": "null"}, {"value": "mo", "image": "null"}, {"value": "mu", "image": "null"}, {"value": "pé", "image": "null"}]',
+        3
+    ),
+    (
+        2,
+        'D1',
+        'Trouve les 3 écritures de la même syllabe',
+        '[{"value": "lé", "image": "null"}, {"value": "lo", "image": "null"}, {"value": "lu", "image": "null"}, {"value": "mo", "image": "null"}, {"value": "mu", "image": "null"}, {"value": "pé", "image": "null"}]',
+        4
+    ),
+    (
+        2,
+        'E1',
+        'Écris la syllabe (sans modèle)',
+        '[{"value": "lé", "image": "null"}, {"value": "lo", "image": "null"}, {"value": "lu", "image": "null"}, {"value": "mo", "image": "null"}, {"value": "mu", "image": "null"}, {"value": "pé", "image": "null"}]',
+        5
+    ),
+    (
+        2,
+        'G1',
+        'Trouve la bonne syllabe le plus vite possible.',
+        '[{"value": "lé", "image": "null"}, {"value": "lo", "image": "null"}, {"value": "lu", "image": "null"}, {"value": "mo", "image": "null"}, {"value": "mu", "image": "null"}, {"value": "pé", "image": "null"}]',
+        6
+    ),
+	
+
+	
+	
+	(
+        3,
         'A1',
         'Ecoute et répète',
         '[{"value": "la", "image": "null"}, {"value": "le", "image": "null"}, {"value": "li", "image": "null"}, {"value": "ma", "image": "null"}, {"value": "mi", "image": "null"}, {"value": "pe", "image": "null"}]',
         1
     ),
     (
-        1,
+        3,
         'B1',
         'Trouve la bonne syllabe',
         '[{"value": "la", "image": "null"}, {"value": "le", "image": "null"}, {"value": "li", "image": "null"}, {"value": "ma", "image": "null"}, {"value": "mi", "image": "null"}, {"value": "pe", "image": "null"}]',
         2
     ),
     (
-        1,
+        3,
         'C1',
         'Écris la syllabe (avec modèle)',
         '[{"value": "la", "image": "null"}, {"value": "le", "image": "null"}, {"value": "li", "image": "null"}, {"value": "ma", "image": "null"}, {"value": "mi", "image": "null"}, {"value": "pe", "image": "null"}]',
         3
     ),
     (
-        1,
+        3,
         'D1',
         'Trouve les 3 écritures de la même syllabe',
         '[{"value": "la", "image": "null"}, {"value": "le", "image": "null"}, {"value": "li", "image": "null"}, {"value": "ma", "image": "null"}, {"value": "mi", "image": "null"}, {"value": "pe", "image": "null"}]',
         4
     ),
     (
-        1,
+        3,
         'E1',
         'Écris la syllabe (sans modèle)',
         '[{"value": "la", "image": null}, {"value": "le", "image": null}, {"value": "li", "image": null}, {"value": "ma", "image": null}, {"value": "mi", "image": null}, {"value": "pe", "image": null}]',
         5
     ),
     (
-        1,
+        3,
         'G1',
         'Trouve la bonne syllabe le plus vite possible.',
         '[{"value": "la", "image": null}, {"value": "le", "image": null}, {"value": "li", "image": null}, {"value": "ma", "image": null}, {"value": "mi", "image": null}, {"value": "pe", "image": null}]',
         6
+    )
+	,
+    (
+        3,
+        'A2',
+        'Trouve la bonne syllabe le plus vite possible.',
+        '[{"value": "salé", "image": "salé.jpg"}, {"value": "sali", "image": "sali.jpg"}, {"value": "lavé", "image": "lavé.jpg"}, {"value": "lune", "image":"lune.jpg" }, {"value": "pile", "image": "pile.jpg"}, {"value": "vélo", "image": "vélo.avif"}]',
+        7
+    )
+	,
+    (
+        3,
+        'B2',
+        'Trouve la bonne syllabe le plus vite possible.',
+        '[{"value": "salé", "image": "salé.jpg"}, {"value": "sali", "image": "sali.jpg"}, {"value": "lavé", "image": "lavé.jpg"}, {"value": "lune", "image":"lune.jpg" }, {"value": "pile", "image": "pile.jpg"}, {"value": "vélo", "image": "vélo.avif"}]',
+        8
     );
+	
