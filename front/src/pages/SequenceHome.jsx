@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { fetchAllExerciceForSequences, fetchOneSequence } from "../hooks/useDb";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, CircularProgress, Modal, Typography } from "@mui/material";
 import Button from "../components/Button";
 import videoCam from '../assets/images/camera.svg'
 import imgEtape from '../assets/images/layoutexercices/etape.png';
@@ -20,6 +20,9 @@ const SequenceHome = ({ db }) => {
 
     const [sequence, setSequence] = useState();
     const [exercises, setExercises] = useState([]);
+    const [tabScore, setTabScore] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
     const videoSrc = `/video/SEQUENCE ${encodeURIComponent(id - 1)}.mp4`;
     console.log(videoSrc)
@@ -41,31 +44,70 @@ const SequenceHome = ({ db }) => {
         const loadSequences = async () => {
 
             const loadedSequences = await fetchOneSequence(idSeq);
-            setSequence(loadedSequences);
-            console.log('les stages =====> ', loadedSequences)
+            setSequence(loadedSequences.find((sequence) => sequence.sequence_id === idSeq));
         };
 
         const loadExercises = async () => {
+            setIsLoading(true);
+            setError(null); 
             try {
-                const exercisesList = await fetchAllExerciceForSequences(idSeq);
+                
+                const exercisesList = await fetchAllExerciceForSequences( idSeq);
                 const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
-                console.log(exercisesList);
+                console.log('liste dexos',exercisesList);
                 setExercises(sortedExercises);
             } catch (error) {
+                setError("Impossible de charger les exercices");
                 console.error("Erreur lors du chargement des exercices :", error);
             }
+            setIsLoading(false);
+
         };
 
 
+       
+        
+
 
         loadExercises();
-        console.log(exercises);
         loadSequences();
-    }, [db, idSeq]);
+    
+    }, [idSeq]);
+    
+
+    useEffect(() => {
+
+        const exercisesScore = async () => {
+            try {
+                const scorePromises = exercises?.map(async (exercice) => {
+                    const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=1&exercice_id=${exercice.exercice_id}`);
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de la récupération des scores');
+                    }
+                    const data = await response.json();
+                    console.log(`Score pour l'exercice ${exercice.exercice_id}:`, data.pro_score);
+                    return data[0].pro_score;
+                });
+        
+                const scores = await Promise.all(scorePromises);
+                setTabScore(scores);
+                console.log('Tous les scores ont été récupérés:', scores);
+            } catch (error) {
+                console.error("Erreur lors de la récupération des scores:", error);
+            }
+        };
+        
+
+        exercisesScore();
+     
+       
+    }, [exercises])
+
+  
 
     useEffect(() => {
         setOpen(true);
-        console.log(sequence)
+        // console.log('sequence',sequence)
     }, [])
 
 
@@ -74,9 +116,16 @@ const SequenceHome = ({ db }) => {
         setOpen(false);
     };
 
+  
+
+    // Si une erreur s'est produite lors du chargement des données
+    if (error) {
+        return <div>Erreur : {error}</div>;
+    }
+
 
     return <div className="sequence">
-        {process.env.REACT_APP_NAME_VARIABLE}
+        {/* {process.env.REACT_APP_NAME_VARIABLE} */}
         <header className="header">
             <div className="header__title">
 
@@ -99,7 +148,7 @@ const SequenceHome = ({ db }) => {
             </div>
         </header>
         <main className="exercises">
-            <Modal
+            {/* <Modal
                 open={open}
                 onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
@@ -111,18 +160,39 @@ const SequenceHome = ({ db }) => {
                         <video style={{ width: "40vw" }} src={videoSrc} controls autoPlay />
                     </Typography>
                 </Box>
-            </Modal>
-            <ul className="exercises__list">
-                {exercises.map((el, index) => {
-                    return <li className="exercises__item" key={index}>
-                        <div className="progress">
+            </Modal> */}
 
-                        </div>
+            
+            {
+            exercises ? (
+                isLoading ? (
+                <div className="circular-progress">
+                    <CircularProgress size={140} />
+                </div>
+                ) : (
+                <ul className="exercises__list">
+                    {exercises.map((el, index) => {
+                    let progressClass = "";
+                    if (tabScore[index] <= 49) {
+                        progressClass = "progress-item--orange";
+                    } else if (tabScore[index] >= 50) {
+                        progressClass = "progress-item--vert";
+                    }
+
+                    return (
+                        <li className="exercises__item" key={index}>
+                        <div className={`progress-item ${progressClass}`}></div>
                         <p className="consigne">{el.exo_consigne}</p>
-                    </li>
-                })}
-            </ul>
-
+                        </li>
+                    );
+                    })}
+                </ul>
+                )
+            ) : (
+                <p className="">Aucun exercice enregistré pour cette séquence pour le moment</p>
+            )
+            }
+            
             <Link to="exo"><div className="exercises__start">Commencer</div></Link>
             <Outlet />
         </main>

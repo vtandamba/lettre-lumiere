@@ -89,4 +89,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
+//Récupérer les scores les plus récents
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+ 
+}
+
 ?>
