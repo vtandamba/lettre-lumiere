@@ -1,13 +1,15 @@
 import React, { Suspense, useEffect, useState } from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { fetchAllExerciceForSequences, fetchOneSequence } from "../../../hooks/useDb";
 import homeIcon from '../../../assets/images/layoutexercices/home.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
+import imgNotFound from '../../../assets/images/not-found-image.jpg'
 const Layout = ({ db }) => {
 
     const params = useParams();
     const id = params?.sequence;
+    const navigate = useNavigate();
     const idSeq = parseInt(id, 10);
     const [exercises, setExercises] = useState([]);
     const [sequence, setSequence] = useState();
@@ -59,13 +61,17 @@ const Layout = ({ db }) => {
             return "B";
         } else if (exerciseType.startsWith("C")) {
             return "C";
-        } else if (exerciseType === "D1") {
+        } else if (exerciseType.startsWith("D")) {
             return "D";
-        } else if (exerciseType === "E1") {
+        } else if (exerciseType.startsWith("E")) {
             return "E";
-        } else if (exerciseType === "G1") {
+        }else if (exerciseType.startsWith("F")) {
+            return "F"; 
+        }else if (exerciseType.startsWith("G")) {
             return "G";
-        } else {
+        } else if (exerciseType.startsWith("H")) {
+            return "H";
+        }else {
             return null;
         }
     };
@@ -78,6 +84,7 @@ const Layout = ({ db }) => {
 
             setAttemptCount(0);
             setCurrentExerciseIndex(prevIndex => prevIndex + 1);
+
         }
 
     }, [attemptCount]);
@@ -85,7 +92,12 @@ const Layout = ({ db }) => {
 
 
     const onAttemptMade = () => {
+        if (currentExerciseIndex === exercises.length - 1){
+            setShouldGoToNextExercise(false);
+            navigate(`/etapes/${id}`);
+        }
         setShouldGoToNextExercise(true);
+     
     };
 
     useEffect(() => {
@@ -138,13 +150,14 @@ const Layout = ({ db }) => {
     };
 
     const renderExerciseComponent = (exercise) => {
+        console.log(exercises[currentExerciseIndex]);
         const componentName = getExerciseComponentName(exercise.exo_type);
         if (componentName) {
             const ExerciseComponent = React.lazy(() => import(`./${componentName}.jsx`));
 
             return (
                 <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress size={80} /></div>}>
-                    <ExerciseComponent key={exercise.exerciseId} data={exercise} onAttemptMade={onAttemptMade} score={recordAnswer} />
+                    <ExerciseComponent key={exercise.exerciseId} data={exercise} onAttemptMade={onAttemptMade} score={recordAnswer} imgNotFound = {imgNotFound}/>
                 </Suspense>
             );
         } else {

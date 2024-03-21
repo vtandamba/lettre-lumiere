@@ -50,6 +50,8 @@
 
     }
 
+
+
     &__lettre {
         @extend %learning-block;
         width: 10vw;
@@ -151,6 +153,11 @@
         font-family: 'Satoshi', sans-serif;
     }
 
+    &__img {
+        width:25rem;
+        margin-bottom: 15vh;
+    }
+
     &__iconHp {
         width: 1vw;
         margin: 1vw;
@@ -213,7 +220,7 @@
         }
     }
 
-    &--group {}
+   
 
     &__input {
         @extend %learning-block;
@@ -325,6 +332,20 @@
         gap: 3px
     }
 
+    .group { //classesz pour les groupes img/mots
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 1.2rem;
+        border: 2px $gris solid;
+        border-radius: 10px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+        flex:1;
+        &__img {
+            height:10rem;
+            object-fit: cover;
+        }
+    }
+
 
     .list {
         // display: flex;
@@ -335,7 +356,7 @@
         align-items: center;
         justify-content: space-around;
         gap: 2rem;
-        width: 50%;
+        padding: 0 8rem;
         flex-wrap: wrap;
 
         &__item {
@@ -343,7 +364,10 @@
             cursor: pointer;
             @extend %learning-block;
             padding: 1.1rem 1.4rem;
+            flex-grow: 0;
+            flex-shrink: 0;;
             flex: 1;
+            min-width: 10rem;
 
             &--lowercase {
                 text-transform: lowercase;

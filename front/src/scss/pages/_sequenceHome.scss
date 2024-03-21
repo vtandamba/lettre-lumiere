@@ -1,6 +1,9 @@
 .sequence{
     border: 3px solid $kepel;
     border-radius: 10px;;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     min-height:70rem;
     margin: 4rem 7rem 0 7rem ;
     padding: 1rem 2.7rem;
@@ -76,19 +79,27 @@
             gap:30px;
         }
 
+        &__error{
+            text-align: center;
+            font-size: $font-size-medium;
+            font-family: $font-family-satoshi
+        }
+
         .progress{
             @extend %progress;
         }
 
-        &__start{
+   
+    }
+    &__start{
            
-            @extend %button;
-            margin:-7rem 0 2rem auto;
-            font-family: $font-family-satoshi;
-            font-size: $font-size-button-start;
-            width: fit-content;
-            margin-top:6rem;
-      
-        }
+        @extend %button;
+        margin:-7rem 0 2rem auto;
+        font-family: $font-family-satoshi;
+        font-size: $font-size-button-start;
+        
+        width: fit-content;
+       
+  
     }
 }

@@ -3,28 +3,30 @@ import speak from "../../../hooks/useSpeak";
 import { getElementRandom } from "../../../hooks/useRandom";
 
 const B = (props) => {
-    const { data, onAttemptMade, score } = props;
+    const { data, onAttemptMade, score , imgNotFound} = props;
     const [attemptCount, setAttemptCount] = useState(0);
     const [answer, setAnswer] = useState("");
     const [selectedAnswer, setSelectedAnswer] = useState("");
     const [tabItems, setTabItems] = useState([]);
     // const [score, setScore] = useState(0);
     const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
-
+    console.log(data.exo_type)
 
     useEffect(() => {
         if (data?.exo_choices) {
             const initialTabItems = JSON.parse(data.exo_choices).map(el => ({
+               
                 value: el.value, 
                 state: 'initial',
                 isAlreadyChosen: false
             }));
     
+            console.log(data.exo_choices);
             setTabItems(initialTabItems);
     
             const availableChoices = initialTabItems.filter(el => !el.isAlreadyChosen);
             const initialAnswer = getElementRandom(availableChoices);
-            setAnswer(initialAnswer.value);
+            setAnswer(initialAnswer);
     
             const updatedTabItems = initialTabItems.map(item => 
                 item.value === initialAnswer.value ? { ...item, isAlreadyChosen: true } : item
@@ -39,7 +41,7 @@ const B = (props) => {
         if (attemptCount > 0 && attemptCount < tabResponses.length ) {
 
             const timer = setTimeout(() => {
-                const newAnswer = getElementRandom(tabItems.filter(el =>!el.isAlreadyChosen)).value;
+                const newAnswer = getElementRandom(tabItems.filter(el =>!el.isAlreadyChosen));
                 setAnswer(newAnswer);
                 resetTabItemsState(); //Réinitialise les états de tous les items
             }, 1000);
@@ -50,11 +52,12 @@ const B = (props) => {
             const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
             score(scorePercent);
         }
-        console.log('answer', answer)
+       
     }, [attemptCount, onAttemptMade]);
 
     useEffect(() => {
         speak(answer);
+        console.log('answer', answer)
     }, [answer]);
 
     const handleChoose = (index) => {
@@ -69,8 +72,9 @@ const B = (props) => {
     
 
     const handleClick = () => {
+        console.log(answer);
         if (!selectedAnswer || !answer) return;
-        const isCorrect = selectedAnswer?.toLowerCase() === answer.toLowerCase();
+        const isCorrect = selectedAnswer?.toLowerCase() === answer.value.toLowerCase();
         setTabResponses(prev => {
             const updatedResponses = [...prev];
             updatedResponses[attemptCount] = isCorrect;
@@ -106,10 +110,21 @@ const B = (props) => {
         setTabItems(resetItems);
     };
 
+    const handleImgError = () => {
+
+    }
+
     return (
         <React.Fragment>
             <p className="exercice__consigne">{data.exo_consigne}</p>
-            <p className="exercice__sound" onClick={() => speak(answer)}>?</p>
+            <div>
+                {data.exo_type === 'B2' ? 
+                                        <img src={'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/' + answer.value + '.jpg'} 
+                                             alt="" className="exercice__img" 
+                                             onError={handleImgError}/>
+                                        :<p className="exercice__sound" onClick={() => speak(answer.value)}>?</p>}
+            </div>
+           
             <ul className="list">
                 {tabItems?.map((e, index) => (
                   <li key={index} className={`list__item ${e.state}`} onClick={() => handleChoose(index)}>

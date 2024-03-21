@@ -9,9 +9,7 @@ const A = (props) => {
     //some
     //map
     ///flatMap
-    console.log(JSON.parse(data.exo_choices))
-
-
+    
     useEffect(() => {
         
         const allListened = tabResponses.every(response => response === true);
@@ -33,10 +31,15 @@ const A = (props) => {
     return <React.Fragment>
                 <h1 className="exercice__consigne">{data?.exo_consigne}</h1>
                 <ul className="list">
-                    {data && JSON.parse(data.exo_choices).map((e, index) => <li 
-                                                                        key={index}
-                                                                        className="list__item list__item--sound" 
-                                                                        onClick={()=>handleChoiceClick(index)}>{e.value}</li>)}
+                    {data && JSON.parse(data.exo_choices).map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>
+                                                                             {data.exo_type==="A2" && e.image && <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/${e.value}.jpg`} alt="value" className="group__img"/>}
+                                                                              <p
+                                                                                      className="list__item list__item--sound" 
+                                                                                      onClick={()=>handleChoiceClick(index)}>
+                                                                                    {e.value}
+                                                                                </p>
+                                                                            </div>
+                                                                        )}
                 </ul>
                 <div className="exercice__footer">
                 <ul className="progress">
