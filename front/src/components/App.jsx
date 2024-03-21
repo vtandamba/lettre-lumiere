@@ -38,9 +38,9 @@ console.log("by seq_id ===> ", allExerciceForSequences);
 const allStages = fetchAllStages();
 console.log(allStages);
 
-console.log('the userId ========== >', idUser)
-const user = fecthUser(idUser);
-console.log('the user ========== >', user)
+// console.log('the userId ========== >', idUser)
+// const user = fecthUser(idUser);
+// console.log('the user ========== >', user)
 const allSeqBystageId = fetchSeqByStageId(4);
 console.log('by id  ===>  ', allSeqBystageId);
 
