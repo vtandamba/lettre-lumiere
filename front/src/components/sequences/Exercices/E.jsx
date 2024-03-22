@@ -3,22 +3,40 @@ import { getElementRandom } from "../../../hooks/useRandom";
 import speak from "../../../hooks/useSpeak";
 
 const E = (props) => {
-    const { data, onAttemptMade, score } = props;
-    const [item, setItem] = useState(getElementRandom(JSON.parse(data?.exo_choices)));
+    const { data, onAttemptMade, score, imgNotFound } = props;
+    const [item, setItem] = useState();
     const [input, setInput] = useState("");
     const [attemptCount, setAttemptCount] = useState(0); 
-    const [tabResponses, setTabResponses] = useState([null, null, null, null]);
+    const [tabResponses, setTabResponses] = useState(new Array(JSON.parse(data?.exo_choices).length).fill(null));
+    const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
 
     useEffect(() => {
-        speak(item.value);
+        if (item){
+            speak(item.value);
+        }
+       
     }, [item])
 
     useEffect(() => {
-        
+
         if (attemptCount === tabResponses.length) {
             const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
             score(scorePercent);
             onAttemptMade(); 
+        }else if(attemptCount  < tabResponses.length) {
+            setItem(getElementRandom(JSON.parse(data?.exo_choices).filter(el => {
+                return answerAlreadyTaken.map(it => it.value)
+                                         .includes(el.value) === false;
+            })));
+          
+            if (item){
+                const tabAnswerAlreadyTaken = answerAlreadyTaken;
+                console.log(tabAnswerAlreadyTaken);
+                tabAnswerAlreadyTaken.push(item);
+                console.log(tabAnswerAlreadyTaken);
+                setAnswerAlreadyTaken(tabAnswerAlreadyTaken)
+            }
+          
         }
     }, [attemptCount, onAttemptMade, tabResponses.length]);
 
@@ -34,14 +52,23 @@ const E = (props) => {
 
         setInput(""); //Réinitialise l'input après avoir entré sa réponse
 
-        if (attemptCount + 1 < tabResponses.length) {
-            setItem(getElementRandom(JSON.parse(data?.exo_choices)));
-        }
+       
     }
 
     return <React.Fragment>
                 <h2 className="exercice__consigne">{data.consigne}</h2>
-                <p className="exercice__sound" onClick={() => speak(item.value)}>?</p>
+                <div>
+                {data.exo_type !== "E1" && 
+                <img src={'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/' + item.value + '.jpg'} 
+                                             alt="" 
+                                             className="exercice__img"  
+                                             onClick={() => speak(item.value)}
+                                             onError={(e) => {
+                                                e.target.src = imgNotFound;
+                                              }}/>}
+                    <p className="exercice__sound" onClick={() => speak(item.value)}>?</p>
+                </div>
+                
                 <form onSubmit={handleSubmit} className="exercice__form">
                     <input type="text" value={input} className="exercice__input" onChange={(evt) => setInput(evt.target.value)} autoFocus />
                 </form>

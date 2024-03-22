@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
 
+
+
 const C = (props) => {
-    const { data, onAttemptMade, score } = props;
+    const { data, onAttemptMade, score, imgNotFound} = props;
     const [syllabes, setSyllabes] = useState(JSON.parse(data?.exo_choices));
     const [currentSyllabeIndex, setCurrentSyllabeIndex] = useState(0);
     const [userInput, setUserInput] = useState("");
     const [showSyllabe, setShowSyllabe] = useState(true);
-    const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
+    const [tabResponses, setTabResponses] = useState(new Array(syllabes.length).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
+    
 
     useEffect(() => {
        
@@ -59,18 +62,31 @@ const C = (props) => {
             <h2 className="exercice__consigne">{data.exo_consigne}</h2>
             <div>
                 
-                    {showSyllabe ? <p className="exercice__grapheme">{syllabes[currentSyllabeIndex].value}</p> : 
-                        <form onSubmit={handleSubmit} className="exercice__form">
-                            <input type="text" value={userInput} onChange={handleInputChange} autoFocus className="exercice__input"/>
-                        </form>
+                    {showSyllabe ? <div>
+                                        {  data.exo_type !== "C1" && <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/${syllabes[currentSyllabeIndex].value}.jpg`} 
+                                                                      alt={syllabes[currentSyllabeIndex].value}
+                                                                      className="exercice__img"
+                                                                      style={{marginBottom:'1rem'}}
+                                                                      onError={(e) => {
+                                                                        e.target.src = imgNotFound;
+                                                                      }}/>}
+                                      
+                                        <p className="exercice__grapheme">{syllabes[currentSyllabeIndex].value}</p>
+                                    </div> 
+                                 : <form onSubmit={handleSubmit} className="exercice__form">
+                                    <input type="text" value={userInput} onChange={handleInputChange} autoFocus className="exercice__input"/>
+                                  </form>
                     }
                 
             </div>
 
             <div className="exercice__footer">
                 <ul className="progress">
-                    {tabResponses.map(response => (
-                        <li className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
+                    {tabResponses.map((response, index) => (
+                        <li key={index} className={`${response === null ? 'progress__part' 
+                                                            : response === true 
+                                                            ? 'progress__part progress__part--true' 
+                                                            : 'progress__part progress__part--false'}`}></li>
                     ))}
                 </ul>
                 <button className="exercice__valid" onClick={handleSubmit}>OK</button>

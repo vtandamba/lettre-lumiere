@@ -7,9 +7,9 @@ const B = (props) => {
     const [attemptCount, setAttemptCount] = useState(0);
     const [answer, setAnswer] = useState("");
     const [selectedAnswer, setSelectedAnswer] = useState("");
-    const [tabItems, setTabItems] = useState([]);
+    const [tabItems, setTabItems] = useState(JSON.parse(data.exo_choices));
     // const [score, setScore] = useState(0);
-    const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
+    const [tabResponses, setTabResponses] = useState(new Array(tabItems.length).fill(null));
     console.log(data.exo_type)
 
     useEffect(() => {
@@ -24,9 +24,9 @@ const B = (props) => {
             console.log(data.exo_choices);
             setTabItems(initialTabItems);
     
-            const availableChoices = initialTabItems.filter(el => !el.isAlreadyChosen);
+            const availableChoices = initialTabItems.filter(el => el.isAlreadyChosen===false);
             const initialAnswer = getElementRandom(availableChoices);
-            setAnswer(initialAnswer);
+            setAnswer({...initialAnswer, isAlreadyChosen:true});
     
             const updatedTabItems = initialTabItems.map(item => 
                 item.value === initialAnswer.value ? { ...item, isAlreadyChosen: true } : item
@@ -42,7 +42,7 @@ const B = (props) => {
 
             const timer = setTimeout(() => {
                 const newAnswer = getElementRandom(tabItems.filter(el =>!el.isAlreadyChosen));
-                setAnswer(newAnswer);
+                setAnswer({...newAnswer, isAlreadyChosen:true});
                 resetTabItemsState(); //Réinitialise les états de tous les items
             }, 1000);
 
@@ -56,8 +56,8 @@ const B = (props) => {
     }, [attemptCount, onAttemptMade]);
 
     useEffect(() => {
-        speak(answer);
-        console.log('answer', answer)
+        speak(answer.value);
+        console.log('answer', answer.value)
     }, [answer]);
 
     const handleChoose = (index) => {
@@ -120,8 +120,12 @@ const B = (props) => {
             <div>
                 {data.exo_type === 'B2' ? 
                                         <img src={'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/' + answer.value + '.jpg'} 
-                                             alt="" className="exercice__img" 
-                                             onError={handleImgError}/>
+                                             alt="" 
+                                             className="exercice__img"  
+                                             onClick={() => speak(answer.value)}
+                                             onError={(e) => {
+                                                e.target.src = imgNotFound;
+                                              }}/>
                                         :<p className="exercice__sound" onClick={() => speak(answer.value)}>?</p>}
             </div>
            
