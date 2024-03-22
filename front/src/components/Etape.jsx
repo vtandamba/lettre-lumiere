@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import EtapeContent from "./EtapeContent";
-import MainHeader from "./mainHeader";
+import MainHeader from "./MainHeader";
 import { fetchAllSequences } from "../hooks/useDb";
 import { Link, useParams } from "react-router-dom";
 import medailleArgent from '../assets/gamification/medailleArgent.png'
