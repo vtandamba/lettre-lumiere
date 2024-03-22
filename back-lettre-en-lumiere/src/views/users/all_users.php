@@ -8,12 +8,17 @@
     <title>All Users</title>
 </head>
 <body>
-    <h1>Alls Users</h1>
+    <h1>All Users</h1>
+    <?php if(isset($users) && !empty($users)): ?>
     <ul>
-    <?php foreach ($users as $user): ?>
-            <li><?= $user->getName() ?></li>
+        <?php foreach($users as $user): ?>
+            <li><?php echo $user->getName(); ?></li>
         <?php endforeach; ?>
     </ul>
+<?php else: ?>
+    <p>Aucun utilisateur trouvé.</p>
+<?php endif; ?>
+
 
     <a href="../src/views/users/add_user.php">Ajouter un utilisateur</a> <br>
 <p> ou bien </p> <br>
