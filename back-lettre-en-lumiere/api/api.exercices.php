@@ -1,7 +1,7 @@
 <?php
 //  ici on recupere les donnée depuis db.sqlite
-    include '../includes/db_connect.php';
-    include '../includes/header.php';
+    include '../private/db_connect.php';
+    include '../private/header_access.php';
 
 
     // Endpoint pour récupérer tous les exercices en fonction des sequences
@@ -31,7 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         }
     } else {
         // Si aucun ID de séquence n'est spécifié, récupérez tous les exercices
-        $query = "SELECT * FROM l_EXERCICES";
+        $query = "SELECT DISTINCT * FROM l_EXERCICES E
+        INNER Join l_SEQUENCES S on  E.sequence_id = S.sequence_id";
         $statement = $pdo->query($query);
         $exercices = $statement->fetchAll(PDO::FETCH_ASSOC);
         
