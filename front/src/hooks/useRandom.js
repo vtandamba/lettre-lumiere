@@ -25,8 +25,75 @@ export const LinearCountdown = ({ onCountdownFinish }) => {
     
     return <React.Fragment>{count}</React.Fragment>;
 };
+  
+
+export function diviserEnSyllabes(mot) {
+    const regExpSyllabes = /[aeiouy]+[^aeiouy\s]*/gi;
+    return mot.match(regExpSyllabes) || [];
+  }
 
 
+ export  function extraireSyllabes(mot) {
+    // Supprimer les caractères spéciaux et les espaces
+    const motNettoye = mot.toLowerCase().replace(/[^a-z]/g, '');
+  
+    // Tableau des voyelles accentuées
+    const voyellesAccentuees = ['a', 'à', 'â', 'e', 'é', 'è', 'ê', 'ë', 'i', 'î', 'ï', 'o', 'ô', 'ö', 'u', 'ù', 'û', 'ü', 'y', 'ŷ', 'ÿ'];
+  
+    // Tableau des groupes de consonnes
+    const groupesConsonnes = ['bl', 'br', 'ch', 'cl', 'cr', 'dr', 'fl', 'fr', 'gl', 'gr', 'pl', 'pr', 'sc', 'sk', 'sl', 'sm', 'sn', 'sp', 'st', 'str', 'sw', 'tr'];
+  
+    // Tableau pour stocker les syllabes
+    const syllabes = [];
+  
+    // Fonction pour vérifier si une lettre est une voyelle
+    function estVoyelle(lettre) {
+      return voyellesAccentuees.includes(lettre);
+    }
+  
+    // Fonction pour vérifier si une lettre est une consonne
+    function estConsonne(lettre) {
+      return !estVoyelle(lettre);
+    }
+  
+    // Diviser le mot en syllabes
+    let syllabeCourante = '';
+    for (let i = 0; i < motNettoye.length; i++) {
+      const lettreCourante = motNettoye[i];
+  
+      // Ajouter la première lettre à la syllabe courante
+      if (syllabeCourante === '') {
+        syllabeCourante += lettreCourante;
+        continue;
+      }
+  
+      const lettrePrecedente = motNettoye[i - 1];
+  
+      // Traiter les groupes de consonnes
+      const groupeConsonnes = lettrePrecedente + lettreCourante;
+      if (groupesConsonnes.includes(groupeConsonnes)) {
+        syllabeCourante += lettreCourante;
+        continue;
+      }
+  
+      // Vérifier si la lettre courante est une voyelle
+      if (estVoyelle(lettreCourante)) {
+        // Ajouter la syllabe courante au tableau des syllabes
+        syllabes.push(syllabeCourante);
+  
+        // Commencer une nouvelle syllabe
+        syllabeCourante = lettreCourante;
+      } else {
+        // Ajouter la lettre courante à la syllabe courante
+        syllabeCourante += lettreCourante;
+      }
+    }
+  
+    // Ajouter la dernière syllabe au tableau des syllabes
+    syllabes.push(syllabeCourante);
+  
+    return syllabes;
+  }
 
 
     

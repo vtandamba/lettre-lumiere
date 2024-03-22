@@ -14,7 +14,7 @@
 //Import des layout
 
 @import 'layout/sequence/layout';
-
+@import 'layout/header';
 
 
 
@@ -30,6 +30,7 @@
 @import 'pages/alphabetHome';
 @import 'pages/graphemesHome';
 @import 'pages/etapesHome';
+@import 'pages/etape';
 @import 'pages/sequenceHome';
 @import 'pages/home';
 @import 'pages/index';
