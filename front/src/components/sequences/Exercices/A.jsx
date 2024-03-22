@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import speak from "../../../hooks/useSpeak"
+import { diviserEnSyllabes } from "../../../hooks/useRandom";
+
+
 const A = (props) => {
     const {data, onAttemptMade, score, imgNotFound} = props;
     const [tabResponses, setTabResponses] = useState(new Array(6).fill(null));

@@ -1,0 +1,90 @@
+.etape {
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    margin-top: 4rem;
+
+    &__imgBilan {
+       
+        width: 11vw;
+    }
+
+    &__bilan{
+
+        color: $blanc;
+        min-height: 10vh;
+        width: 33vw;
+        background-color: $kepel;
+        border-radius: 18px;
+        text-transform: uppercase;
+        display: flex;
+        gap:20px;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        margin: 5rem 39vw 5rem auto;
+        box-shadow: 5px 10px 30px rgba(134, 132, 132, 0.867);
+        border: 5px solid #8f8b8b;
+       
+        background-color: $blanc;
+        color: $noir;
+    }
+    .sequenceGroup {
+        display: flex;
+        align-items: center;
+        margin: 0 auto;
+        border:none;
+        transition: .3s all ease-out;
+        &:hover{
+            transform: scale(1.1);
+            transition: .3s all ease-out;
+        }
+        // justify-content: center;
+        &__seq {
+            color: $blanc;
+            height: 10vh;
+            width: 33vw;
+            background-color: $kepel;
+            border-radius: 18px;
+            text-transform: uppercase;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            margin: 5rem 0;
+            box-shadow: 5px 10px 30px rgba(134, 132, 132, 0.867);
+            &--border {
+                border: 5px solid #8f8b8b;
+                margin: 4rem auto;
+                background-color: $blanc;
+                color: $noir;
+            }
+        }
+        &__bilan {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 2vh;
+          
+        }
+        &__recompense {
+            display: flex;
+            justify-content: flex-end;
+            width:18rem;
+            height:10rem;
+        
+        }
+       
+        &__content {
+            font-family: $font-family-general;
+            display: flex;
+            gap:8rem;
+            font-size: 4rem;
+            
+           
+        }
+
+    }
+   
+}

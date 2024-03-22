@@ -1,0 +1,45 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $blanc;
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    font-family: 'Satoshi', sans-serif;
+
+    .user,
+    .quit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2px
+    }
+
+    .user {
+
+        border: 2px $kepel solid;
+        padding: 0.3rem 1.2rem;
+        border-radius: 5px;
+
+        &__img {
+            width: 30px;
+            color: $kepel
+        }
+    }
+
+    .quit {
+        letter-spacing: 2px;
+        color: $blanc;
+        background-color: red;
+        padding: 0.6rem 1.4rem;
+        border-radius: 5px;
+        align-items: normal;
+
+        &__img {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
