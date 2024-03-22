@@ -120,7 +120,7 @@ const G = (props) => {
         setTimeout(() => {
             const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
             score(scorePercent);
-            navigate("/graphemes"); 
+          
         }, 2000); 
     
     };

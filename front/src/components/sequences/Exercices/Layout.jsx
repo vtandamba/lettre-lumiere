@@ -150,7 +150,7 @@ const Layout = ({ db }) => {
     };
 
     const renderExerciseComponent = (exercise) => {
-        console.log(exercises[currentExerciseIndex]);
+  
         const componentName = getExerciseComponentName(exercise.exo_type);
         if (componentName) {
             const ExerciseComponent = React.lazy(() => import(`./${componentName}.jsx`));
