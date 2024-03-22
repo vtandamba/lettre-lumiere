@@ -1,7 +1,9 @@
 <?php
 //  ici on recupere les donnée depuis db.sqlite
- include '../includes/db_connect.php';
- include '../includes/header.php';
+//  ici on recupere les donnée depuis db.sqlite
+include '../private/db_connect.php';
+include '../private/header_access.php';
+
 
  
  if ($_SERVER['REQUEST_METHOD'] === 'GET') {
