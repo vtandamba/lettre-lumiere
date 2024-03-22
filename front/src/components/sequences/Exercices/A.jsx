@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import speak from "../../../hooks/useSpeak"
 const A = (props) => {
-    const {data, onAttemptMade, score} = props;
+    const {data, onAttemptMade, score, imgNotFound} = props;
     const [tabResponses, setTabResponses] = useState(new Array(6).fill(null));
 
     //every
@@ -32,7 +32,12 @@ const A = (props) => {
                 <h1 className="exercice__consigne">{data?.exo_consigne}</h1>
                 <ul className="list">
                     {data && JSON.parse(data.exo_choices).map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>
-                                                                             {data.exo_type==="A2" && e.image && <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/${e.value}.jpg`} alt="value" className="group__img"/>}
+                                                                             {data.exo_type==="A2" && e.image && <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/${e.value}.jpg`} 
+                                                                                                                      alt={e.value} 
+                                                                                                                      className="group__img"
+                                                                                                                      onError={(e) => {
+                                                                                                                        e.target.src = imgNotFound;
+                                                                                                                      }}/>}
                                                                               <p
                                                                                       className="list__item list__item--sound" 
                                                                                       onClick={()=>handleChoiceClick(index)}>

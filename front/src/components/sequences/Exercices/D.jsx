@@ -10,8 +10,8 @@ const D = (props) => {
     const [item, setItem] = useState();
     // const [tabItems, setTabItems] = useState();
     // const [validate, setValidate] = useState(false);
-    const [allItemsWithStyles, setAllItemsWithStyles] = useState([]);
-    const [tabResponses, setTabResponses] = useState([null, null, null, null]);
+    const [allItemsWithStyles, setAllItemsWithStyles] = useState(JSON.parse(data?.exo_choices));
+    const [tabResponses, setTabResponses] = useState(new Array(allItemsWithStyles.length).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
 
@@ -36,6 +36,7 @@ const D = (props) => {
         const init = () => {
           let choices = JSON.parse(data?.exo_choices).map(el => ({
             value: el.value,
+            image: el.image,
             state: 'initial',
             isAlreadyChosen: false
           }));
@@ -44,13 +45,13 @@ const D = (props) => {
           choices = [...choices]; // Créez une nouvelle référence pour le tableau
          
           // Suppression de la double utilisation erronée de getElementRandom
-          let newItem = getElementRandom(JSON.parse(data?.exo_choices)).value;
+          let newItem = getElementRandom(JSON.parse(data?.exo_choices));
           while (answerAlreadyTaken.includes(newItem)) {
               const filteredChoices = JSON.parse(data?.exo_choices).filter(choice => !answerAlreadyTaken.includes(choice));
               newItem = getElementRandom(filteredChoices);
           }
-          setItem(newItem);
-    
+        //   setItem(newItem);
+          setItem({...newItem, isAlreadyChosen:false});
 
 
             choices = prepareItemsWithoutShuffling(choices);
@@ -70,7 +71,8 @@ const D = (props) => {
     useEffect(() => {
         if (item)
         {
-            speak(item)
+            speak(item.value);
+            console.log(item.value);
         }      
     }, [item])
 
@@ -89,21 +91,21 @@ const D = (props) => {
     const handleChooseResponse = () => {
         if (attemptCount < tabResponses.length) {
             const allItemsChosen = allItemsWithStyles.filter(el => el.state === 'choosen');
-            console.log(allItemsChosen);
+          
             if (allItemsChosen.length > 0) {
 
                 const updatedItems = allItemsWithStyles.map(el => {  //Mettre à vrai ou faux les items correspondant
-
+                   
                     if (el.state === 'choosen') {
                         return {
                             ...el,
-                            state: el.value.toLowerCase() === item.toLowerCase() ? 'true' : 'false',
+                            state: el.value.toLowerCase() === item.value.toLowerCase() ? 'true' : 'false',
                         };
                     } else {
 
                         return {
                             ...el,
-                            state: el.value.toLowerCase() === item.toLowerCase() ? 'true' : el.state,
+                            state: el.value.toLowerCase() === item.value.toLowerCase() ? 'true' : el.state,
                         };
                     }
                 });
@@ -112,14 +114,14 @@ const D = (props) => {
                 const timeOutId = setTimeout(() => {
                     setTabResponses(prev => {
                         const newTabResponses = [...prev];
-                        newTabResponses[attemptCount] = allItemsChosen.some(el => el.value.toLowerCase() === item);
+                        newTabResponses[attemptCount] = allItemsChosen.some(el => el.value.toLowerCase() === item.value);
                         return newTabResponses;
                     });
         
                     setAttemptCount(prevCount => {
                         if (prevCount + 1 < tabResponses.length) {
                             //Prochain essaie
-                            setItem(getElementRandom(JSON.parse(data?.exo_choices)).value);
+                            setItem(getElementRandom(JSON.parse(data?.exo_choices)));
                         }
                         return prevCount + 1;
                     });
@@ -165,7 +167,7 @@ const D = (props) => {
 
     return <React.Fragment>
                 <h2 className="exercice__consigne">{data.exo_consigne}</h2>
-                <p className="exercice__sound" onClick={()=>speak(item)}>?</p>
+                <p className="exercice__sound" onClick={()=>speak(item.value)}>?</p>
                 <ul className="list">
                     {allItemsWithStyles?.map((item, index) => (
                         <li className={`list__item ${item.style} ${item.state}`} key={index} onClick={()=>clickResponse(index)}>
