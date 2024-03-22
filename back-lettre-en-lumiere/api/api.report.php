@@ -7,15 +7,14 @@ include '../private/header_access.php';
 // Vérifier la méthode HTTP utilisée
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Vérifier si un ID d'étape est présent dans la requête
-    if (isset($_GET['stage_id']) && isset($_GET['sequence_id'])) {
-        // Récupérer les ID de l'étape et de la séquence à partir de la requête GET
+    if (isset($_GET['stage_id'])) {
+        // Récupérer l'ID de l'étape à partir de la requête GET
         $stage_id = $_GET['stage_id'];
-        $sequence_id = $_GET['sequence_id'];
         
-        // Exécuter une requête SQL pour récupérer les données du rapport en fonction de l'ID de l'étape et de la séquence
-        $query = "SELECT * FROM l_REPORT WHERE stage_id = :stage_id AND sequence_id = :sequence_id";
+        // Exécuter une requête SQL pour récupérer les données du rapport en fonction de l'ID de l'étape
+        $query = "SELECT * FROM l_REPORT WHERE stage_id = :stage_id";
         $statement = $pdo->prepare($query);
-        $statement->execute(['stage_id' => $stage_id, 'sequence_id' => $sequence_id]);
+        $statement->execute(['stage_id' => $stage_id]);
         $reports = $statement->fetchAll(PDO::FETCH_ASSOC);
         
         // Retourner les données du rapport au format JSON
@@ -23,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         header('Content-Type: application/json');
         echo json_encode($reports);
     } else {
-        // Si aucun ID d'étape et de séquence n'est spécifié, récupérez tous les rapports
+        // Si aucun ID d'étape n'est spécifié, récupérez tous les rapports
         $query = "SELECT * FROM l_REPORT";
         $statement = $pdo->query($query);
         $reports = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -33,7 +32,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         header('Content-Type: application/json');
         echo json_encode($reports);
     }
-    
 }
 
 // Endpoint pour ajouter un rapport
