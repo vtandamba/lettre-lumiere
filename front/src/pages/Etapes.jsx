@@ -69,10 +69,13 @@ const Etapes = (props) => {
             id="panel1-header"
           >
             <Typography className="Etape">
-              <Etape
-                etapeTitre={stage.sta_name}
-                EtapeCouleur={EtapeBlue}
-              />
+                <button className="Etape__accordion"></button>
+                <img className="Etape__img" src={EtapeBlue} alt="Etape" />
+
+                <h2 className="Etape__Title">{stage.sta_name}</h2>
+                <div className="Etape__container">
+
+                </div>
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
