@@ -202,7 +202,7 @@ const SequenceHome = ({ db }) => {
                                     })}
                                 </ul>
                             ): (
-                                    <p className="exercises__error">Aucun exercice enregistré pour cette séquence pour le moment</p>
+                                    <p className="exercises__error">Aucun exercice enregistré dans cette séquence pour le moment</p>
                                 ) 
                 )
             }
@@ -211,7 +211,8 @@ const SequenceHome = ({ db }) => {
             <Outlet />
         </main>
         <footer>
-        <Link to="exo"><div className="sequence__start">Commencer</div></Link>
+        { (exercises && exercises.length === 0) ||  <Link to="exo"><div className="sequence__start">Commencer</div></Link>}
+       
         </footer>
     </div>
 

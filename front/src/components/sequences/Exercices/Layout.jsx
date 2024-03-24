@@ -5,6 +5,7 @@ import homeIcon from '../../../assets/images/layoutexercices/home.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
 import imgNotFound from '../../../assets/images/not-found-image.jpg'
+import { CircleLoader } from "react-spinners";
 const Layout = ({ db }) => {
 
     const params = useParams();
@@ -169,7 +170,7 @@ const Layout = ({ db }) => {
     const recordAnswer = (percent) => {
         const updatedScores = [...exercisesScore];
         updatedScores[currentExerciseIndex] = percent;
-        // console.log(updatedScores)
+        console.log(percent, '% de score')
         setExercisesScore(updatedScores);
     };
 
@@ -192,37 +193,41 @@ const Layout = ({ db }) => {
 
 
 
-    return (
-        <div className="layout">
-            <header className="header">
-                <div className="header__infos">
-                    <div className="header__etape">
-                        <img src={imgEtape} alt="" />
-
-                        <p>Etape {sequences && sequences.map((s, index) => (
-                            <span key={index}>{s.stage_id}{index < sequences.length - 1 && ', '}</span>
-                        ))}</p>
-                    </div>
-                    <p className="header__sequence"> {sequence}</p>
-                </div>
-                <Link to={`/etapes/${id}`}><img src={homeIcon} alt="" className="header__home" /></Link>
-                <ul className="progress-global">
-
-                    {exercisesScore.map((score, index) => (
-                        <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
-                        </li>
-                    ))}
-
-                </ul>
-            </header>
-            <main className="exercice">
-
-                {exercises.length > 0 && renderExerciseComponent(exercises[currentExerciseIndex])}
-                <button onClick={goToNextExercise} disabled={currentExerciseIndex === exercises.length - 1} className="exercice__validate">Suivant</button>
-            </main>
-
-        </div>
-    );
+    
+  return (
+    exercises && exercises.length > 0 ? (
+      <div className="layout">
+        <header className="header">
+          <div className="header__infos">
+            <div className="header__etape">
+              <img src={imgEtape} alt="" />
+              <p>Etape {sequences && sequences.map((s, index) => (
+                <span key={index}>{s.stage_id}{index < sequences.length - 1 ? ', ' : ''}</span>
+              ))}</p>
+            </div>
+            <p className="header__sequence"> {sequence}</p>
+          </div>
+          <Link to={`/etapes/${id}`}><img src={homeIcon} alt="" className="header__home" /></Link>
+          <ul className="progress-global">
+            {exercisesScore.map((score, index) => (
+              <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
+              </li>
+            ))}
+          </ul>
+        </header>
+        <main className="exercice">
+          {renderExerciseComponent(exercises[currentExerciseIndex])}
+          <button onClick={goToNextExercise} disabled={currentExerciseIndex === exercises.length - 1} className="exercice__validate">Suivant</button>
+        </main>
+      </div>
+    ) : (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircleLoader color="#36d7b7" size={140} />
+      </div>
+    )
+  );
+    
+    
 };
 
 export default Layout;

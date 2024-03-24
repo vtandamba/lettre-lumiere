@@ -77,7 +77,7 @@ const G = (props) => {
         const secondes = document.querySelector('.exercice__count');
         const response = tabItems.find((r) => r.textContent === item);
 
-        if (times.current <= 7){
+        if (times.current <= 4){
             times.current += 1; // Incrémente times
             
             const newTabItems = tabItems.map((el, idx) => { //Vérifie si l'élément sélectionné est faux ou pas et met le state de la bonne réponse à juste
@@ -106,6 +106,8 @@ const G = (props) => {
             } else {
                 const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
                 score(scorePercent);
+                console.log('le score s\'envoie');
+                console.log(scorePercent, 'scorePercent');
                 setTimeout(() => {
                     tabItems?.forEach((item) => {return{...item, state: 'initial'}});
                     onAttemptMade();
@@ -119,8 +121,10 @@ const G = (props) => {
     const handleCountdownFinish = () => { // Comportement à adopter à la fin du compte à rebours
       
         setTimeout(() => {
+            console.log('le score s\'envoie');
             const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
             score(scorePercent);
+            console.log(scorePercent, 'scorePercent');
             onAttemptMade();
         }, 2000); 
     

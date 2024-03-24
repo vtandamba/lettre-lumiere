@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 
 
 const MainHeader = () => {
+
+    const username = sessionStorage.getItem('user_id');
     return <header className="header">
                 <div className="user">
                     <img src={user} alt="Profil utilisateur " className="user__img" />
-                    <p className="user__name">José</p>
+                    <p className="user__name">{username || 'utilisateur'}</p>
                 </div>
                 <div className="quit">
                     <Link to='/home'>   <p>Quitter</p> </Link>
