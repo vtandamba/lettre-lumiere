@@ -46,6 +46,7 @@ const Etapes = (props) => {
       console.log(loadedStages);
       setEtapes(loadedStages);
     };
+
     const loadSequences = async () => {
       const loadedSequences = await fetchAllSequences(db);
       console.log(loadedSequences);
@@ -53,8 +54,8 @@ const Etapes = (props) => {
     }
     loadStages();
     loadSequences();
-    console.log(etapes);
-    console.log(sequences)
+    // console.log(etapes);
+    // console.log(sequences)
   }, []);
 
 
@@ -80,10 +81,29 @@ const Etapes = (props) => {
           </AccordionSummary>
           <AccordionDetails>
             <Typography className="Etape__container">
+
+            {/* <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
+                                            <div class="sequenceGroup__content">
+                                                <div className="Etape__seq">
+                                                
+                                                {
+                                                    JSON.parse(sequence.seq_content).map((el) => <p >{el}</p>)
+                                                }
+                                                </div>
+                                             </div>
+                                        </Link> */}
               {sequences.filter((sequence) => sequence.stage_id === stage.stage_id)
                 .map((s) => {
-                  console.log('la sequence ', sequences)
-                  return <Link to={`${s.sequence_id}`}><EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /></Link>
+                  // console.log('la sequence ', sequences)
+                  return  <Link to={`${s.sequence_id}`}>
+                            <div className="Etape__seq">
+                              <p className="Etape__content">{s.seq_title.replace(/-/g, '')}</p>
+                                {/* {JSON.parse(s.seq_content).map(el => <p  className="Etape__content">{el}</p>)} */}
+                            </div>
+                                
+                                {/* <EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /> */}
+                              
+                      </Link>
                 })}
 
             </Typography>

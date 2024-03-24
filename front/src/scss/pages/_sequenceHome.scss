@@ -13,6 +13,7 @@
         &__title{
             display: flex;
             justify-content: center;
+            font-family: $font-family-general;
             align-items:center ;
             gap:6px;
             font-size: 2.5rem;
@@ -42,6 +43,7 @@
             justify-content: center;
             align-items: center;
             background-color: rgba(59, 155, 165, 0.7);
+            font-family: $font-family-general ;
             font-size: $font-size-large;
             padding: 1rem 3.48rem;
             border-radius: 5px;
@@ -76,6 +78,7 @@
             display: flex;
             align-items: center;
             font-size: $font-size-medium;
+            font-family: $font-family-ranade;
             gap:30px;
         }
 
@@ -94,7 +97,7 @@
     &__start{
            
         @extend %button;
-        margin:-7rem 0 2rem auto;
+        margin:0 0 2rem auto;
         font-family: $font-family-satoshi;
         font-size: $font-size-button-start;
         

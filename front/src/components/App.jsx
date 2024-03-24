@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -32,6 +32,7 @@ import Etape from "./Etape";
 // const idUser = localStorage.getItem('user_id');
 const allSequences = fetchAllSequences();
 console.log(allSequences);
+
 const allExerciceForSequences = fetchAllExerciceForSequences(1);
 console.log("by seq_id ===> ", allExerciceForSequences);
 const allStages = fetchAllStages();
@@ -45,8 +46,12 @@ console.log('by id  ===>  ', allSeqBystageId);
 
 
 const App = () => {
+    
     return <HashRouter>
         <Routes>
+
+            {/* Route pour le bilan d'une séquece */}
+            <Route path="etape/:etape/revisions" element={<LayoutExercice />}/>
 
             {/* Route pour la page d'acceuil */}
             <Route index element={<Home />}></Route>

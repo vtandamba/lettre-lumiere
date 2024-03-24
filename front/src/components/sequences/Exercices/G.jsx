@@ -7,23 +7,23 @@ const G = (props) => {
 
     const times = useRef(1);
 
-    const { data, score } = props;
+    const { data, score, onAttemptMade } = props;
     const [tabItems, setTabItems] = useState([]);
-    const [displayItems, setDisplayItems] = useState(JSON.parse(data?.exo_choices).map(el => {
-                                                                                return {
-                                                                                    value: el.value, 
-                                                                                    state: 'initial'
-                                                                                };
-                                                                            }));
+    const [displayItems, setDisplayItems] = useState(  JSON.parse(data?.exo_choices || data?.rep_contenu).map(el => {
+                                                            return {
+                                                                value: el.value, 
+                                                                state: 'initial'
+                                                            };
+                                                        }));
     const [item, setItem] = useState('');
     const [attemptCount, setAttemptCount] = useState(0);
     const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
     const navigate = useNavigate();
-
-   
+                                                        
+     console.log(displayItems);
 
     const updateTabItems = useCallback(() => {
-    
+      
         if (displayItems.length > 0) {
 
             let newTabGraphemes = []; 
@@ -42,6 +42,7 @@ const G = (props) => {
     
 
       useEffect(() => {
+        
         updateTabItems();
      }, [updateTabItems]);
 
@@ -61,9 +62,9 @@ const G = (props) => {
             return newResponses;
         });
 
-        if (attemptCount === 6) {
-            setTimeout(() => navigate("/"), 1000);
-        } 
+        // if (attemptCount === 6) {
+        //     setTimeout(() => navigate("/"), 1000);
+        // } 
 
         setAttemptCount(attemptCount + 1);
     };
@@ -107,7 +108,7 @@ const G = (props) => {
                 score(scorePercent);
                 setTimeout(() => {
                     tabItems?.forEach((item) => {return{...item, state: 'initial'}});
-                    navigate("/etapes"); 
+                    onAttemptMade();
                 }, 1000); 
            
             }
@@ -120,7 +121,7 @@ const G = (props) => {
         setTimeout(() => {
             const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
             score(scorePercent);
-          
+            onAttemptMade();
         }, 2000); 
     
     };
