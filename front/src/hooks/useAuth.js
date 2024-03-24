@@ -21,11 +21,11 @@ const Auth = {
         }
     },
     isAuthentificated : () => {
-        return !!localStorage.getItem('user_id');
+        return !!sessionStorage.getItem('user_id');
     },
 
     logout : () => {
-        localStorage.removeItem('user_id')
+        sessionStorage.removeItem('user_id')
     }
    
 }

@@ -9,6 +9,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
+import { CircleLoader } from "react-spinners";
 
 
 
@@ -20,6 +21,7 @@ const Etapes = (props) => {
   const [etapes, setEtapes] = useState([]);
   const [sequences, setSequences] = useState([]);
   const [seqById, setSeqById] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   fetchAllStages(db);
   fetchAllSequences(db);
@@ -42,9 +44,10 @@ const Etapes = (props) => {
 
   useEffect(() => {
     const loadStages = async () => {
+      setIsLoading(true)
       const loadedStages = await fetchAllStages(db);
-      console.log(loadedStages);
       setEtapes(loadedStages);
+      setIsLoading(false);
     };
 
     const loadSequences = async () => {
@@ -61,58 +64,68 @@ const Etapes = (props) => {
 
   return <>
 
-    {etapes?.map((stage) => {
-      return <ThemeProvider theme={theme}>
-        <Accordion style={{ border: 'none' }}>
-          <AccordionSummary
-            // expandIcon={<MdArrowDropDown size={40} />}
-            aria-controls="panel1-content"
-            id="panel1-header"
-          >
-            <Typography className="Etape">
-                <button className="Etape__accordion"></button>
-                <img className="Etape__img" src={EtapeBlue} alt="Etape" />
+    {isLoading ? (
+      <CircleLoader color="#36d7b7" size={150} cssOverride={{margin: '20% auto 0 auto'}}/>
+      )
+      :
+      (
+        etapes.length ? 
+        (
+          etapes?.map((stage) => {
+        return <ThemeProvider theme={theme} key={stage.stage_id}>
+          <Accordion style={{ border: 'none' }}>
+            <AccordionSummary
+              // expandIcon={<MdArrowDropDown size={40} />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              <Typography className="Etape">
+                  <button className="Etape__accordion"></button>
+                  <img className="Etape__img" src={EtapeBlue} alt="Etape" />
 
-                <h2 className="Etape__Title">{stage.sta_name}</h2>
-                <div className="Etape__container">
+                  <h2 className="Etape__Title">{stage.sta_name}</h2>
+                  <div className="Etape__container">
 
-                </div>
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography className="Etape__container">
+                  </div>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography className="Etape__container">
 
-            {/* <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
-                                            <div class="sequenceGroup__content">
-                                                <div className="Etape__seq">
-                                                
-                                                {
-                                                    JSON.parse(sequence.seq_content).map((el) => <p >{el}</p>)
-                                                }
-                                                </div>
-                                             </div>
-                                        </Link> */}
-              {sequences.filter((sequence) => sequence.stage_id === stage.stage_id)
-                .map((s) => {
-                  // console.log('la sequence ', sequences)
-                  return  <Link to={`${s.sequence_id}`}>
-                            <div className="Etape__seq">
-                              <p className="Etape__content">{s.seq_title.replace(/-/g, '')}</p>
-                                {/* {JSON.parse(s.seq_content).map(el => <p  className="Etape__content">{el}</p>)} */}
-                            </div>
+              {/* <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
+                                              <div class="sequenceGroup__content">
+                                                  <div className="Etape__seq">
+                                                  
+                                                  {
+                                                      JSON.parse(sequence.seq_content).map((el) => <p >{el}</p>)
+                                                  }
+                                                  </div>
+                                              </div>
+                                          </Link> */}
+                {sequences.filter((sequence) => sequence.stage_id === stage.stage_id)
+                  .map((s) => {
+                    // console.log('la sequence ', sequences)
+                    return  <Link to={`${s.sequence_id}`}>
+                              <div className="Etape__seq">
+                                <p className="Etape__content">{s.seq_title.replace(/-/g, '')}</p>
+                                  {/* {JSON.parse(s.seq_content).map(el => <p  className="Etape__content">{el}</p>)} */}
+                              </div>
+                                  
+                                  {/* <EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /> */}
                                 
-                                {/* <EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /> */}
-                              
-                      </Link>
-                })}
+                        </Link>
+                  })}
 
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-      </ThemeProvider>
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </ThemeProvider>
 
-    })}
-
+           })
+        ) : 
+        <p>Aucune étape enregistrée pour le moment</p>
+      )
+    }
 
   </>
 

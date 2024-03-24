@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -11,7 +11,7 @@ import { fetchAllExerciceForSequences } from "../hooks/useDb";
 import { fetchAllSequences } from "../hooks/useDb";
 import { fetchAllStages } from "../hooks/useDb";
 import { fetchSeqByStageId } from "../hooks/useDb";
-
+import Auth from "../hooks/useAuth";
 // import db from '../Dexie'
 
 import SequenceHome from "../pages/SequenceHome";
@@ -27,6 +27,7 @@ import H from '../components/Exercises/H'
 import G from '../components/Exercises/G'
 import LayoutAlphabet from '../pages/ExoGraphoAlphabetique'
 import Etape from "./Etape";
+import Credits from "../pages/Credits";
 
 
 // const idUser = localStorage.getItem('user_id');
@@ -46,11 +47,20 @@ console.log('by id  ===>  ', allSeqBystageId);
 
 
 const App = () => {
+
+    const [isAuthentificated, setIsAuthentificated] = useState();
+
+    useEffect(() => {
+        setIsAuthentificated (Auth.isAuthentificated());
+    }, [])
     
     return <HashRouter>
         <Routes>
 
-            {/* Route pour le bilan d'une séquece */}
+            {/* Route pour les remerciements */}
+            <Route path="/credits" element={<Credits />} />
+
+            {/* Route pour le bilan d'une séquence */}
             <Route path="etape/:etape/revisions" element={<LayoutExercice />}/>
 
             {/* Route pour la page d'acceuil */}
