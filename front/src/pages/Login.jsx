@@ -27,13 +27,16 @@ const Login = () =>{
         try{
             const response = await Auth.login(user);
             if (response){
-                navigate('/home');
+                setTimeout(()=>{
+                    navigate('/home');
+                }, 1000)
+              
             }
-            localStorage.setItem('user_id', response.user_id);
-            localStorage.setItem('user_name', response.user_name);
+            sessionStorage.setItem('user_id', response.user_id);
+            sessionStorage.setItem('user_name', response.user_name);
 
         }catch(error){
-            setFormErrors('Combinaison usename - Password incorrecte');
+            setFormErrors('Combinaison username - Password incorrecte');
             
         }
        
