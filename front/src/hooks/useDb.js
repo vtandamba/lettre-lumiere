@@ -5,6 +5,7 @@ const urlSequences = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/b
 const urlExercices = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.exercices.php';
 const urlStages = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.stages.php';
 const urlUser = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.user.php'; 
+const urlExercisesRevisions = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.report.php'
 export const fetchAllStages = async () => {
     try {
         const response = await fetch(urlStages);
@@ -74,6 +75,21 @@ export const fetchAllExerciceForSequences = async (sequenceId) => {
     }
 };
 
+export const fetchAllExercisesForRevisions = async(stageId) => {
+    try {
+        console.log(stageId);
+        const response = await fetch(`${urlExercisesRevisions}?stage_id=${stageId}`);
+        if (!response.ok) {
+            
+            throw new Error('Erreur lors de la récupération des exercices du bilan');
+        }
+        return response.json();
+    } catch (error) {
+        console.error("Erreur lors de la récupération des exercices du bilan:", error);
+        throw error;
+    }
+}
+
 // les séquences
 export const fetchSeqByStageId = async (stageId) => {
     try {
@@ -100,7 +116,7 @@ export const fecthUser = async (userId) => {
         return response.json();
 
     } catch (error){
-        console.error("Erreur lors de la récupération de  l\'utilisateur", error);
+        console.error("Erreur lors de la récupération de  l'utilisateur", error);
         throw error; 
     }
 }

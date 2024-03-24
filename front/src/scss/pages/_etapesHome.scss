@@ -113,6 +113,7 @@ body {
         background-color: $kepel;
         border-radius: 150px;
         border: none;
+     
         box-shadow: 5px 5px 20px rgb(205, 201, 201);
         display: flex;
         text-align: center;
@@ -131,10 +132,11 @@ body {
 
     &__content {
         position: relative;
-        z-index: 3000;
-        font-family: 'Satoshi', sans-serif;
-        font-size: 2.5rem;
         display: flex;
+        text-transform: uppercase;
+        z-index: 3000;
+        font-family: $font-family-ranade;
+        font-size: 2.5rem;
         gap: 1rem;
         padding: 0rem;
         margin: .8rem;
@@ -158,6 +160,10 @@ body {
 
         &--color-Grey {
             color: rgb(145, 144, 144);
+        }
+
+        &--nospacing{
+            letter-spacing: 1px;
         }
     }
 }

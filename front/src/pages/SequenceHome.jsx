@@ -152,8 +152,8 @@ const SequenceHome = ({ db }) => {
             </div>
 
             <div className="header__percent">
+                {/* <img src={argentMedal} alt="medaille" /> */}
                 <p><CountUp end={finalScore}/> %</p>
-                <img src={argentMedal} alt="medaille" />
             </div>
 
             <div className="header__actions">
