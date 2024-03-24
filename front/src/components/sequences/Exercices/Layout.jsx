@@ -182,7 +182,10 @@ const Layout = ({ db }) => {
 
             return (
                 <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress size={80} /></div>}>
-                    <ExerciseComponent key={exercise.exerciseId} data={exercise} onAttemptMade={onAttemptMade} score={recordAnswer} imgNotFound = {imgNotFound}/>
+                    <ExerciseComponent key={exercise.exerciseId} 
+                                       data={exercise} onAttemptMade={onAttemptMade} 
+                                       score={recordAnswer} 
+                                       imgNotFound = {imgNotFound}/>
                 </Suspense>
             );
         } else {

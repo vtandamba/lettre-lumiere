@@ -6,7 +6,7 @@ import { getElementRandom } from "../../../hooks/useRandom";
 
 const D = (props) => {
 
-    const { data, onAttemptMade, score } = props;
+    const { data, onAttemptMade, score, imgNotFound } = props;
     const [item, setItem] = useState();
     // const [tabItems, setTabItems] = useState();
     // const [validate, setValidate] = useState(false);
@@ -167,10 +167,21 @@ const D = (props) => {
 
     return <React.Fragment>
                 <h2 className="exercice__consigne">{data.exo_consigne}</h2>
-                <p className="exercice__sound" onClick={()=>speak(item.value)}>?</p>
+                {data.exo_type === "D2" 
+                                ? <p className="exercice__sound" onClick={()=>speak(item.value)}>?</p> 
+                                : <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images${item.value}.jpg`} 
+                                       alt="item" 
+                                       className="exercice__img"
+                                       onClick={()=>speak(item.value)}
+                                       onError={(evt)=>{ evt.target.src = imgNotFound}}
+                />}
                 <ul className="list">
                     {allItemsWithStyles?.map((item, index) => (
-                        <li className={`list__item ${item.style} ${item.state}`} key={index} onClick={()=>clickResponse(index)}>
+                        
+                        <li className={`list__item ${item.style} ${item.state}`} 
+                            key={index} 
+                            onClick={()=>clickResponse(index)}
+                        >
                             {item.value}
                         </li>
                     ))}
