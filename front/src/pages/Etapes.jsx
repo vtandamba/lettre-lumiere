@@ -11,6 +11,8 @@ import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import {CircleLoader} from 'react-spinners';
+import MainHeader from '../components/MainHeader'
 
 
 
