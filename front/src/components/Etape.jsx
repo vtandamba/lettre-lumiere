@@ -12,54 +12,58 @@ const Etape = (props) => {
     console.log(parseInt(idStage, 10) === 1)
     const [sequences, setSequences] = useState([]);
     console.log(sequences[3]?.seq_content);
-    
 
-    useEffect(() =>{
+
+    useEffect(() => {
 
         const loadSequences = async () => {
             const loadedSequences = await fetchAllSequences(db);
-         
+
             console.log(loadedSequences);
-            setSequences(   loadedSequences.filter((sequence) => sequence.stage_id === parseInt(idStage, 10)));
+            setSequences(loadedSequences.filter((sequence) => sequence.stage_id === parseInt(idStage, 10)));
         }
-    
-          loadSequences();
-         
+
+        loadSequences();
+
     }, [])
     // sequences.map(el => {
     //     console.log('itération',JSON.parse(el.seq_content));
     //     return  JSON.parse(el?.seq_content).map(el => console.log (el))
     // });
     return <React.Fragment>
-               <MainHeader/>
-                <main>
+        <MainHeader
+            role={"user"}
+            link={"/etapes"}
+        />
+        <main>
 
 
-                    <div class="etape">
-                        {sequences.map((sequence) => {
-                            return <div class="sequenceGroup">
-                                        <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
-                                            <div class="sequenceGroup__content">
-                                            {sequence?.seq_content && sequence.seq_content.map(el => <p>{el}</p>)}
-                                            </div>
-                                        </Link>
-                                        <img class="sequenceGroup__recompense" src={medailleArgent} alt="medaille" />
-                                    </div>
-                        })}
-                        
+            <div class="etape">
+                {sequences.map((sequence) => {
+                    return <div class="sequenceGroup">
+                        <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
+                            <div class="sequenceGroup__content">
+                                {sequence?.seq_content && Array.isArray(sequence.seq_content) && sequence.seq_content.map(el => <p>{el}</p>)}
 
-                        <Link to="/" class="etape__bilan">
-                           
-                                <p class="sequenceGroup__content">Bilan 1</p>
-                                <img class="etape__imgBilan" src="img/medaillesCoupes/coupe=argent.png" alt="coupe" />
-                
+                            </div>
                         </Link>
-
+                        <img class="sequenceGroup__recompense" src={medailleArgent} alt="medaille" />
                     </div>
+                })}
 
-                </main>
 
-            </React.Fragment>
+                <Link to="/" class="etape__bilan">
+
+                    <p class="sequenceGroup__content">Bilan </p>
+                    <img class="etape__imgBilan" src="img/medaillesCoupes/coupe=argent.png" alt="coupe" />
+
+                </Link>
+
+            </div>
+
+        </main>
+
+    </React.Fragment>
 
 }
 export default Etape

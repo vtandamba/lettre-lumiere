@@ -68,7 +68,6 @@ switch ($action) {
             $consigne = $_POST['exo_consigne'];
             $choices = $_POST['exo_choices'];
             $ordre = $_POST['exo_ordre'];
-
             $exerciseController->addExercise($sequence_id, $type, $connsigne, $choices, $ordre);
         }
         include './includes/footer.php';

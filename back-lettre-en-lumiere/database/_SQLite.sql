@@ -447,8 +447,8 @@ VALUES (
         {"value": "lavé", "image": "lavé.jpg", "chosenSyllable": "la" }, 
         {"value": "lune", "image":"lune.jpg", "chosenSyllable": "lu" }, 
         {"value": "pile", "image": "pile.jpg", "chosenSyllable": "le" }, 
-        {"value": "vélo", "image": "vélo.avif", "chosenSyllable" :"lo" }]'
-        ,
+        {"value": "vélo", "image": "vélo.avif", "chosenSyllable" :"lo" l} 
+        ]',
         9
     ),
     (
