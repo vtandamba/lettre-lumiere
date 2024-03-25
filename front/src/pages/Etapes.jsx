@@ -9,6 +9,8 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -69,13 +71,13 @@ const Etapes = (props) => {
             id="panel1-header"
           >
             <Typography className="Etape">
-                <button className="Etape__accordion"></button>
-                <img className="Etape__img" src={EtapeBlue} alt="Etape" />
+              <button className="Etape__accordion"></button>
+              <img className="Etape__img" src={EtapeBlue} alt="Etape" />
 
-                <h2 className="Etape__Title">{stage.sta_name}</h2>
-                <div className="Etape__container">
+              <h2 className="Etape__Title">{stage.sta_name}</h2>
+              <div className="Etape__container">
 
-                </div>
+              </div>
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
@@ -85,7 +87,8 @@ const Etapes = (props) => {
                   console.log('la sequence ', sequences)
                   return <Link to={`${s.sequence_id}`}><EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /></Link>
                 })}
-
+               <FontAwesomeIcon icon={faArrowRight} className="fa-beat" />
+              
             </Typography>
           </AccordionDetails>
         </Accordion>
