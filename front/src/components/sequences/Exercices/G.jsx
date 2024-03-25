@@ -131,7 +131,7 @@ const G = (props) => {
     };
 
     return <React.Fragment>
-               <h2 className="exercice__consigne">{data.consigne}</h2>
+               <h2 className="exercice__consigne">{data?.exo_consigne}</h2>
                <p className="exercice__count">
                 <LinearCountdown onCountdownFinish={handleCountdownFinish} />
             </p>

@@ -73,7 +73,7 @@ const Etapes = (props) => {
           <CircleLoader color="#36d7b7" size={150} cssOverride={{margin: '20% auto 0 auto'}}/>
         ) : (
           <>
-            <MainHeader />
+            <MainHeader role="user" link="/home"/>
             {etapes.length ? (
               etapes.map((stage) => {
                 return (

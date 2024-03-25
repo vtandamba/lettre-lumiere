@@ -71,7 +71,7 @@ const C = (props) => {
                                                                         e.target.src = imgNotFound;
                                                                       }}/>}
                                       
-                                        <p className="exercice__grapheme">{syllabes[currentSyllabeIndex].value}</p>
+                                        <p className="list__item">{syllabes[currentSyllabeIndex].value}</p>
                                     </div> 
                                  : <form onSubmit={handleSubmit} className="exercice__form">
                                     <input type="text" value={userInput} onChange={handleInputChange} autoFocus className="exercice__input"/>

@@ -7,7 +7,8 @@ import MainHeader from "../components/MainHeader";
 
 const Index = () => {
     return (<div className="index">
-        <MainHeader />
+        
+        <MainHeader role="general" link="/"/>
         <main>
             {/* <div className="progress">
                 <p className="progress__container"></p> <p>0%</p>

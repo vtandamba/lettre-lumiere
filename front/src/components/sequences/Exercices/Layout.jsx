@@ -103,65 +103,78 @@ const Layout = ({ db }) => {
 
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (attemptCount + 1 === 4) {
+    //     if (attemptCount + 1 === 4) {
 
-            setAttemptCount(0);
-            setCurrentExerciseIndex(prevIndex => prevIndex + 1);
+    //         setAttemptCount(0);
+    //         setCurrentExerciseIndex(prevIndex => prevIndex + 1);
 
-        }
+    //     }
 
-    }, [attemptCount]);
+    // }, [attemptCount]);
 
+    const fetchScore = () => {
+        const scoreData = {
+            pro_score: exercisesScore[currentExerciseIndex],
+            user_id:1,
+            exercice_id:exercises[currentExerciseIndex].exercice_id
+        };
 
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(scoreData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Erreur lors de l\'envoi du score');
+                }
+                console.log('=================');
+                // Effectuez les actions supplémentaires ici si nécessaire
+            })
+            .catch(error => {
+                console.error('Erreur lors de l\'envoi du score :', error);
+                // Gérez l'erreur ici si nécessaire
+            });
+    }
 
     const onAttemptMade = () => {
-        if (currentExerciseIndex === exercises.length - 1 ){
+        console.log('onAttemptMade');
+        console.log('shouldgo', shouldGoToNextExercise);
+    
+        // Vérifiez si c'est le dernier exercice
+        if (currentExerciseIndex === exercises.length - 1) {
+            
+            fetchScore();
+            // Fetch le score avant de rediriger
             navigate(`/etapes/${id || idSeq}`);
-        }else {
-            setShouldGoToNextExercise(false);
+        } else {
+            // Si ce n'est pas le dernier exercice, définissez shouldGoToNextExercise sur vrai
+            setShouldGoToNextExercise(true);
         }
-        setShouldGoToNextExercise(true);
-     
     };
+    
+    
 
     useEffect(() => {
-
-        if (shouldGoToNextExercise) {
-
+        console.log('shouldgo',shouldGoToNextExercise)
+        if (shouldGoToNextExercise && currentExerciseIndex < exercises.length - 1) {
+            
+            console.log('enregistrement du score')
             // Envoyer la requête POST à l'API
-            const scoreData = {
-                pro_score: exercisesScore[currentExerciseIndex],
-                user_id:1,
-                exercice_id:exercises[currentExerciseIndex].exercice_id
-            };
-            // Envoi de la requête POST à l'API
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(scoreData)
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Erreur lors de l\'envoi du score');
-                    }
-                    console.log('=================');
-                    // Effectuez les actions supplémentaires ici si nécessaire
-                })
-                .catch(error => {
-                    console.error('Erreur lors de l\'envoi du score :', error);
-                    // Gérez l'erreur ici si nécessaire
-                });
-
-
+            fetchScore();
             // fin faire le post
 
             setAttemptCount(0);
             setCurrentExerciseIndex(prevIndex => prevIndex + 1);
             setShouldGoToNextExercise(false); // Réinitialisez le drapeau
+        }else if (shouldGoToNextExercise && currentExerciseIndex === exercises.length - 1) {
+            navigate(`/etapes/${id || idSeq}`);
+            console.log('Dernier exercice atteint, mais le score ne sera pas enregistré');
+           
         }
 
     }, [shouldGoToNextExercise]);

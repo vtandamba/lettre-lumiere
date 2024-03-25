@@ -56,7 +56,7 @@ const E = (props) => {
     }
 
     return <React.Fragment>
-                <h2 className="exercice__consigne">{data.consigne}</h2>
+                <h2 className="exercice__consigne">{data?.exo_consigne}</h2>
                 <div>
                 {data.exo_type !== "E1" && 
                 <img src={'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/' + item?.value + '.jpg'} 

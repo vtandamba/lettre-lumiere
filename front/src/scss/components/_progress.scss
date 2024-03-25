@@ -6,7 +6,7 @@
         background-color: rgba(204, 204, 204, 0.8);
         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.50);
         border: 1px solid #d4d4d4;
-        border-radius: 10px;
+        border-radius: 1.7rem;
         height: 3.3vh;
         overflow: hidden;
         width: 35vw;
@@ -51,6 +51,7 @@
 
     .progress-global{
         display: flex;
+        // overflow: scroll;
         flex-direction: column;
         // height:75vh;
         gap:2.5rem;
@@ -59,12 +60,17 @@
         top: 50%; 
         transform: translateY(-50%);
         z-index: 1000; 
-
+        // height: 80%;
         
     }
 
     .progress-item{
         @extend %progress;
+        flex-grow: 0; /* Permet à chaque élément de prendre autant d'espace que nécessaire */
+        max-height: calc((65vh - (6 - 1) * 2.5rem) /6 ); /* Hauteur maximale de chaque élément, où n est le nombre d'éléments */
+        box-sizing: border-box; /* Inclure le padding et la bordure dans le calcul de la taille */
+        overflow: hidden; /* Cacher tout contenu dépassant de la hauteur maximale */
+        transition: all 0.2s ease-in-out;
          &--orange{
              background-color: $orange ;
              transition : all .2s ease-in-out

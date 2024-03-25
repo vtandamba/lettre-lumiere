@@ -138,85 +138,88 @@ const SequenceHome = ({ db }) => {
   
 
 
-    return <div className="sequence">
-        {/* {process.env.REACT_APP_NAME_VARIABLE} */}
-       
-        <header className="header">
-            <div className="header__title">
+    return <React.Fragment>
+                <MainHeader role="user" link="/etapes"/>
+                <div className="sequence">
+                    {/* {process.env.REACT_APP_NAME_VARIABLE} */}
+                
+                    <div className="header">
+                        <div className="header__title">
 
-                <div className="header__etape">
-                    <img src={imgEtape} alt="" />
-                    <p>Etape {sequence?.stage_id}</p>
+                            <div className="header__etape">
+                                <img src={imgEtape} alt="" />
+                                <p>Etape {sequence?.stage_id}</p>
+                            </div>
+                            <p className="header__sequence">{sequence?.seq_title}</p>
+                        </div>
+
+                        <div className="header__percent">
+                            {/* <img src={argentMedal} alt="medaille" /> */}
+                            <p><CountUp end={finalScore}/> %</p>
+                        </div>
+
+                        <div className="header__actions">
+                            <img src={videoCam} alt="Video Cam" onClick={() => setOpen(true)} />
+                        </div>
+                    </div>
+                    <main className="exercises">
+                        {/* <Modal
+                            open={open}
+                            onClose={handleCloseModal}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                        >
+                            <Box sx={style}>
+
+                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                    <video style={{ width: "40vw" }} src={videoSrc} controls autoPlay />
+                                </Typography>
+                            </Box>
+                        </Modal> */}
+
+                        
+                        {
+                            isLoading ? (
+                                <BounceLoader color="#36d7b7" size={110} className="loader" cssOverride={{marginLeft:'50%'}}/>
+                            ):(
+                                    exercises.length ? 
+                                    (
+                                        
+                                            <ul className="exercises__list">
+                                                {exercises.map((el, index) => {
+                                                let progressClass = "";
+                                            
+                                                if (tabScore[index] === null) {
+                                                    progressClass = "progress-item--no-score"; 
+                                                } else if (tabScore[index] <= 49) {
+                                                    progressClass = "progress-item--orange"; // Classe pour les scores inférieurs ou égaux à 49
+                                                } else if (tabScore[index] >= 50) {
+                                                    progressClass = "progress-item--vert"; // Classe pour les scores supérieurs ou égaux à 50
+                                                }
+
+                                                    return (
+                                                        <li className="exercises__item" key={el.exercice_id}>
+                                                            <div className={`progress-item ${progressClass}`}></div>
+                                                            <p className="consigne">{el.exo_consigne}</p>
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        ): (
+                                                <p className="exercises__error">Aucun exercice enregistré dans cette séquence pour le moment</p>
+                                            ) 
+                            )
+                        }
+
+                        
+                        <Outlet />
+                    </main>
+                    <footer>
+                    { (exercises && exercises.length === 0) ||  <Link to="exo"><div className="sequence__start">Commencer</div></Link>}
+                
+                    </footer>
                 </div>
-                <p className="header__sequence">{sequence?.seq_title}</p>
-            </div>
-
-            <div className="header__percent">
-                {/* <img src={argentMedal} alt="medaille" /> */}
-                <p><CountUp end={finalScore}/> %</p>
-            </div>
-
-            <div className="header__actions">
-                <img src={videoCam} alt="Video Cam" onClick={() => setOpen(true)} />
-            </div>
-        </header>
-        <main className="exercises">
-            {/* <Modal
-                open={open}
-                onClose={handleCloseModal}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        <video style={{ width: "40vw" }} src={videoSrc} controls autoPlay />
-                    </Typography>
-                </Box>
-            </Modal> */}
-
-            
-            {
-                isLoading ? (
-                    <BounceLoader color="#36d7b7" size={110} className="loader" cssOverride={{marginLeft:'50%'}}/>
-                ):(
-                        exercises.length ? 
-                        (
-                            
-                                <ul className="exercises__list">
-                                    {exercises.map((el, index) => {
-                                    let progressClass = "";
-                                
-                                    if (tabScore[index] === null) {
-                                        progressClass = "progress-item--no-score"; 
-                                    } else if (tabScore[index] <= 49) {
-                                        progressClass = "progress-item--orange"; // Classe pour les scores inférieurs ou égaux à 49
-                                    } else if (tabScore[index] >= 50) {
-                                        progressClass = "progress-item--vert"; // Classe pour les scores supérieurs ou égaux à 50
-                                    }
-
-                                        return (
-                                            <li className="exercises__item" key={el.exercice_id}>
-                                                <div className={`progress-item ${progressClass}`}></div>
-                                                <p className="consigne">{el.exo_consigne}</p>
-                                            </li>
-                                        );
-                                    })}
-                                </ul>
-                            ): (
-                                    <p className="exercises__error">Aucun exercice enregistré dans cette séquence pour le moment</p>
-                                ) 
-                )
-            }
-
-            
-            <Outlet />
-        </main>
-        <footer>
-        { (exercises && exercises.length === 0) ||  <Link to="exo"><div className="sequence__start">Commencer</div></Link>}
-       
-        </footer>
-    </div>
+    </React.Fragment>
 
 }
 

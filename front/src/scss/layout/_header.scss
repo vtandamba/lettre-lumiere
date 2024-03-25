@@ -5,7 +5,7 @@
     max-width: 100%;
     font-size: 2rem;
     font-family: 'Satoshi', sans-serif;
-
+    margin: 1rem 2.3rem;
     .user,
     .quit {
         display: flex;
@@ -20,9 +20,11 @@
         border: 2px $kepel solid;
         padding: 0.3rem 1.2rem;
         border-radius: 5px;
-
+        font-size: $font-size-medium;
+        font-family: $font-family-ranade;
+        text-transform: capitalize;
         &__img {
-            width: 30px;
+            width: 40px;
             color: $kepel
         }
     }
