@@ -5,3 +5,15 @@
     }
 
 }
+
+.header{
+    &__quit{
+        @extend %button-quit;
+        transition: .2s all ease-out;
+        margin-left:auto;
+        &:hover{
+            transform: scale(1.1);
+            transition: .2s all ease-out;
+        }
+    }
+}

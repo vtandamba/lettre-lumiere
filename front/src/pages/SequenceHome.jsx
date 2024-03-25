@@ -5,7 +5,7 @@ import { Box, CircularProgress, Modal, Typography } from "@mui/material";
 import Button from "../components/Button";
 import videoCam from '../assets/images/camera.svg'
 import imgEtape from '../assets/images/layoutexercices/etape.png';
-
+import {BounceLoader} from 'react-spinners'
 //Import des différentes coupes
 import argentMedal from '../assets/gamification/médaille=argent.png';
 import bronzeMedal from '../assets/gamification/médaille=bronze.png';
@@ -46,7 +46,7 @@ const SequenceHome = ({ db }) => {
         const loadSequences = async () => {
 
             const loadedSequences = await fetchOneSequence(idSeq);
-            setSequence(loadedSequences);
+            setSequence(loadedSequences[0]);
             console.log(loadedSequences[0])
         };
 
@@ -70,12 +70,12 @@ const SequenceHome = ({ db }) => {
  
         loadExercises();
         loadSequences();
-
+      
     }, [idSeq]);
 
 
     useEffect(() => {
-
+        console.log('sequence',sequence);
         const exercisesScore = async () => {
             try {
                 const scorePromises = exercises?.map(async (exercise) => {
@@ -121,8 +121,8 @@ const SequenceHome = ({ db }) => {
             setFinalScore(getFinalScore); 
             console.log('sum ======>' , getFinalScore, tabScore?.length)
         }
-       
-       
+      
+        
     }, [tabScore])
 
 
@@ -144,16 +144,14 @@ const SequenceHome = ({ db }) => {
 
                 <div className="header__etape">
                     <img src={imgEtape} alt="" />
-                    <p>Etape {sequence && sequence.map((s, index) => (
-                        <span key={index}>{s.stage_id}{index < sequence.length - 1 && ', '}</span>
-                    ))}</p>
+                    <p>Etape {sequence?.stage_id}</p>
                 </div>
-                <p className="header__sequence">{sequence?.title}</p>
+                <p className="header__sequence">{sequence?.seq_title}</p>
             </div>
 
             <div className="header__percent">
+                {/* <img src={argentMedal} alt="medaille" /> */}
                 <p><CountUp end={finalScore}/> %</p>
-                <img src={argentMedal} alt="medaille" />
             </div>
 
             <div className="header__actions">
@@ -177,35 +175,35 @@ const SequenceHome = ({ db }) => {
 
             
             {
-            exercises.length ? (
                 isLoading ? (
-                <div className="circular-progress">
-                    <CircularProgress size={140} />
-                </div>
-                ) : (
-                <ul className="exercises__list">
-                      {exercises.map((el, index) => {
-                    let progressClass = "";
-                 
-                    if (tabScore[index] === null) {
-                        progressClass = "progress-item--no-score"; 
-                    } else if (tabScore[index] <= 49) {
-                        progressClass = "progress-item--orange"; // Classe pour les scores inférieurs ou égaux à 49
-                    } else if (tabScore[index] >= 50) {
-                        progressClass = "progress-item--vert"; // Classe pour les scores supérieurs ou égaux à 50
-                    }
+                    <BounceLoader color="#36d7b7" size={110} className="loader" cssOverride={{marginLeft:'50%'}}/>
+                ):(
+                        exercises.length ? 
+                        (
+                            
+                                <ul className="exercises__list">
+                                    {exercises.map((el, index) => {
+                                    let progressClass = "";
+                                
+                                    if (tabScore[index] === null) {
+                                        progressClass = "progress-item--no-score"; 
+                                    } else if (tabScore[index] <= 49) {
+                                        progressClass = "progress-item--orange"; // Classe pour les scores inférieurs ou égaux à 49
+                                    } else if (tabScore[index] >= 50) {
+                                        progressClass = "progress-item--vert"; // Classe pour les scores supérieurs ou égaux à 50
+                                    }
 
-                        return (
-                            <li className="exercises__item" key={el.exercice_id}>
-                                <div className={`progress-item ${progressClass}`}></div>
-                                <p className="consigne">{el.exo_consigne}</p>
-                            </li>
-                        );
-                    })}
-                 </ul>
-                    )
-                ) : (
-                    <p className="exercises__error">Aucun exercice enregistré pour cette séquence pour le moment</p>
+                                        return (
+                                            <li className="exercises__item" key={el.exercice_id}>
+                                                <div className={`progress-item ${progressClass}`}></div>
+                                                <p className="consigne">{el.exo_consigne}</p>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            ): (
+                                    <p className="exercises__error">Aucun exercice enregistré dans cette séquence pour le moment</p>
+                                ) 
                 )
             }
 
@@ -213,7 +211,8 @@ const SequenceHome = ({ db }) => {
             <Outlet />
         </main>
         <footer>
-        <Link to="exo"><div className="sequence__start">Commencer</div></Link>
+        { (exercises && exercises.length === 0) ||  <Link to="exo"><div className="sequence__start">Commencer</div></Link>}
+       
         </footer>
     </div>
 

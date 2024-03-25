@@ -52,6 +52,7 @@
     .progress-global{
         display: flex;
         flex-direction: column;
+        // height:75vh;
         gap:2.5rem;
         position: fixed; 
         left: 2rem; 
@@ -64,7 +65,6 @@
 
     .progress-item{
         @extend %progress;
-
          &--orange{
              background-color: $orange ;
              transition : all .2s ease-in-out
@@ -77,14 +77,7 @@
          }
      }
 
-     .circular-progress{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        width:100%;
-        transform: translateY(90%);
-     }
+    
 
 
 

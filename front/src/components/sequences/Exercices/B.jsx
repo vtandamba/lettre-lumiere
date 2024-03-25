@@ -23,26 +23,26 @@ const B = (props) => {
     
             console.log(data.exo_choices);
             setTabItems(initialTabItems);
-    
-            const availableChoices = initialTabItems.filter(el => el.isAlreadyChosen===false);
-            const initialAnswer = getElementRandom(availableChoices);
-            setAnswer({...initialAnswer, isAlreadyChosen:true});
-    
-            const updatedTabItems = initialTabItems.map(item => 
-                item.value === initialAnswer.value ? { ...item, isAlreadyChosen: true } : item
-            );
-    
-            setTabItems(updatedTabItems);
-          
+            selectNewAnswer(initialTabItems);  
         }
     }, [data?.exo_choices]);
+
+
+    const selectNewAnswer = (items) => {
+        const availableChoices = items.filter(el => !el.isAlreadyChosen);
+        if (availableChoices.length > 0) {
+            const newAnswer = getElementRandom(availableChoices);
+            setAnswer(newAnswer);
+            speak(newAnswer.value); // Assurez-vous de parler le nouvel item ici pour l'accessibilité
+        }
+    };
 
     useEffect(() => {
         if (attemptCount > 0 && attemptCount < tabResponses.length ) {
 
             const timer = setTimeout(() => {
-                const newAnswer = getElementRandom(tabItems.filter(el =>!el.isAlreadyChosen));
-                setAnswer({...newAnswer, isAlreadyChosen:true});
+                
+                selectNewAnswer(tabItems);
                 resetTabItemsState(); //Réinitialise les états de tous les items
             }, 1000);
 
@@ -72,7 +72,7 @@ const B = (props) => {
     
 
     const handleClick = () => {
-        console.log(answer);
+        
         if (!selectedAnswer || !answer) return;
         const isCorrect = selectedAnswer?.toLowerCase() === answer.value.toLowerCase();
         setTabResponses(prev => {
@@ -80,6 +80,13 @@ const B = (props) => {
             updatedResponses[attemptCount] = isCorrect;
             return updatedResponses;
         });
+
+        setTabItems(prevItems => prevItems.map(item => {
+            if (item.value === answer.value) {
+                return { ...item, isAlreadyChosen: true, state: isCorrect ? 'true' : 'false' };
+            }
+            return item;
+        }));
     
         const newTabItems = tabItems.map(item => {
             if (item.value.toLowerCase() === selectedAnswer.toLowerCase()) {
