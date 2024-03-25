@@ -1,0 +1,173 @@
+  /* Reset des marges et des paddings */
+  * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Belleza', sans-serif;
+  }
+
+  /* Styles pour l'accordéon */
+  .accordion {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-bottom: 2vh;
+
+      /* margin: 1vh 5vw */
+  }
+
+  .accordion-title {
+      background-color: #f4f4f4;
+      color: #333;
+      padding: 3vh;
+      cursor: pointer;
+      font-size: 18px;
+      text-align: center;
+  }
+
+  .accordion-content {
+      padding: 10px;
+      display: none;
+      background-color: #fff;
+  }
+
+  /* Styles pour l'en-tête et le pied de page */
+  header,
+  footer {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+  }
+
+  header h1,
+  footer h3 {
+      margin: 0;
+  }
+
+  footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+  }
+
+  /* Style pour la liste ul */
+  ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      /* Deux colonnes de largeur égale */
+      gap: 10px;
+      /* Espacement entre les éléments */
+      border: 1px solid #ccc;
+      /* Bordure autour de la liste */
+      width: 80%;
+      /* Largeur de la liste */
+      margin: auto;
+      /* Centrer la liste */
+  }
+
+
+  /* Style pour chaque élément li */
+  li {
+      border-bottom: 1px solid #ccc;
+      padding: 3vh 5vw;
+      /* Ajout de rembourrage pour un aspect plus aéré */
+  }
+
+  /* Style pour les formulaires */
+  form {
+      width: 80%;
+      /* Largeur du formulaire */
+      margin: auto;
+      /* Centrer le formulaire */
+      padding: 20px;
+      /* Ajout de rembourrage pour un aspect plus aéré */
+      border: 1px solid #ccc;
+      /* Bordure autour du formulaire */
+  }
+
+  /* Style pour les étiquettes des champs */
+  label {
+      display: block;
+      /* Afficher les étiquettes sur une nouvelle ligne */
+      margin-bottom: 10px;
+      /* Espacement entre les étiquettes et les champs */
+  }
+
+  /* Style pour les champs de saisie */
+  input[type="text"],
+  input[type="password"],
+  textarea {
+      width: 100%;
+      /* Largeur maximale pour s'adapter au conteneur */
+      padding: 8px;
+      /* Ajout de rembourrage pour un aspect plus aéré */
+      margin-bottom: 10px;
+      /* Espacement entre les champs */
+      border: 1px solid #ccc;
+      /* Bordure autour des champs */
+      border-radius: 4px;
+      /* Coins arrondis pour un aspect plus esthétique */
+      box-sizing: border-box;
+      /* Inclure le rembourrage et la bordure dans la largeur totale */
+  }
+
+  /* Style pour les boutons */
+  input[type="submit"],
+  button {
+      background-color: #007bff;
+      /* Couleur de fond */
+      color: #fff;
+      /* Couleur du texte */
+      padding: 10px 20px;
+      /* Rembourrage */
+      border: none;
+      /* Supprimer la bordure */
+      border-radius: 4px;
+      /* Coins arrondis */
+      cursor: pointer;
+      /* Curseur de la souris */
+  }
+
+  /* Style pour les boutons au survol */
+  input[type="submit"]:hover,
+  button:hover {
+      background-color: #0056b3;
+      /* Couleur de fond au survol */
+  }
+
+  select {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #fff;
+      cursor: pointer;
+      outline: none;
+      /* Supprime la bordure lorsqu'il est focus */
+  }
+
+  /* Style pour les options */
+  select option {
+      background-color: #fff;
+      color: #333;
+  }
+
+  /* Style pour les options au survol */
+  select option:hover {
+      background-color: #f4f4f4;
+  }
+
+  /* Style pour les options sélectionnées */
+  select option:checked {
+      background-color: #007bff;
+      color: #fff;
+  }
+
+  main {
+      /* background-color: rgb(9, 76, 102); */
+      margin-bottom: 10vh;
+  }

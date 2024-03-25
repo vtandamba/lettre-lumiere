@@ -1,77 +1,67 @@
 <?php
-class Exercise {
-    private $id;
-    private $sequenceId;
-    private $type;
-    private $consigne;
-    private $choices;
-    private $ordre;
 
-    public function __construct($id, $sequenceId, $type, $consigne, $choices, $ordre) {
-        $this->id = $id;
-        $this->sequenceId = $sequenceId;
-        $this->type = $type;
-        $this->consigne = $consigne;
-        $this->choices = $choices;
-        $this->ordre = $ordre;
+class M_Exercise {
+    private $exercice_id;
+    private $sequence_id;
+    private $exo_type;
+    private $exo_consigne;
+    private $exo_choices;
+    private $exo_ordre;
+
+    // Constructeur
+    public function __construct($exercice_id, $sequence_id, $exo_type, $exo_consigne, $exo_choices, $exo_ordre) {
+        $this->exercice_id = $exercice_id;
+        $this->sequence_id = $sequence_id;
+        $this->exo_type = $exo_type;
+        $this->exo_consigne = $exo_consigne;
+        $this->exo_choices = $exo_choices;
+        $this->exo_ordre = $exo_ordre;
     }
 
-    // Getters et setters pour chaque propriété
-    public function getId() {
-        return $this->id;
+    // Getters
+    public function getExerciceId() {
+        return $this->exercice_id;
     }
 
     public function getSequenceId() {
-        return $this->sequenceId;
+        return $this->sequence_id;
     }
 
-    public function getType() {
-        return $this->type;
+    public function getExoType() {
+        return $this->exo_type;
     }
 
-    public function getConsigne() {
-        return $this->consigne;
+    public function getExoConsigne() {
+        return $this->exo_consigne;
     }
 
-    public function getChoices() {
-        return $this->choices;
+    public function getExoChoices() {
+        return $this->exo_choices;
     }
 
-    public function getOrdre() {
-        return $this->ordre;
+    public function getExoOrdre() {
+        return $this->exo_ordre;
     }
 
-    public function setSequenceId($sequenceId) {
-        $this->sequenceId = $sequenceId;
+    // Setters
+    public function setSequenceId($sequence_id) {
+        $this->sequence_id = $sequence_id;
     }
 
-    public function setType($type) {
-        $this->type = $type;
+    public function setExoType($exo_type) {
+        $this->exo_type = $exo_type;
     }
 
-    public function setConsigne($consigne) {
-        $this->consigne = $consigne;
+    public function setExoConsigne($exo_consigne) {
+        $this->exo_consigne = $exo_consigne;
     }
 
-    public function setChoices($choices) {
-        $this->choices = $choices;
+    public function setExoChoices($exo_choices) {
+        $this->exo_choices = $exo_choices;
     }
 
-    public function setOrdre($ordre) {
-        $this->ordre = $ordre;
+    public function setExoOrdre($exo_ordre) {
+        $this->exo_ordre = $exo_ordre;
     }
 }
-
-
-// CREER UN EXERCICE
-$exercise = new Exercise(
-    $id,  
-    $sequenceId,  
-    $type,  
-    $consigne,  
-    $choices,  
-    $ordre  
-);
-
-
 ?>

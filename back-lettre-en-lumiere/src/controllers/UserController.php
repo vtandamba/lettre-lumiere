@@ -1,10 +1,12 @@
 <?php
 echo '-- user --';
+
 require_once '../src/App.php';
 require_once '../src/models/Database.php';
-
-class UserController {
-    public function showAllUsers() {
+class UserController
+{
+    public function showAllUsers()
+    {
         // Créez une instance de Database en utilisant le chemin du fichier de la base de données
         $database = new Database('../db.sqlite');
 
@@ -16,7 +18,8 @@ class UserController {
         require_once __DIR__ . '/../views/users/all_users.php';
     }
 
-    public function addUser($name, $surname, $password) {
+    public function addUser($name, $surname, $password)
+    {
         // Créez une instance de Database en utilisant le chemin du fichier de la base de données
         $database = new Database('../db.sqlite');
 
@@ -29,5 +32,4 @@ class UserController {
         exit();
     }
 }
-
 ?>
