@@ -59,7 +59,7 @@ const Credits = () => {
                         <br/>
                         <br/>
                         merci à Marilyne Delia TSENE , Victoria TANDAMBA, Clarence Noirot et Loane SENE
-                        d'avoir mené ce projet durant 7 mois.
+                        d'avoir mené ce projet durant 5 mois.
                         <br/>
                         <br/>
                         Ce projet expérimental est une maquette qui ne peut être commercialisée.
