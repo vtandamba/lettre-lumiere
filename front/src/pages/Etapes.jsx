@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { fetchAllStages, fetchAllSequences, fetchSeqByStageId } from "../hooks/useDb";
-import EtapeBlue from './../assets/images/etapes/EtapeBlue.svg'
-import Etape from "../components/Etape";
-import EtapeContent from "../components/EtapeContent";
+import { fetchAllStages, fetchAllSequences} from "../hooks/useDb";
+// import EtapeBlue from './../assets/images/etapes/EtapeBlue.svg'
+// import Etape from "../components/Etape";
+// import EtapeContent from "../components/EtapeContent";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import {CircleLoader} from 'react-spinners';
-import MainHeader from '../components/MainHeader'
+import MainHeader from '../components/MainHeader';
+import arrowRight from '../assets/images/arrow.png';
+import { IoMdArrowDropright } from "react-icons/io";
 
 
 
@@ -23,7 +25,7 @@ const Etapes = (props) => {
 
   const [etapes, setEtapes] = useState([]);
   const [sequences, setSequences] = useState([]);
-  const [seqById, setSeqById] = useState([]);
+  // const [seqById, setSeqById] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   fetchAllStages(db);
@@ -85,8 +87,13 @@ const Etapes = (props) => {
                       >
                         <Typography className="Etape">
                           <button className="Etape__accordion"></button>
-                          <img className="Etape__img" src={EtapeBlue} alt="Etape" />
-                          <h2 className="Etape__Title">{stage.sta_name}</h2>
+                          {/* <img className="Etape__img" src={EtapeBlue} alt="Etape" /> */}
+                          <div className="Etape__Title">
+                            <h2>{stage.sta_name}</h2>
+                            <Link to={`/etape/${stage.stage_id}`}>
+                              <IoMdArrowDropright size={55} color="#FFF"/>
+                            </Link>
+                          </div>
                           <div className="Etape__container"></div>
                         </Typography>
                       </AccordionSummary>

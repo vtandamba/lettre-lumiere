@@ -155,8 +155,8 @@
     }
 
     &__img {
-        width:25rem;
-        margin-bottom: 15vh;
+        width:18rem;
+        margin-bottom: 2vh;
     }
 
     &__iconHp {
@@ -171,6 +171,7 @@
 
     &__group {
         min-width: 10vh;
+        max-width: 10rem;
         display: flex;
         flex-direction: column;
         min-height: 5vh;
