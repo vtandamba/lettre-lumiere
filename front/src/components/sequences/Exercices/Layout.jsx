@@ -117,9 +117,10 @@ const Layout = ({ db }) => {
 
 
     const onAttemptMade = () => {
-        if (currentExerciseIndex === exercises.length - 1){
-            setShouldGoToNextExercise(false);
+        if (currentExerciseIndex === exercises.length - 1 ){
             navigate(`/etapes/${id || idSeq}`);
+        }else {
+            setShouldGoToNextExercise(false);
         }
         setShouldGoToNextExercise(true);
      
