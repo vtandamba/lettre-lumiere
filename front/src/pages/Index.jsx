@@ -18,7 +18,7 @@ const Index = () => {
             <div className="progress-container">
                 <div className="progress-bar" data-percentage="10"> </div>
             </div>
-            <p className="index__message">Bonjour {localStorage.getItem("user_name")}</p>
+            <p className="index__message">Bonjour {sessionStorage.getItem("user_name")}</p>
 
             <div className="parts">
 
