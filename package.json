@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "react-countup": "^6.5.2",
-    "react-loading": "^2.0.3",
-    "redux-react-session": "^2.6.1"
-  }
-}

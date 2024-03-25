@@ -72,8 +72,8 @@ PRAGMA foreign_keys = ON;
 -- insertion
 -- Insertion de données dans la table l_SEQUENCES
 INSERT INTO l_USER (user_name, user_surname, user_password)
-VALUES ('lego', 'rose', 'admin1'),
-    ('burr', 'camille', 'admin2');
+VALUES ('burr', 'camille', 'admin1'),
+    ('trugeon', 'nicolas', 'admin2');
 INSERT INTO l_SEQUENCES (
         seq_title,
         stage_id,
@@ -113,7 +113,6 @@ VALUES ('Etape 1', 'Etape 1'),
     ('Etape 3', 'Etape 3'),
     ('Etape 4', 'Etape 4'),
     ('Etape 5', 'Etape 5');
-
 INSERT INTO l_REPORT (stage_id, sequence_id, rep_type, rep_contenu)
 VALUES (
         1,
@@ -185,13 +184,8 @@ VALUES (
                {"value": "ul", "image" : null, "chosenSyllable" : null } ,
                {"value": "ur", "image" : null, "chosenSyllable" : null }]'
     );
-    -- Insertion de données dans la table l_EXERCICES
-
-
-
-
- 
- INSERT INTO l_EXERCICES (
+-- Insertion de données dans la table l_EXERCICES
+INSERT INTO l_EXERCICES (
         sequence_id,
         exo_type,
         exo_consigne,
@@ -460,7 +454,6 @@ VALUES (
         {"value": "lavé", "image": "lavé.jpg", "chosenSyllable": "la"}, 
         {"value": "lune", "image":"lune.jpg" , "chosenSyllable": "lu"}, 
         {"value": "pile", "image": "pile.jpg", "chosenSyllable": "le"}, 
-        {"value": "vélo", "image": "vélo.avif", "chosenSyllable": "lo"}]'
-        ,
+        {"value": "vélo", "image": "vélo.avif", "chosenSyllable": "lo"}]',
         9
     );
