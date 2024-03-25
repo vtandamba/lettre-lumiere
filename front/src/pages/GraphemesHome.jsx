@@ -3,7 +3,7 @@ import logoLettres from '../assets/images/Logo lettres en lumière.png';
 import { Link, Outlet } from "react-router-dom";
 import speak from "../hooks/useSpeak";
 import imageTraining from '../assets/images/coureur.png'
-
+import soundTitle from '../assets/sons/graphemes/titreGraphemes.mp3';
 
 const GraphemesHome = () => {
 
@@ -57,6 +57,12 @@ const GraphemesHome = () => {
         return luma < 0.5;
     };
 
+    const handleSpeak = () => {
+    
+            let audio = new Audio(soundTitle);
+            audio.play();
+    }
+
     return <React.Fragment>
         <header className="index__header">
             
@@ -71,7 +77,7 @@ const GraphemesHome = () => {
 
         </header>
         <main className="graphemes">
-            <h1 className="graphemes__title" onClick={(evt) => speak("an, on, in")}>an  on  in</h1>
+            <h1 className="graphemes__title" onClick={handleSpeak}>an  on  in</h1>
             <div className="list">
                 {graphemes.map((g, index) => (
                     <div

@@ -11,6 +11,7 @@ import argentMedal from '../assets/gamification/médaille=argent.png';
 import bronzeMedal from '../assets/gamification/médaille=bronze.png';
 import orMedal from '../assets/gamification/médaille=or.png';
 import CountUp from 'react-countup';
+import MainHeader from "../components/MainHeader";
 
 const SequenceHome = ({ db }) => {
 
@@ -139,6 +140,7 @@ const SequenceHome = ({ db }) => {
 
     return <div className="sequence">
         {/* {process.env.REACT_APP_NAME_VARIABLE} */}
+       
         <header className="header">
             <div className="header__title">
 

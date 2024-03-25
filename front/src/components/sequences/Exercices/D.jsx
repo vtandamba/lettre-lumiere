@@ -5,9 +5,10 @@ import { getElementRandom } from "../../../hooks/useRandom";
 
 
 const D = (props) => {
-
+  
     const { data, onAttemptMade, score, imgNotFound } = props;
     const [item, setItem] = useState();
+    console.log(data)
     // const [tabItems, setTabItems] = useState();
     // const [validate, setValidate] = useState(false);
     const [allItemsWithStyles, setAllItemsWithStyles] = useState(JSON.parse(data?.exo_choices));
@@ -69,6 +70,7 @@ const D = (props) => {
 
             
     useEffect(() => {
+       
         if (item)
         {
             speak(item.value);
@@ -167,9 +169,9 @@ const D = (props) => {
 
     return <React.Fragment>
                 <h2 className="exercice__consigne">{data.exo_consigne}</h2>
-                {data.exo_type === "D2" 
+                {data.exo_type === "D1" 
                                 ? <p className="exercice__sound" onClick={()=>speak(item.value)}>?</p> 
-                                : <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images${item.value}.jpg`} 
+                                : <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images${item?.value}.jpg`} 
                                        alt="item" 
                                        className="exercice__img"
                                        onClick={()=>speak(item.value)}

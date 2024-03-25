@@ -3,18 +3,11 @@ import logoBrain from '../assets/images/brainLogo.png';
 import logoLettres from '../assets/images/Logo lettres en lumière.png'
 import logoChrono from '../assets/images/bx_timer.png';
 import { Link } from "react-router-dom";
+import MainHeader from "../components/MainHeader";
 
 const Index = () => {
     return (<div className="index">
-        <header className="index__header">
-            <img src={logoLettres} alt="Page des étapes" className="index__logo" />
-            <button className="bouton__croix">
-                <Link to="/" style={{ color: "#000" }}>
-                    QUITTER <span className="close-icon">&times;</span>
-                </Link>
-
-            </button>
-        </header>
+        <MainHeader />
         <main>
             {/* <div className="progress">
                 <p className="progress__container"></p> <p>0%</p>

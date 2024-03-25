@@ -161,6 +161,11 @@
     &__iconHp {
         width: 1vw;
         margin: 1vw;
+        cursor: pointer;
+        &:hover{
+            scale:1.35;
+            transition: 0.2s all ease-in-out;
+        }
     }
 
     &__group {
