@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add User</title>
-</head>
-<body>
-    <h1>Add User</h1>
-    <form action="../../../public/index.php?action=addUser" method="POST">
+<section class="accordion"> 
+    <h3 class="accordion-title">Add User</h3>
+    <div class="accordion-content">
+    <form action="./index.php?action=addUser" method="POST">
         <label for="user_name">Name:</label>
         <input type="text" id="user_name" name="user_name" required><br><br>
         
@@ -19,5 +13,5 @@
         
         <input type="submit" value="Submit">
     </form>
-</body>
-</html>
+    </div>
+    </section>

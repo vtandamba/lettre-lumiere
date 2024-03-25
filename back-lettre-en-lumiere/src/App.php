@@ -2,9 +2,12 @@
 echo ' -- app -- ';
 
 require_once 'models/Database.php';
-require_once 'models/M_Users.php';
+require_once 'models/M_User.php';
+require_once 'models/M_Sequence.php';
+require_once 'models/M_Stage.php';
+require_once 'models/M_Exercise.php';
 
-include './../test.php';
+// include './../test.php';
 class App {
     private $pdo;
     private $database;
@@ -34,7 +37,7 @@ class App {
         $statement = $this->pdo->query($query);
         $users = [];
         while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
-            $user = new User($row['user_id'], $row['user_name'], $row['user_surname'], $row['user_password']);
+            $user = new M_User($row['user_id'], $row['user_name'], $row['user_surname'], $row['user_password']);
             $users[] = $user;
         }
         return $users;
@@ -67,7 +70,13 @@ class App {
     public function getAllExercises() {
         $query = "SELECT * FROM l_EXERCICES";
         $statement = $this->pdo->query($query);
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        $exercices = [];
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            // Suppose que vous avez une classe M_Exercice avec un constructeur prenant les attributs de l'exercice
+            $exercices []= new M_Exercise($row['exercice_id'], $row['sequence_id'], $row['exo_type'], $row['exo_consigne'], $row['exo_choices'], $row['exo_ordre']);
+            
+        }
+        return $exercices;
     }
     
     // Méthode pour ajouter un nouvel exercice
@@ -96,12 +105,66 @@ class App {
     
     
     // --------------------------- fin exercice -------------------------//
+    // --------------------------- sequence -------------------------//
+    public function getAllSequences() {
+        $query = "SELECT * FROM l_SEQUENCES";
+        $statement = $this->pdo->query($query);
+        $sequences = [];
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            // Ajouter chaque instance de M_Sequence au tableau $sequences
+            $sequences[] = new M_Sequence($row['sequence_id'], $row['seq_title'], $row['stage_id'], $row['seq_description'], $row['seq_content']);
+        }
+        return $sequences;
+    }
+
+ // Dans votre classe App (App.php)
+
+// Ajoutez la méthode addSequence pour ajouter une nouvelle séquence dans la base de données
+public function addSequence($title, $stageId, $description, $content) {
+    // Préparez votre requête SQL pour insérer une nouvelle séquence
+    $query = "INSERT INTO l_SEQUENCES (seq_title, stage_id, seq_description, seq_content) VALUES (:title, :stageId, :description, :content)";
+    $statement = $this->pdo->prepare($query);
+    
+    // Exécutez la requête avec les valeurs fournies
+    $statement->execute(array(
+        'title' => $title,
+        'stageId' => $stageId,
+        'description' => $description,
+        'content' => $content
+    ));
+    
+    // Retournez l'ID de la séquence nouvellement ajoutée
+    return $this->pdo->lastInsertId();
 }
 
+    // -------------------------- stages --------------
+    
+    public function getAllStages() {
+        $query = "SELECT * FROM l_STAGES";
+        $statement = $this->pdo->query($query);
+        $stages = [];
+        while ($row = $statement->fetch(PDO::FETCH_ASSOC)) {
+            // Ajouter chaque instance de M_Sequence au tableau $sequences
+            $stages[] = new M_Stage($row['stage_id'], $row['sta_name'], $row['sta_description']);
+        }
+        return $stages;
+    }
+    public function addStage($name, $description){
+        $query = "INSERT INTO l_STAGES(sta_name, sta_description) VALUES (:sta_name, :sta_description)";
+        $statement = $this->pdo->prepare($query); 
+        $statement->execute(array('sta_name'=>$name, 'sta_description' => $description));
+        return $this->pdo->lastInsertId();
+    }
+    
 
+}
+
+    // -------------------- exercise ------------------
+
+    
 
 // Utilisation de la classe Database
-$db = new Database('mydatabase.db');
+// $db = new Database('mydatabase.db');
 //  ici se déroulent les actions methodes de classes de app
 
 
