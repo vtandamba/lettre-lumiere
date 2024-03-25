@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import logo from '../assets/images/logo.svg'
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { CircleLoader } from "react-spinners";
 
@@ -31,6 +31,12 @@ const Home = () => {
                             <option value="identifie">Identifié</option>
                             <option value="libre">Libre</option>
                         </select>
+                        <p className="home__credits">
+                            <Link to="/credits">
+                                Credits
+                            </Link>
+                        </p>
+                        
                         
                     </React.Fragment>
                 }

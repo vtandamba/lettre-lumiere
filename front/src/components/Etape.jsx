@@ -11,7 +11,7 @@ const Etape = (props) => {
     const idStage = params.etape;
     console.log(parseInt(idStage, 10) === 1)
     const [sequences, setSequences] = useState([]);
-
+    console.log(sequences[3]?.seq_content);
     
 
     useEffect(() =>{
@@ -24,8 +24,12 @@ const Etape = (props) => {
         }
     
           loadSequences();
-
+         
     }, [])
+    // sequences.map(el => {
+    //     console.log('itération',JSON.parse(el.seq_content));
+    //     return  JSON.parse(el?.seq_content).map(el => console.log (el))
+    // });
     return <React.Fragment>
                <MainHeader/>
                 <main>
@@ -35,9 +39,9 @@ const Etape = (props) => {
                         {sequences.map((sequence) => {
                             return <div class="sequenceGroup">
                                         <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
-                                            <div class="sequenceGroup__content">{
-                                                JSON.parse(sequence.seq_content).map((el) => <p>{el}</p>)
-                                            }</div>
+                                            <div class="sequenceGroup__content">
+                                            {sequence?.seq_content && sequence.seq_content.map(el => <p>{el}</p>)}
+                                            </div>
                                         </Link>
                                         <img class="sequenceGroup__recompense" src={medailleArgent} alt="medaille" />
                                     </div>
