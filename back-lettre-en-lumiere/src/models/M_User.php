@@ -1,6 +1,6 @@
 <?php
  
-    class User {
+    class M_User {
         private $id;
         private $name;
         private $surname;
