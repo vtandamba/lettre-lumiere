@@ -14,19 +14,21 @@ class ExerciseController {
     }
 
     // // Méthode pour afficher le formulaire d'ajout d'un exercice
-    public function addExercise($sequence_id, $type, $consigne, $choices, $ordre) {
+  // // Méthode pour afficher le formulaire d'ajout d'un exercice
+  public function addExercise($sequence_id, $type, $consigne, $choices, $ordre) {
          
-            // Créez une instance de Database en utilisant le chemin du fichier de la base de données
-            $database = new Database('../db.sqlite');
-    
-            // Passez l'instance de Database à la classe App
-            $app = new App($database);
-    
-            // Utilisez l'instance de App pour ajouter un nouvel utilisateur
-            $exerciceId = $app->addExercise($sequence_id, $type, $consigne, $choices, $ordre);
-            header('Location: index.php?action=showAllExercises');
-            exit();
-        }
+    // Créez une instance de Database en utilisant le chemin du fichier de la base de données
+    $database = new Database('../db.sqlite');
+
+    // Passez l'instance de Database à la classe App
+    $app = new App($database);
+
+    // Utilisez l'instance de App pour ajouter un nouvel utilisateur
+    $exerciceId = $app->addExercise($sequence_id, $type, $consigne, $choices, $ordre);
+    header('Location: index.php?action=showAllExercises');
+    exit();
+}
+
     }
 
 

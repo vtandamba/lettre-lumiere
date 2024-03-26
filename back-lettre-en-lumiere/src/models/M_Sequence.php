@@ -6,14 +6,18 @@ class M_Sequence {
     private $stage_id;
     private $seq_description;
     private $seq_content;
+    private $sta_name;
+    private $sta_description;
 
     // Constructeur
-    public function __construct($sequence_id, $seq_title, $stage_id, $seq_description, $seq_content) {
+    public function __construct($sequence_id, $seq_title, $stage_id, $seq_description, $seq_content, $sta_name, $sta_description) {
         $this->sequence_id = $sequence_id;
         $this->seq_title = $seq_title;
         $this->stage_id = $stage_id;
         $this->seq_description = $seq_description;
         $this->seq_content = $seq_content;
+        $this->sta_name = $sta_name;
+        $this->sta_description = $sta_description;
     }
 
     // Getters
@@ -28,7 +32,12 @@ class M_Sequence {
     public function getStageId() {
         return $this->stage_id;
     }
-
+    public function getStaName() {
+        return $this->sta_name;
+    }
+    public function getStadescription() {
+        return $this->sta_description;
+    }
     public function getSeqDescription() {
         return $this->seq_description;
     }
