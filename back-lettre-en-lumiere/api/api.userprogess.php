@@ -54,6 +54,7 @@ include '../private/header_access.php';
 // Endpoint pour ajouter un progrès utilisateur
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Récupérer les données de la requête POST
+
     $_POST = json_decode(file_get_contents("php://input"), true);
 
     // Vérifier si les données sont valides

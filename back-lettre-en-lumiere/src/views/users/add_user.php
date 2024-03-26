@@ -9,7 +9,7 @@
         <input type="text" id="user_surname" name="user_surname" required><br><br>
         
         <label for="user_password">Password:</label>
-        <input type="user_password" id="user_password" name="user_password" required><br><br>
+        <input type="password" id="user_password" name="user_password" required><br><br>
         
         <input type="submit" value="Submit">
     </form>
