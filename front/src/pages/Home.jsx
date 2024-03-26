@@ -4,20 +4,25 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { CircleLoader } from "react-spinners";
 
-const Home = () => {
+const Home = (props) => {
+
+    const {forceUpdate} = props;
 
     const [state, setState] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     
     useEffect(() => {
+       
         if (state === "identifie" || state === "libre") {
             setLoading(true);
+            forceUpdate();
             setTimeout(() => {
                 navigate((state === 'identifie') ?'login' : 'home')
             }, 2000)
         }
     }, [state])
+  
   
   
     return (<div className="home">

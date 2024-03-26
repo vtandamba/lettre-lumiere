@@ -13,8 +13,9 @@ import orMedal from '../assets/gamification/médaille=or.png';
 import CountUp from 'react-countup';
 import MainHeader from "../components/MainHeader";
 
-const SequenceHome = ({ db }) => {
+const SequenceHome = (props) => {
 
+    const {db, user, allScoreByExercises} = props;
     const params = useParams();
     const id = params?.sequence;
     // Convertir sequenceId en entier
@@ -78,43 +79,67 @@ const SequenceHome = ({ db }) => {
     useEffect(() => {
         console.log('sequence',sequence);
         const exercisesScore = async () => {
-            try {
-                const scorePromises = exercises?.map(async (exercise) => {
-                    const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=1&exercice_id=${exercise.exercice_id}`);
-                    if (!response.ok) {
-                      
-                        return null;
+            // Si il y a un utilisateur connecté
+            if (user){
+
+            
+                try {
+                    const scorePromises = exercises?.map(async (exercise) => {
+                        const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=${user.user_id}&exercice_id=${exercise.exercice_id}`);
+                        if (!response.ok) {
+                        
+                            return null;
+                        }
+                        const data = await response.json();
+                
+                        const score = Array.isArray(data) && data.length > 0 && data[0].pro_score !== undefined ? data[0].pro_score : null;
+                        console.log(`Score pour l'exercice ${exercise.exercice_id}:`, score);
+                        return score;
+                    });
+            
+                    const scores = await Promise.all(scorePromises);
+                    setTabScore(scores);
+                    console.log('Tous les scores ont été récupérés:', scores);
+                } catch (error) {
+                    console.error("Erreur lors de la récupération des scores:", error);
+                }
+            }else{
+
+                if (allScoreByExercises && allScoreByExercises.length > 0) {
+                    // Utilisez la méthode filter() pour obtenir les scores de la séquence spécifique
+                    const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
+                    console.log(filteredScores);
+                    // Assurez-vous que filteredScores n'est pas vide
+                    if (filteredScores.length > 0) {
+                        // Utilisez map() pour extraire les tabScores de chaque élément
+                        const tabScores = filteredScores.map(el => el.tabScores);
+                        console.log('tabScores', tabScores);
+                    
+                        // Mettez à jour l'état avec les scores filtrés
+                        setTabScore(tabScores);
+                    } else {
+                        console.log('Aucun score trouvé pour la séquence spécifiée');
                     }
-                    const data = await response.json();
-             
-                    const score = Array.isArray(data) && data.length > 0 && data[0].pro_score !== undefined ? data[0].pro_score : null;
-                    console.log(`Score pour l'exercice ${exercise.exercice_id}:`, score);
-                    return score;
-                });
-        
-                const scores = await Promise.all(scorePromises);
-                setTabScore(scores);
-                console.log('Tous les scores ont été récupérés:', scores);
-            } catch (error) {
-                console.error("Erreur lors de la récupération des scores:", error);
+                } else {
+                    console.log('allScoreByExercises est vide ou non défini');
+                }
             }
         };
         
     
         exercisesScore();
-       
-       
-
-    }, [exercises, ])
+    }, [exercises])
 
 
 
     useEffect(() => {
         setOpen(true);
+        console.log(tabScore);
         if (tabScore.length){
             const getFinalScore = tabScore?.reduce((accumulator, currentValue) => {
-            
+                
                 if (currentValue === null) {
+                    
                     currentValue = 0;
                 }
                 return accumulator + currentValue;
@@ -125,17 +150,6 @@ const SequenceHome = ({ db }) => {
       
         
     }, [tabScore])
-
-
-
-    const handleCloseModal = () => {
-        setOpen(false);
-    };
-
-
-
-    // Si une erreur s'est produite lors du chargement des données
-  
 
 
     return <React.Fragment>
@@ -163,60 +177,59 @@ const SequenceHome = ({ db }) => {
                         </div>
                     </div>
                     <main className="exercises">
-                        {/* <Modal
-                            open={open}
-                            onClose={handleCloseModal}
-                            aria-labelledby="modal-modal-title"
-                            aria-describedby="modal-modal-description"
-                        >
-                            <Box sx={style}>
-
-                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                    <video style={{ width: "40vw" }} src={videoSrc} controls autoPlay />
-                                </Typography>
-                            </Box>
-                        </Modal> */}
-
-                        
-                        {
-                            isLoading ? (
-                                <BounceLoader color="#36d7b7" size={110} className="loader" cssOverride={{marginLeft:'50%'}}/>
-                            ):(
-                                    exercises.length ? 
-                                    (
-                                        
-                                            <ul className="exercises__list">
-                                                {exercises.map((el, index) => {
-                                                let progressClass = "";
-                                            
-                                                if (tabScore[index] === null) {
-                                                    progressClass = "progress-item--no-score"; 
-                                                } else if (tabScore[index] <= 49) {
-                                                    progressClass = "progress-item--orange"; // Classe pour les scores inférieurs ou égaux à 49
+                            {isLoading ? (
+                                <BounceLoader color="#36d7b7" size={110} className="loader" cssOverride={{ marginLeft: '50%' }} />
+                            ) : exercises.length ? (
+                                <ul className="exercises__list">
+                                    {exercises.map((el, index) => {
+                                        let progressClass = "progress-item--no-score";
+                                        if (user) {
+                                            if (tabScore[index] !== null) {
+                                                if (tabScore[index] <= 49) {
+                                                    progressClass = "progress-item--orange";
                                                 } else if (tabScore[index] >= 50) {
-                                                    progressClass = "progress-item--vert"; // Classe pour les scores supérieurs ou égaux à 50
+                                                    progressClass = "progress-item--vert";
                                                 }
+                                            }
+                                        } else {
+                                            // Si les scores sont disponibles dans allScoreByExercises
+                                            if (allScoreByExercises && allScoreByExercises.length > 0) {
+                                                const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
+                                                if (filteredScores.length > 0) {
+                                                    const tabScores = filteredScores[0].tabScores;
+                                                    if (tabScores[index] !== null) {
+                                                        if (tabScores[index] > 25 && tabScores[index] < 25) {
+                                                            progressClass = "progress-item--orange";
+                                                        } else if (tabScores[index] < 25){
+                                                            progressClass="progress-item--rouge"
+                                                        } else if (tabScores[index] >50 && tabScores[index]< 75){
+                                                            progressClass="progress-item--jaune"
+                                                        }else if (tabScores[index] >= 75) {
+                                                            progressClass = "progress-item--vert";
+                                                        }
+                                                    } else {
+                                                        progressClass = "progress-item-no-score"
+                                                    }
+                                                }
+                                            }
+                                        }
 
-                                                    return (
-                                                        <li className="exercises__item" key={el.exercice_id}>
-                                                            <div className={`progress-item ${progressClass}`}></div>
-                                                            <p className="consigne">{el.exo_consigne}</p>
-                                                        </li>
-                                                    );
-                                                })}
-                                            </ul>
-                                        ): (
-                                                <p className="exercises__error">Aucun exercice enregistré dans cette séquence pour le moment</p>
-                                            ) 
-                            )
-                        }
-
-                        
-                        <Outlet />
+                                        return (
+                                            <li className="exercises__item" key={el.exercice_id}>
+                                                <div className={`progress-item ${progressClass}`}></div>
+                                                <p className="consigne">{el.exo_consigne}</p>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            ) : (
+                                <p className="exercises__error">Aucun exercice enregistré dans cette séquence pour le moment</p>
+                            )}
+                            <Outlet />
                     </main>
                     <footer>
                     { (exercises && exercises.length === 0) ||  <Link to="exo"><div className="sequence__start">Commencer</div></Link>}
-                
+
                     </footer>
                 </div>
     </React.Fragment>

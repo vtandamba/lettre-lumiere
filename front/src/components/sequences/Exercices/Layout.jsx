@@ -6,15 +6,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
 import imgNotFound from '../../../assets/images/not-found-image.jpg'
 import { CircleLoader } from "react-spinners";
-import Modal from '@mui/material/Modal';
-import { Box, Button, Typography } from "@mui/material";
-const Layout = ({ db }) => {
+const Layout = (props) => {
 
+    const {db , user, savingScore} = props;
     const params = useParams();
     const id = params?.sequence;
     const idStage = params?.etape;
     const navigate = useNavigate();
-    const [tabExercicesBilan, setTabExercicesBilan] = useState([]);
+    // const [tabExercicesBilan, setTabExercicesBilan] = useState([]); 
     const idSeq = parseInt(id, 10);
     const [exercises, setExercises] = useState([]);
     const [sequence, setSequence] = useState();
@@ -30,6 +29,7 @@ const Layout = ({ db }) => {
     const [exercisesScore, setExercisesScore] = useState([]);
 
     const url = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php';
+    
     useEffect(() => {
 
 
@@ -40,7 +40,7 @@ const Layout = ({ db }) => {
                     const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
                     console.log(exercisesList)
                     setExercises(sortedExercises);
-                    setExercisesScore(new Array(exercisesList.length).fill(0))
+                    setExercisesScore(new Array(exercisesList.length).fill(0)) // Initialiser le tableau de score avec 0
                 }
 
             } catch (error) {
@@ -66,9 +66,9 @@ const Layout = ({ db }) => {
                 const data = await fetchOneSequence(idSeq);
                 setSequences(data)
                 setSequence(data.seq_title);
-
-                console.log('idsequence ==== >', idSeq)
-                console.log('les sequences ==== >', data)
+    
+                // console.log('idsequence ==== >', idSeq)
+                // console.log('les sequences ==== >', data)
             }
 
         }
@@ -129,47 +129,59 @@ const Layout = ({ db }) => {
     // }, [attemptCount]);
 
     const fetchScore = () => {
-        const scoreData = {
-            pro_score: exercisesScore[currentExerciseIndex],
-            user_id: 1,
-            exercice_id: exercises[currentExerciseIndex].exercice_id
-        };
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(scoreData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur lors de l\'envoi du score');
-                }
-                console.log('=================');
-                // Effectuez les actions supplémentaires ici si nécessaire
+        // Si un user existe , enregistrer les scores dans la base de donnée
+        if (user){
+
+            const scoreData = {
+                pro_score: exercisesScore[currentExerciseIndex],
+                user_id:user.user_id,
+                exercice_id:exercises[currentExerciseIndex].exercice_id
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(scoreData)
             })
-            .catch(error => {
-                console.error('Erreur lors de l\'envoi du score :', error);
-                // Gérez l'erreur ici si nécessaire
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de l\'envoi du score');
+                    }
+                    console.log('=================');
+                    // Effectuez les actions supplémentaires ici si nécessaire
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'envoi du score :', error);
+                    // Gérez l'erreur ici si nécessaire
+                });
+        }else { //Sinon envoyer les score au composant App
+            
+                const allScores = {
+                    "idSeq" : idSeq,
+                    "tabScores": exercisesScore.map((el) => (el === 0 ? null : el))
+
+                }
+
+                savingScore(allScores)
+        }
     }
 
-    const onAttemptMade = () => {
-        console.log('onAttemptMade');
-        console.log('shouldgo', shouldGoToNextExercise);
 
+    const onAttemptMade = () => {
+        // console.log('onAttemptMade');
+        // console.log('shouldgo', shouldGoToNextExercise);
+    
         // Vérifiez si c'est le dernier exercice
         if (currentExerciseIndex === exercises.length - 1) {
-            console.log('=================> fini')
-            fetchScore();
-            // handleOpen();
-            setOpen(true)
-            setShowModal(true);
-            // Fetch le score avant de rediriger
-            // navigate(`/etapes/${id || idSeq}`);
+            
+             // Fetch le score avant de rediriger
+            fetchScore(); // Envoyer le score à la base de donnée
+            navigate(`/etapes/${id || idSeq}`);
         } else {
-            // Si ce n'est pas le dernier exercice, définissez shouldGoToNextExercise sur vrai
+            // Si ce n'est pas le dernier exercice, définir shouldGoToNextExercise sur vrai
             setShouldGoToNextExercise(true);
         }
     };
@@ -197,7 +209,7 @@ const Layout = ({ db }) => {
     }, [shouldGoToNextExercise]);
 
 
-
+    // Enregistrer le score dans le tableau de score de la séquence
     const recordAnswer = (percent) => {
         const updatedScores = [...exercisesScore];
         updatedScores[currentExerciseIndex] = percent;
@@ -205,6 +217,7 @@ const Layout = ({ db }) => {
         setExercisesScore(updatedScores);
     };
 
+    // Render exercice par exercice
     const renderExerciseComponent = (exercise) => {
         const type = exercise.exo_type || exercise.rep_type;
         const componentName = getExerciseComponentName(type);
@@ -237,66 +250,49 @@ const Layout = ({ db }) => {
         p: 4,
     };
 
+    
+  return (
+    exercises && exercises.length > 0 ? (
+      <div className="layout">
 
-    return (
-        exercises && exercises.length > 0 ? (
-            <div className="layout">
-                <header className="header">
-                    <div className="header__infos">
-                        <div className="header__etape">
-                            <img src={imgEtape} alt="" />
-                            <p>Etape {sequences && sequences.map((s, index) => (
-                                <span key={index}>{s.stage_id}{index < sequences.length - 1 ? ', ' : ''}</span>
-                            ))}</p>
-                        </div>
-                        <p className="header__sequence"> {sequence}</p>
-                    </div>
-                    <Link to={`/etapes/${id}`}><img src={homeIcon} alt="" className="header__home" /></Link>
-                    <ul className="progress-global">
-                        {exercisesScore.map((score, index) => (
-                            <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
-                            </li>
-                        ))}
-                    </ul>
-                </header>
-                <main className="exercice">
-                    {renderExerciseComponent(exercises[currentExerciseIndex])}
-                    <button onClick={goToNextExercise} disabled={currentExerciseIndex === exercises.length - 1} className="exercice__validate">Suivant</button>
-                </main>
-                {showModal && (
-                    <>
-                        <p> <Link to={`/etapes/${id || idSeq}`}> - </Link></p>
-                        <Modal
-                            keepMounted
-                            open={open}
-                            onClose={handleClose}
-                            aria-labelledby="keep-mounted-modal-title"
-                            aria-describedby="keep-mounted-modal-description"
-                        >
-                            <Box sx={style}>
-                                <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-                                    Text in a modal
-                                </Typography>
-                                <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-                                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                                    <p> <Link to={`/etapes/${id || idSeq}`}> ceci est un tes</Link>t</p>
-                                </Typography>
-                            </Box>
-                        </Modal></>
-
-
-                )}
+        <header className="header">
+          <div className="header__infos">
+            <div className="header__etape">
+              <img src={imgEtape} alt="" />
+              <p>Etape {sequences && sequences.map((s, index) => (
+                <span key={index}>{s.stage_id}{index < sequences.length - 1 ? ', ' : ''}</span>
+              ))}</p>
             </div>
-        ) : (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-                <CircleLoader color="#36d7b7" size={140} />
-            </div>
-        )
+            <p className="header__sequence"> {sequence}</p>
+          </div>
+          <Link to={`/etapes/${id}`}><img src={homeIcon} alt="" className="header__home" /></Link>
+          <ul className="progress-global">
+            {exercisesScore.map((score, index) => (
+              <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
+              </li>
+            ))}
+          </ul>
+        </header>
 
+        <main className="exercice">
+          {renderExerciseComponent(exercises[currentExerciseIndex])}
+          <button onClick={goToNextExercise} 
+                  disabled={currentExerciseIndex === exercises.length - 1} 
+                  className="exercice__validate"
+          >
+            Suivant
 
-    );
-
-
+          </button>
+        </main>
+      </div>
+    ) : (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircleLoader color="#36d7b7" size={140} />
+      </div>
+    )
+  );
+    
+    
 };
 
 export default Layout;
