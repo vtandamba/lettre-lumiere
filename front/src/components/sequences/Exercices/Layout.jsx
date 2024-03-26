@@ -19,7 +19,10 @@ const Layout = (props) => {
     const [sequence, setSequence] = useState();
     const [sequences, setSequences] = useState();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
-
+    const [showModal, setShowModal] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+  
     const [attemptCount, setAttemptCount] = useState(0);
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
 
@@ -32,34 +35,34 @@ const Layout = (props) => {
 
         const loadExercises = async () => {
             try {
-                if (idSeq){
+                if (idSeq) {
                     const exercisesList = await fetchAllExerciceForSequences(idSeq);
                     const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
                     console.log(exercisesList)
                     setExercises(sortedExercises);
                     setExercisesScore(new Array(exercisesList.length).fill(0)) // Initialiser le tableau de score avec 0
                 }
-               
+
             } catch (error) {
                 console.error("Erreur lors du chargement des exercices :", error);
             }
         };
 
         const loadExercisesBilan = async () => {
-            try{      
-                if (idStage){
-                   const response = await fetchAllExercisesForRevisions(parseInt(idStage, 10));
-                   console.log('exos du bilan',response);
-                   setExercises(response)
+            try {
+                if (idStage) {
+                    const response = await fetchAllExercisesForRevisions(parseInt(idStage, 10));
+                    console.log('exos du bilan', response);
+                    setExercises(response)
                 }
-               
-            }catch(error){
+
+            } catch (error) {
                 throw new Error(error)
             }
         }
 
         const loadSequence = async () => {
-            if (idSeq){
+            if (idSeq) {
                 const data = await fetchOneSequence(idSeq);
                 setSequences(data)
                 setSequence(data.seq_title);
@@ -67,7 +70,7 @@ const Layout = (props) => {
                 // console.log('idsequence ==== >', idSeq)
                 // console.log('les sequences ==== >', data)
             }
-     
+
         }
 
         loadExercises();
@@ -81,6 +84,8 @@ const Layout = (props) => {
     };
 
 
+ 
+
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
             return "A";
@@ -92,18 +97,25 @@ const Layout = (props) => {
             return "D";
         } else if (exerciseType.startsWith("E")) {
             return "E";
-        }else if (exerciseType.startsWith("F")) {
-            return "F"; 
-        }else if (exerciseType.startsWith("G")) {
+        } else if (exerciseType.startsWith("F")) {
+            return "F";
+        } else if (exerciseType.startsWith("G")) {
             return "G";
         } else if (exerciseType.startsWith("H")) {
             return "H";
-        }else {
+        } else {
             return null;
         }
     };
 
+   const handleContinue = () => {
+        navigate(`/etapes/${id || idSeq}`);
 
+    };
+    const handleClose = () => {
+        setOpen(false)
+        handleContinue();
+    };
 
     // useEffect(() => {
 
@@ -173,13 +185,13 @@ const Layout = (props) => {
             setShouldGoToNextExercise(true);
         }
     };
-    
-    
+
+
 
     useEffect(() => {
-        console.log('shouldgo',shouldGoToNextExercise)
+        console.log('shouldgo', shouldGoToNextExercise)
         if (shouldGoToNextExercise && currentExerciseIndex < exercises.length - 1) {
-            
+
             console.log('enregistrement du score')
             // Envoyer la requête POST à l'API
             fetchScore();
@@ -188,10 +200,10 @@ const Layout = (props) => {
             setAttemptCount(0);
             setCurrentExerciseIndex(prevIndex => prevIndex + 1);
             setShouldGoToNextExercise(false); // Réinitialisez le drapeau
-        }else if (shouldGoToNextExercise && currentExerciseIndex === exercises.length - 1) {
+        } else if (shouldGoToNextExercise && currentExerciseIndex === exercises.length - 1) {
             navigate(`/etapes/${id || idSeq}`);
             console.log('Dernier exercice atteint, mais le score ne sera pas enregistré');
-           
+
         }
 
     }, [shouldGoToNextExercise]);
@@ -214,10 +226,10 @@ const Layout = (props) => {
 
             return (
                 <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}><CircularProgress size={80} /></div>}>
-                    <ExerciseComponent key={exercise.exerciseId} 
-                                       data={exercise} onAttemptMade={onAttemptMade} 
-                                       score={recordAnswer} 
-                                       imgNotFound = {imgNotFound}/>
+                    <ExerciseComponent key={exercise.exerciseId}
+                        data={exercise} onAttemptMade={onAttemptMade}
+                        score={recordAnswer}
+                        imgNotFound={imgNotFound} />
                 </Suspense>
             );
         } else {
@@ -227,6 +239,16 @@ const Layout = (props) => {
     };
 
 
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 700,
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        p: 4,
+    };
 
     
   return (
