@@ -47,7 +47,17 @@ const App = () => {
     const [isAuthentificated, setIsAuthentificated] = useState();
     const [scores, setScores] = useState([]);
     const [user, setUser] = useState(null);
-    const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'))
+    const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'));
+    const [forceUpdate, setForceUpdate] = useState(0);
+
+    useEffect(() => {
+        //useEffect est simplement utilisé pour déclencher la mise à jour
+      }, [forceUpdate]);
+    
+      // Fonction pour forcer la mise à jour
+      const handleForceUpdate = () => {
+        setForceUpdate(prevState => prevState + 1);
+      };
 
     console.log('=====> id-user', idUser)
 
@@ -90,21 +100,24 @@ const App = () => {
     }, [idUser]);
 
     useEffect(() => {
-        // Écoute des changements de l'utilisateur admin
+        // Fonction de gestion de changement d'utilisateur
         const handleUserChange = () => {
             const newIdUser = sessionStorage.getItem('user_id');
             if (newIdUser !== idUser) {
-                setIdUser(newIdUser);
+                setIdUser(newIdUser); // Mettre à jour l'état de l'id de l'utilisateur
                 window.location.reload(); // Recharger la page lorsque l'utilisateur change
             }
         };
-
-        window.addEventListener('storage', handleUserChange); // Ajouter un écouteur d'événements de stockage
-
+    
+        // Ajouter un écouteur d'événements de stockage
+        window.addEventListener('storage', handleUserChange);
+    
+        // Retirer l'écouteur d'événements de stockage lors du démontage du composant
         return () => {
-            window.removeEventListener('storage', handleUserChange); // Retirer l'écouteur d'événements de stockage lors du démontage du composant
+            window.removeEventListener('storage', handleUserChange);
         };
     }, [idUser]);
+    
     
 
     // const savingScoreOffline = (scoreBySequence) => {
@@ -139,7 +152,7 @@ const App = () => {
             <Route path="etape/:etape/revisions" element={<LayoutExercice />}/>
 
             {/* Route pour la page d'acceuil */}
-            <Route index element={<Home />}></Route>
+            <Route index element={<Home forceUpdate = {handleForceUpdate} />}></Route> 
 
             {/* Route pour le formulaire de connexion */}
             <Route path="/login" index element={<Login />}></Route>
