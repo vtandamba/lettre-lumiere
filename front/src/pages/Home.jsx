@@ -11,6 +11,7 @@ const Home = () => {
     const navigate = useNavigate();
     
     useEffect(() => {
+       
         if (state === "identifie" || state === "libre") {
             setLoading(true);
             setTimeout(() => {
@@ -19,6 +20,7 @@ const Home = () => {
         }
     }, [state])
   
+   
   
     return (<div className="home">
                 {loading ? 

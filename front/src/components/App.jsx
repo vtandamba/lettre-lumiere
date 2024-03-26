@@ -47,19 +47,10 @@ const App = () => {
     const [isAuthentificated, setIsAuthentificated] = useState();
     const [scores, setScores] = useState([]);
     const [user, setUser] = useState(null);
-    const idUser = sessionStorage.getItem('user_id'); // Récupérer l'id de l'utilisateur connecté
+    const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'))
+
     console.log('=====> id-user', idUser)
 
-    useEffect(() => {
-   
-        const initUser = async() => {
-            const infoUser = (idUser) ? await fecthUser(parseInt(idUser, 10)) : null;
-            setUser(infoUser);
-            console.log(infoUser);
-        }
-        initUser();
-        
-    }, [])
 
     // Enregistrer les scores hors ligne
     const savingScoreOffline = (scoreBySequence) => {
@@ -85,6 +76,35 @@ const App = () => {
     
         console.log('tabScoreBySequence', updatedScores);
     };
+
+  
+    
+
+    useEffect(() => {
+        const initUser = async () => {
+            const infoUser = (idUser) ? await fecthUser(parseInt(idUser, 10)) : null;
+            setUser(infoUser);
+            console.log(infoUser);
+        };
+        initUser();
+    }, [idUser]);
+
+    useEffect(() => {
+        // Écoute des changements de l'utilisateur admin
+        const handleUserChange = () => {
+            const newIdUser = sessionStorage.getItem('user_id');
+            if (newIdUser !== idUser) {
+                setIdUser(newIdUser);
+                window.location.reload(); // Recharger la page lorsque l'utilisateur change
+            }
+        };
+
+        window.addEventListener('storage', handleUserChange); // Ajouter un écouteur d'événements de stockage
+
+        return () => {
+            window.removeEventListener('storage', handleUserChange); // Retirer l'écouteur d'événements de stockage lors du démontage du composant
+        };
+    }, [idUser]);
     
 
     // const savingScoreOffline = (scoreBySequence) => {
