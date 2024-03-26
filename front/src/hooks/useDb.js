@@ -1,11 +1,12 @@
 
 //  ici on recupere fech les données de db.sqlite qui sont dans l'api http ... 
+const baseUrl = process.env.REACT_APP_BASE_URL
     
-const urlSequences = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.sequences.php';
-const urlExercices = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.exercices.php';
-const urlStages = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.stages.php';
-const urlUser = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.user.php'; 
-const urlExercisesRevisions = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.report.php'
+const urlSequences = baseUrl + 'api.sequences.php';
+const urlExercices = baseUrl +'api.exercices.php';
+const urlStages = baseUrl +'api.stages.php';
+const urlUser = baseUrl +'api.user.php'; 
+const urlExercisesRevisions = baseUrl + 'api.report.php'
 export const fetchAllStages = async () => {
     try {
         const response = await fetch(urlStages);
