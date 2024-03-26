@@ -40,7 +40,7 @@ const Etape = (props) => {
                             return <div class="sequenceGroup">
                                         <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
                                             <div class="sequenceGroup__content">
-                                            {sequence?.seq_content && sequence.seq_content.map(el => <p>{el}</p>)}
+                                            {sequence.seq_content && Array.isArray(JSON.parse(sequence.seq_content)) && JSON.parse(sequence.seq_content).map(el => <p>{el}</p>)}
                                             </div>
                                         </Link>
                                         <img class="sequenceGroup__recompense" src={medailleArgent} alt="medaille" />
