@@ -5,7 +5,7 @@ import speak from "../../../hooks/useSpeak";
 
 const C = (props) => {
     const { data, onAttemptMade, score, imgNotFound} = props;
-    const [syllabes, setSyllabes] = useState(JSON.parse(data?.exo_choices));
+    const [syllabes, setSyllabes] = useState( Array.isArray(JSON.parse(data?.exo_choices)) && JSON.parse(data?.exo_choices));
     const [currentSyllabeIndex, setCurrentSyllabeIndex] = useState(0);
     const [userInput, setUserInput] = useState("");
     const [showSyllabe, setShowSyllabe] = useState(true);
@@ -13,6 +13,7 @@ const C = (props) => {
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
     
+    console.log(data?.exo_choices)
 
     useEffect(() => {
        

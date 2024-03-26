@@ -81,6 +81,16 @@
              background-color: $vert ;
              transition : all .2s ease-in-out
          }
+
+         &--jaune{
+            background-color: $jaune ;
+            transition : all .2s ease-in-out
+         }
+
+         &--rouge{
+            background-color: $rouge ;
+            transition : all .2s ease-in-out
+        }
      }
 
     

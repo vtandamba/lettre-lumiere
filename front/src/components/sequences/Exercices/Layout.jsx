@@ -6,13 +6,14 @@ import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
 import imgNotFound from '../../../assets/images/not-found-image.jpg'
 import { CircleLoader } from "react-spinners";
-const Layout = ({ db }) => {
+const Layout = (props) => {
 
+    const {db , user, savingScore} = props;
     const params = useParams();
     const id = params?.sequence;
     const idStage = params?.etape;
     const navigate = useNavigate();
-    const [tabExercicesBilan, setTabExercicesBilan] = useState([]); 
+    // const [tabExercicesBilan, setTabExercicesBilan] = useState([]); 
     const idSeq = parseInt(id, 10);
     const [exercises, setExercises] = useState([]);
     const [sequence, setSequence] = useState();
@@ -25,6 +26,7 @@ const Layout = ({ db }) => {
     const [exercisesScore, setExercisesScore] = useState([]);
 
     const url = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php';
+    
     useEffect(() => {
 
 
@@ -35,7 +37,7 @@ const Layout = ({ db }) => {
                     const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
                     console.log(exercisesList)
                     setExercises(sortedExercises);
-                    setExercisesScore(new Array(exercisesList.length).fill(0))
+                    setExercisesScore(new Array(exercisesList.length).fill(0)) // Initialiser le tableau de score avec 0
                 }
                
             } catch (error) {
@@ -62,8 +64,8 @@ const Layout = ({ db }) => {
                 setSequences(data)
                 setSequence(data.seq_title);
     
-                console.log('idsequence ==== >', idSeq)
-                console.log('les sequences ==== >', data)
+                // console.log('idsequence ==== >', idSeq)
+                // console.log('les sequences ==== >', data)
             }
      
         }
@@ -115,44 +117,59 @@ const Layout = ({ db }) => {
     // }, [attemptCount]);
 
     const fetchScore = () => {
-        const scoreData = {
-            pro_score: exercisesScore[currentExerciseIndex],
-            user_id:1,
-            exercice_id:exercises[currentExerciseIndex].exercice_id
-        };
 
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(scoreData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Erreur lors de l\'envoi du score');
-                }
-                console.log('=================');
-                // Effectuez les actions supplémentaires ici si nécessaire
+        // Si un user existe , enregistrer les scores dans la base de donnée
+        if (user){
+
+            const scoreData = {
+                pro_score: exercisesScore[currentExerciseIndex],
+                user_id:user.user_id,
+                exercice_id:exercises[currentExerciseIndex].exercice_id
+            };
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(scoreData)
             })
-            .catch(error => {
-                console.error('Erreur lors de l\'envoi du score :', error);
-                // Gérez l'erreur ici si nécessaire
-            });
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erreur lors de l\'envoi du score');
+                    }
+                    console.log('=================');
+                    // Effectuez les actions supplémentaires ici si nécessaire
+                })
+                .catch(error => {
+                    console.error('Erreur lors de l\'envoi du score :', error);
+                    // Gérez l'erreur ici si nécessaire
+                });
+        }else { //Sinon envoyer les score au composant App
+            
+                const allScores = {
+                    "idSeq" : idSeq,
+                    "tabScores": exercisesScore.map((el) => (el === 0 ? null : el))
+
+                }
+
+                savingScore(allScores)
+        }
     }
 
+
     const onAttemptMade = () => {
-        console.log('onAttemptMade');
-        console.log('shouldgo', shouldGoToNextExercise);
+        // console.log('onAttemptMade');
+        // console.log('shouldgo', shouldGoToNextExercise);
     
         // Vérifiez si c'est le dernier exercice
         if (currentExerciseIndex === exercises.length - 1) {
             
-            fetchScore();
-            // Fetch le score avant de rediriger
+             // Fetch le score avant de rediriger
+            fetchScore(); // Envoyer le score à la base de donnée
             navigate(`/etapes/${id || idSeq}`);
         } else {
-            // Si ce n'est pas le dernier exercice, définissez shouldGoToNextExercise sur vrai
+            // Si ce n'est pas le dernier exercice, définir shouldGoToNextExercise sur vrai
             setShouldGoToNextExercise(true);
         }
     };
@@ -180,7 +197,7 @@ const Layout = ({ db }) => {
     }, [shouldGoToNextExercise]);
 
 
-
+    // Enregistrer le score dans le tableau de score de la séquence
     const recordAnswer = (percent) => {
         const updatedScores = [...exercisesScore];
         updatedScores[currentExerciseIndex] = percent;
@@ -188,6 +205,7 @@ const Layout = ({ db }) => {
         setExercisesScore(updatedScores);
     };
 
+    // Render exercice par exercice
     const renderExerciseComponent = (exercise) => {
         const type = exercise.exo_type || exercise.rep_type;
         const componentName = getExerciseComponentName(type);
@@ -214,6 +232,7 @@ const Layout = ({ db }) => {
   return (
     exercises && exercises.length > 0 ? (
       <div className="layout">
+
         <header className="header">
           <div className="header__infos">
             <div className="header__etape">
@@ -232,9 +251,16 @@ const Layout = ({ db }) => {
             ))}
           </ul>
         </header>
+
         <main className="exercice">
           {renderExerciseComponent(exercises[currentExerciseIndex])}
-          <button onClick={goToNextExercise} disabled={currentExerciseIndex === exercises.length - 1} className="exercice__validate">Suivant</button>
+          <button onClick={goToNextExercise} 
+                  disabled={currentExerciseIndex === exercises.length - 1} 
+                  className="exercice__validate"
+          >
+            Suivant
+
+          </button>
         </main>
       </div>
     ) : (
