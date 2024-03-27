@@ -169,6 +169,12 @@
         }
     }
 
+    &__dragArea{
+        display: flex;
+        flex-direction: column;
+        gap:5rem;
+    }
+
     &__group {
         min-width: 10vh;
         max-width: 10rem;
@@ -361,7 +367,7 @@
 
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        justify-content: center;
         gap: 2rem;
         padding: 0 8rem;
         flex-wrap: wrap;

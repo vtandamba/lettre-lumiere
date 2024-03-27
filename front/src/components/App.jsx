@@ -122,21 +122,21 @@ const App = () => {
         };
     }, [idUser]);
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        const handleBeforeUnload = (event) => {
-            // Affichez la modale d'avertissement lorsque l'événement beforeunload est déclenché
-            setOpenModal(true);
+    //     const handleBeforeUnload = (event) => {
+    //         // Affichez la modale d'avertissement lorsque l'événement beforeunload est déclenché
+    //         setOpenModal(true);
       
-            // Empêchez la fermeture de la fenêtre par défaut
-            event.preventDefault();
-          };
-          if (!user){
-            window.addEventListener("beforeunload", handleBeforeUnload);
-          }
+    //         // Empêchez la fermeture de la fenêtre par défaut
+    //         event.preventDefault();
+    //       };
+    //       if (!user){
+    //         window.addEventListener("beforeunload", handleBeforeUnload);
+    //       }
 
-    }, [user]
-    )
+    // }, [user]
+    // )
     
 
 

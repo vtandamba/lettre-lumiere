@@ -90,7 +90,7 @@ const Layout = (props) => {
 
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
-            return "A";
+            return "H";
         } else if (exerciseType.startsWith("B")) {
             return "B";
         } else if (exerciseType.startsWith("C")) {
