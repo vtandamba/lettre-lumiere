@@ -6,11 +6,11 @@ import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
 import imgNotFound from '../../../assets/images/not-found-image.jpg'
 import { CircleLoader } from "react-spinners";
-import { Modal } from "@mui/material";
+import { Box, Modal, Typography } from "@mui/material";
 import SpringModal from "../../Modal";
 const Layout = (props) => {
 
-    const {db , user, savingScore} = props;
+    const { db, user, savingScore } = props;
     const params = useParams();
     const id = params?.sequence;
     const idStage = params?.etape;
@@ -30,8 +30,22 @@ const Layout = (props) => {
 
     const [exercisesScore, setExercisesScore] = useState([]);
 
+
+
+
+    const styleseq = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 700,
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        p: 4,
+    };
+
     const url = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php';
-    
+
     useEffect(() => {
 
 
@@ -68,7 +82,7 @@ const Layout = (props) => {
                 const data = await fetchOneSequence(idSeq);
                 setSequences(data)
                 setSequence(data.seq_title);
-    
+
                 // console.log('idsequence ==== >', idSeq)
                 // console.log('les sequences ==== >', data)
             }
@@ -86,7 +100,7 @@ const Layout = (props) => {
     };
 
 
- 
+
 
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
@@ -110,7 +124,7 @@ const Layout = (props) => {
         }
     };
 
-   const handleContinue = () => {
+    const handleContinue = () => {
         navigate(`/etapes/${id || idSeq}`);
 
     };
@@ -124,12 +138,12 @@ const Layout = (props) => {
     const fetchScore = () => {
 
         // Si un user existe , enregistrer les scores dans la base de donnée
-        if (user){
+        if (user) {
 
             const scoreData = {
                 pro_score: exercisesScore[currentExerciseIndex],
-                user_id:user.user_id,
-                exercice_id:exercises[currentExerciseIndex].exercice_id
+                user_id: user.user_id,
+                exercice_id: exercises[currentExerciseIndex].exercice_id
             };
 
             fetch(url, {
@@ -150,15 +164,15 @@ const Layout = (props) => {
                     console.error('Erreur lors de l\'envoi du score :', error);
                     // Gérez l'erreur ici si nécessaire
                 });
-        }else { //Sinon envoyer les score au composant App
-            
-                const allScores = {
-                    "idSeq" : idSeq,
-                    "tabScores": exercisesScore.map((el) => (el === 0 ? null : el))
+        } else { //Sinon envoyer les score au composant App
 
-                }
+            const allScores = {
+                "idSeq": idSeq,
+                "tabScores": exercisesScore.map((el) => (el === 0 ? null : el))
 
-                savingScore(allScores)
+            }
+
+            savingScore(allScores)
         }
     }
 
@@ -166,11 +180,11 @@ const Layout = (props) => {
     const onAttemptMade = () => {
         // console.log('onAttemptMade');
         // console.log('shouldgo', shouldGoToNextExercise);
-    
+
         // Vérifiez si c'est le dernier exercice
         if (currentExerciseIndex === exercises.length - 1) {
-            
-             // Fetch le score avant de rediriger
+
+            // Fetch le score avant de rediriger
             fetchScore(); // Envoyer le score à la base de donnée
             navigate(`/etapes/${id || idSeq}`);
         } else {
@@ -231,10 +245,10 @@ const Layout = (props) => {
         }
     };
 
-    const handleGoHome =(link) => {
+    const handleGoHome = (link) => {
         setModalLink(link)
         setOpen(true);
-      
+
     }
 
 
@@ -249,50 +263,71 @@ const Layout = (props) => {
         p: 4,
     };
 
-    
-  return (
-    exercises && exercises.length > 0 ? (
-      <div className="layout">
 
-        <header className="header">
-          <div className="header__infos">
-            <div className="header__etape">
-              <img src={imgEtape} alt="" />
-              <p>Etape {sequences && sequences.map((s, index) => (
-                <span key={index}>{s.stage_id}{index < sequences.length - 1 ? ', ' : ''}</span>
-              ))}</p>
+    return (
+        exercises && exercises.length > 0 ? (
+            <div className="layout">
+
+                <header className="header">
+                    <div className="header__infos">
+                        <div className="header__etape">
+                            <img src={imgEtape} alt="" />
+                            <p>Etape {sequences && sequences.map((s, index) => (
+                                <span key={index}>{s.stage_id}{index < sequences.length - 1 ? ', ' : ''}</span>
+                            ))}</p>
+                        </div>
+                        <p className="header__sequence"> {sequence}</p>
+                    </div>
+                    <img src={homeIcon} alt="" className="header__home" onClick={() => handleGoHome(`/etapes/${id}`)} />
+                    <ul className="progress-global">
+                        {exercisesScore.map((score, index) => (
+                            <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
+                            </li>
+                        ))}
+                    </ul>
+                </header>
+                <SpringModal isOpen={open} setOpen={setOpen} link={modalLink} />
+
+                <main className="exercice">
+                    {renderExerciseComponent(exercises[currentExerciseIndex])}
+                    <button onClick={goToNextExercise}
+                        disabled={currentExerciseIndex === exercises.length - 1}
+                        className="exercice__validate"
+                    >
+                        Suivant
+
+                    </button>
+                </main>
+                {showModal && (
+                    <>
+                        <p> <Link to={`/etapes/${id || idSeq}`}> - </Link></p>
+                        <Modal
+                            keepMounted
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="keep-mounted-modal-title"
+                            aria-describedby="keep-mounted-modal-description"
+                        >
+                            <Box sx={styleseq}>
+                                <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
+                                    Text in a modal
+                                </Typography>
+                                <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
+                                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                                    <p> <Link to={`/etapes/${id || idSeq}`}> ceci est un tes</Link>t</p>
+                                </Typography>
+                            </Box>
+                        </Modal></>
+                )}
             </div>
-            <p className="header__sequence"> {sequence}</p>
-          </div>
-          <img src={homeIcon} alt="" className="header__home" onClick={()=>handleGoHome(`/etapes/${id}`)}/>
-          <ul className="progress-global">
-            {exercisesScore.map((score, index) => (
-              <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
-              </li>
-            ))}
-          </ul>
-        </header>
-        <SpringModal isOpen={open} setOpen={setOpen} link={modalLink}/>
-      
-        <main className="exercice">
-          {renderExerciseComponent(exercises[currentExerciseIndex])}
-          <button onClick={goToNextExercise} 
-                  disabled={currentExerciseIndex === exercises.length - 1} 
-                  className="exercice__validate"
-          >
-            Suivant
+        ) : (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <CircleLoader color="#36d7b7" size={140} />
+            </div>
+        )
+    );
 
-          </button>
-        </main>
-      </div>
-    ) : (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <CircleLoader color="#36d7b7" size={140} />
-      </div>
-    )
-  );
-    
-    
+
 };
 
 export default Layout;
