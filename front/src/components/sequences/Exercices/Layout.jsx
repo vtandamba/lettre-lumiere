@@ -23,6 +23,7 @@ const Layout = (props) => {
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [open, setOpen] = useState(false);
+    const [openseq, setOpenseq] = useState(false);
     const [openModal, setOpenModal] = useState(true);
     const [modalLink, setModalLink] = useState();
     const [attemptCount, setAttemptCount] = useState(0);
@@ -186,7 +187,8 @@ const Layout = (props) => {
 
             // Fetch le score avant de rediriger
             fetchScore(); // Envoyer le score à la base de donnée
-            navigate(`/etapes/${id || idSeq}`);
+            setOpenseq(true)
+            setShowModal(true);
         } else {
             // Si ce n'est pas le dernier exercice, définir shouldGoToNextExercise sur vrai
             setShouldGoToNextExercise(true);
@@ -303,7 +305,7 @@ const Layout = (props) => {
                         <p> <Link to={`/etapes/${id || idSeq}`}> - </Link></p>
                         <Modal
                             keepMounted
-                            open={open}
+                            open={openseq}
                             onClose={handleClose}
                             aria-labelledby="keep-mounted-modal-title"
                             aria-describedby="keep-mounted-modal-description"
@@ -317,7 +319,8 @@ const Layout = (props) => {
                                     <p> <Link to={`/etapes/${id || idSeq}`}> ceci est un tes</Link>t</p>
                                 </Typography>
                             </Box>
-                        </Modal></>
+                        </Modal>
+                    </>
                 )}
             </div>
         ) : (
