@@ -429,7 +429,12 @@
 
 
     &__valid {
-        border-radius: 5px;
+        display: flex;
+        border: none;
+        justify-content: center;
+        align-items: center;
+        gap:1rem;
+        border-radius: 30px;
         margin-right: 2rem;
         color: $blanc;
         cursor: pointer;
@@ -437,14 +442,23 @@
         right: 2rem;
         background-color: rgba(59, 155, 165, 1);
         text-align: center;
-        padding: 1vh 3vw;
+        padding: 1vh 1.8vw;
         font-size: 1.8vw;
-
         transition: all .2s ease-out;
+
+        img{
+            width:3rem;
+            transition: all .2s ease-out;
+            
+        }
 
         &:hover {
             background-color: rgba(59, 155, 165, 0.9);
             transition: all .2s ease-out;
+            img{
+                transform: scale(1.18);
+                transition: all .2s ease-out;
+            }
         }
 
     }

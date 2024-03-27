@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
 import { getElementRandom } from "../../../hooks/useRandom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckDouble } from '@fortawesome/free-solid-svg-icons';
+import checkIcon from '../../../assets/images/check.svg'
 
 const B = (props) => {
     const { data, onAttemptMade, score , imgNotFound} = props;
@@ -149,7 +152,7 @@ const B = (props) => {
                       <li key={index} className={`progress__part ${response === true ? 'progress__part--true' : response === false ? 'progress__part--false' : ''}`}></li>
                     ))}
                 </ul>
-                <button className="exercice__valid" onClick={handleClick}>OK</button>
+                <button className="exercice__valid" onClick={handleClick}>Ok <img src={checkIcon} alt="ok" /></button>
             </div>
         </React.Fragment>
     );

@@ -4,6 +4,7 @@ import logoLettres from '../assets/images/Logo lettres en lumière.png'
 import logoChrono from '../assets/images/bx_timer.png';
 import { Link } from "react-router-dom";
 import MainHeader from "../components/MainHeader";
+import { motion } from "framer-motion";
 
 const Index = () => {
     return (<div className="index">
@@ -22,22 +23,41 @@ const Index = () => {
             <p className="index__message">Bonjour {sessionStorage.getItem("user_name")}</p>
 
             <div className="parts">
-
-                <p className="index__logoBrain">
-                    <Link to="/etapes"> <img src={logoBrain} alt="" /></Link>
-
-                </p>
+             
+                    <Link to="/etapes"> 
+                        <motion.div
+                            className="index__logoBrain"
+                            initial={{ y: 100}} 
+                            animate={{
+                                y: [-10, 0, -10], // Utilisez une liste pour définir les différentes hauteurs de lévitation
+                                transition: { duration: 1.5, repeat: Infinity },
+                                // Définissez la durée de l'animation et la répétition infinie
+                            }}
+                        >
+                            <img src={logoBrain} alt="" />
+                        </motion.div>
+                    </Link>
+           
                 <Link to="/alphabet">
-                    <div className="parts__alphabet">
+
+                    <motion.div
+                            className="parts__alphabet"
+                            initial={{ x: -500, opacity: 0 }} 
+                            animate={{ x: 0, opacity: 1 }} 
+                            transition={{duration:0.5}}
+                    >
                         <p> a b c </p>
-                    </div>
+                    </motion.div>
                 </Link>
                 <Link to="/graphemes">
-                    <div className="parts__phonemes">
-                        <p>an
-                            on
-                            in</p>
-                    </div>
+                    <motion.div
+                           className="parts__phonemes"
+                            initial={{ x: 500, opacity: 0 }} 
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{duration:0.5}} 
+                    >
+                        <p> an on in </p>
+                    </motion.div>
                 </Link>
                 <Link to="/test">
                     <div className="parts__chrono">

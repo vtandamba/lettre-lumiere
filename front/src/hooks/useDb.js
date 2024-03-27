@@ -1,6 +1,6 @@
 
 //  ici on recupere fech les données de db.sqlite qui sont dans l'api http ... 
-const baseUrl = process.env.REACT_APP_BASE_URL
+const baseUrl = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/'
     
 const urlSequences = baseUrl + 'api.sequences.php';
 const urlExercices = baseUrl +'api.exercices.php';

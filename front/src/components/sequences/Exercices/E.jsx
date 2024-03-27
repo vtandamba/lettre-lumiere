@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getElementRandom } from "../../../hooks/useRandom";
 import speak from "../../../hooks/useSpeak";
+import checkIcon from '../../../assets/images/check.svg'
 
 const E = (props) => {
     const { data, onAttemptMade, score, imgNotFound } = props;
@@ -135,7 +136,7 @@ const E = (props) => {
                             <li key={index} className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                         ))}
                     </ul>
-                    <button type="submit" className="exercice__valid" onClick={handleSubmit}>OK</button>
+                    <button type="submit" className="exercice__valid" onClick={handleSubmit}>Ok <img src={checkIcon} alt="ok" /></button>
                 </div>
             </React.Fragment>
 }

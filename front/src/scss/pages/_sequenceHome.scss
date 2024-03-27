@@ -98,10 +98,19 @@
            
         @extend %button;
         margin:0 0 2rem auto;
+        border-radius: 1.9rem;;
         font-family: $font-family-satoshi;
         font-size: $font-size-button-start;
-        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap:1rem;
         width: fit-content;
+        img{
+            width:2.7rem;
+            margin-top:5px;
+            animation: bounceRight 1s infinite;
+        }
        
   
     }

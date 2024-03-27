@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { LinearCountdown, getElementRandom } from "../../../hooks/useRandom";
 import speak from "../../../hooks/useSpeak";
 import { useNavigate } from "react-router-dom";
+import checkIcon from '../../../assets/images/check.svg'
 
 const G = (props) => {
 
@@ -150,7 +151,7 @@ const G = (props) => {
                         <li className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                     ))}
                 </ul>
-                <button className="exercice__valid" onClick={handleClick}>OK</button>
+                <button className="exercice__valid" onClick={handleClick}>Ok <img src={checkIcon} alt="ok" /></button>
             </div>
     </React.Fragment>
 }

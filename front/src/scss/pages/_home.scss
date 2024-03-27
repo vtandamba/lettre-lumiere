@@ -77,12 +77,12 @@
     height:100%;
 
     &__logo{
-      width: clamp(150px, 20vw, 500px);
+      width: clamp(150px, 25vw, 500px);
       margin-bottom:5vh;
     }
   
     &__selection {
-      min-width: 45rem;
+      min-width: 50rem;
       padding: 1rem 0 1rem 1rem;
       border-radius: 5px;
       font-size:2rem;

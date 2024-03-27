@@ -8,16 +8,16 @@ import videoLogo from '../../assets/images/video-logo.svg';
 import hautParleur from '../../assets/images/haut-parleur.svg';
 
 //Import des sons des graphèmes
-import sound1 from '../../assets/sons/graphemes/in.wav';
-import sound2 from '../../assets/sons/graphemes/an.wav';
-import sound3 from '../../assets/sons/graphemes/au.wav';
-import sound4 from '../../assets/sons/graphemes/eu.wav';
-import sound5 from '../../assets/sons/graphemes/on.wav';
-import sound6 from '../../assets/sons/graphemes/ou.wav';
-import sound7 from '../../assets/sons/graphemes/oi.wav';
-import sound8 from '../../assets/sons/graphemes/é.wav';
-import sound9 from '../../assets/sons/graphemes/è.wav';
-import sound10 from '../../assets/sons/graphemes/ien.wav';
+import sound1 from '../../assets/sons/graphemes/in.mp3';
+import sound2 from '../../assets/sons/graphemes/an.mp3';
+import sound3 from '../../assets/sons/graphemes/au.mp3';
+import sound4 from '../../assets/sons/graphemes/eu.mp3';
+import sound5 from '../../assets/sons/graphemes/on.mp3';
+import sound6 from '../../assets/sons/graphemes/ou.mp3';
+import sound7 from '../../assets/sons/graphemes/oi.mp3';
+import sound8 from '../../assets/sons/graphemes/é.mp3';
+import sound9 from '../../assets/sons/graphemes/è.mp3';
+import sound10 from '../../assets/sons/graphemes/ien.mp3';
 
 
 const A = () => {

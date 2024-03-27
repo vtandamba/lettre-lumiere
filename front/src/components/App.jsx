@@ -28,6 +28,7 @@ import G from '../components/Exercises/G'
 import LayoutAlphabet from '../pages/ExoGraphoAlphabetique'
 import Etape from "./Etape";
 import Credits from "../pages/Credits";
+import SpringModal from "./Modal";
 
 
 
@@ -48,7 +49,9 @@ const App = () => {
     const [scores, setScores] = useState([]);
     const [user, setUser] = useState(null);
     const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'));
+    const [mode, setMode] = useState();
     const [forceUpdate, setForceUpdate] = useState(0);
+    const [openModal, setOpenModal] = useState();
 
     useEffect(() => {
         //useEffect est simplement utilisé pour déclencher la mise à jour
@@ -56,7 +59,9 @@ const App = () => {
     
       // Fonction pour forcer la mise à jour
       const handleForceUpdate = () => {
+        console.log('Salut, je me déconnecte!');
         setForceUpdate(prevState => prevState + 1);
+      
       };
 
     console.log('=====> id-user', idUser)
@@ -87,8 +92,6 @@ const App = () => {
         console.log('tabScoreBySequence', updatedScores);
     };
 
-  
-    
 
     useEffect(() => {
         const initUser = async () => {
@@ -101,6 +104,7 @@ const App = () => {
 
     useEffect(() => {
         // Fonction de gestion de changement d'utilisateur
+
         const handleUserChange = () => {
             const newIdUser = sessionStorage.getItem('user_id');
             if (newIdUser !== idUser) {
@@ -117,86 +121,91 @@ const App = () => {
             window.removeEventListener('storage', handleUserChange);
         };
     }, [idUser]);
-    
+
+    useEffect(() => {
+        
+        const handleBeforeUnload = (event) => {
+            // Affichez la modale d'avertissement lorsque l'événement beforeunload est déclenché
+            setOpenModal(true);
+      
+            // Empêchez la fermeture de la fenêtre par défaut
+            event.preventDefault();
+          };
+          if (!user){
+            window.addEventListener("beforeunload", handleBeforeUnload);
+          }
+
+    }, [user]
+    )
     
 
-    // const savingScoreOffline = (scoreBySequence) => {
-    //     const updatedScores = scores.map(score => {
-    //         // Si l'ID du score correspond à celui envoyé, mettre à jour le tabScores
-    //         if (score.idSeq === scoreBySequence.idSeq) {
-    //             return {
-    //                 ...score,
-    //                 tabScores: scoreBySequence.tabScores
-    //             };
-    //         }
-    //         // Sinon, renvoyer le score tel quel
-    //         return score;
-    //     });
-    
-    //     // Mettre à jour le tableau des scores avec les scores mis à jour
-    //     setScores(updatedScores);
-    // };
-    
 
     useEffect(() => {
         setIsAuthentificated (Auth.isAuthentificated());
     }, [])
     
-    return <HashRouter>
-        <Routes>
+    return <>
+            <HashRouter>
+                <Routes>
 
-            {/* Route pour les remerciements */}
-            <Route path="/credits" element={<Credits />} />
+                    {/* Route pour les remerciements */}
+                    <Route path="/credits" element={<Credits />} />
 
-            {/* Route pour le bilan d'une séquence */}
-            <Route path="etape/:etape/revisions" element={<LayoutExercice />}/>
+                    {/* Route pour le bilan d'une séquence */}
+                    <Route path="etape/:etape/revisions" element={<LayoutExercice />}/>
 
-            {/* Route pour la page d'acceuil */}
-            <Route index element={<Home forceUpdate = {handleForceUpdate} />}></Route> 
+                    {/* Route pour la page d'acceuil */}
+                    <Route index element={<Home forceUpdate = {handleForceUpdate} />}></Route> 
 
-            {/* Route pour le formulaire de connexion */}
-            <Route path="/login" index element={<Login />}></Route>
+                    {/* Route pour le formulaire de connexion */}
+                    <Route path="/login" index element={<Login />}></Route>
 
-            {/* Route pour le choix du mode */}
-            <Route path="/home" element={<Index />}></Route>
+                    {/* Route pour le choix du mode */}
+                    <Route path="/home" element={<Index />}></Route>
 
-            {/* Route pour l'affichage de toutes les étapes */}
-            <Route path="/etapes" element={<Etapes />}>
-            </Route>
+                    {/* Route pour l'affichage de toutes les étapes */}
+                    <Route path="/etapes" element={<Etapes />}>
+                    </Route>
 
-            {/* Route pour l'affichage des éléments d'une étape */}
-            <Route path="/etape/:etape" element={<Etape />}/>
+                    {/* Route pour l'affichage des éléments d'une étape */}
+                    <Route path="/etape/:etape" element={<Etape />}/>
 
-            {/* Route pour la présentation d'une séquence */}
-            <Route path="/etapes/:sequence" element={<SequenceHome user = {user} allScoreByExercises={scores}/>}>
+                    {/* Route pour la présentation d'une séquence */}
+                    <Route path="/etapes/:sequence" element={<SequenceHome user = {user} allScoreByExercises={scores}/>}>
 
-            </Route>
-            {/* Route pour les exercices de chaque séquence */}
-            <Route path="/etapes/:sequence/exo" element={<LayoutExercice user = {user} savingScore={savingScoreOffline}/>}> </Route>
+                    </Route>
+                    {/* Route pour les exercices de chaque séquence */}
+                    <Route path="/etapes/:sequence/exo" element={<LayoutExercice user = {user} savingScore={savingScoreOffline}/>}> </Route>
 
-            {/* Route pour la présentation de l'alphabet */}
-            <Route path="/alphabet" element={<AlphabetHome />}>
+                    {/* Route pour la présentation de l'alphabet */}
+                    <Route path="/alphabet" element={<AlphabetHome />}>
 
-            </Route>
+                    </Route>
 
-            {/* Route pour la préentation des graphèmes */}
-            <Route path="/graphemes" element={<GraphemesHome />} >
-            </Route>
+                    {/* Route pour la préentation des graphèmes */}
+                    <Route path="/graphemes" element={<GraphemesHome />} >
+                    </Route>
 
-            {/* Routes pour les exercices de l'alphabet et des graphèmes */}
-            <Route path=":categorie/exercices" element={<LayoutAlphabet />}>
-                <Route path="a1" element={<A />} />
-                <Route path="b1" element={<B />} />
-                <Route path="c1" element={<C />} />
-                <Route path="d1" element={<D />} />
-                <Route path="e1" element={<E />} />
-                <Route path="h1" element={<H />} />
-                <Route path="g1" element={<G />} />
-            </Route>
+                    {/* Routes pour les exercices de l'alphabet et des graphèmes */}
+                    <Route path=":categorie/exercices" element={<LayoutAlphabet />}>
+                        <Route path="a1" element={<A />} />
+                        <Route path="b1" element={<B />} />
+                        <Route path="c1" element={<C />} />
+                        <Route path="d1" element={<D />} />
+                        <Route path="e1" element={<E />} />
+                        <Route path="h1" element={<H />} />
+                        <Route path="g1" element={<G />} />
+                    </Route>
+                
 
-
-        </Routes>
-    </HashRouter>
+                </Routes>
+                <SpringModal isOpen={openModal} setOpen={setOpenModal} mode='warningReload'>
+                
+                </SpringModal>
+    
+            </HashRouter>
+        </>
+    
 }
 
 export default App;

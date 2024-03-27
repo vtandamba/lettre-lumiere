@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
+import checkIcon from '../../../assets/images/check.svg'
 
 
 
@@ -90,7 +91,7 @@ const C = (props) => {
                                                             : 'progress__part progress__part--false'}`}></li>
                     ))}
                 </ul>
-                <button className="exercice__valid" onClick={handleSubmit}>OK</button>
+                <button className="exercice__valid" onClick={handleSubmit}>Ok <img src={checkIcon} alt="ok" /></button>
             </div>
         </React.Fragment>
     );

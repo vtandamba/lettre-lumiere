@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
 import { IoArrowForwardSharp } from "react-icons/io5";
 import { getElementRandom } from "../../../hooks/useRandom";
+import checkIcon from '../../../assets/images/check.svg'
 
 
 const D = (props) => {
@@ -196,7 +197,7 @@ const D = (props) => {
                             <li className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                         ))}
                     </ul>
-                    <button className="exercice__valid" onClick={handleChooseResponse}>OK</button>
+                    <button className="exercice__valid" onClick={handleChooseResponse}>Ok <img src={checkIcon} alt="ok" /></button>
                 </div>
             </React.Fragment>
 }

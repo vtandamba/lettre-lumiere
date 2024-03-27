@@ -6,12 +6,15 @@ import Button from "../components/Button";
 import videoCam from '../assets/images/camera.svg'
 import imgEtape from '../assets/images/layoutexercices/etape.png';
 import {BounceLoader} from 'react-spinners'
-//Import des différentes coupes
-import argentMedal from '../assets/gamification/médaille=argent.png';
-import bronzeMedal from '../assets/gamification/médaille=bronze.png';
-import orMedal from '../assets/gamification/médaille=or.png';
+import nextIcon from '../assets/images/next.svg'
 import CountUp from 'react-countup';
 import MainHeader from "../components/MainHeader";
+//Import des différentes coupes
+
+import silverMedal from '../assets/gamification/silverMedal.png';
+import goldMedal from '../assets/gamification/goldenMedal.png';
+import bronzeMedal from '../assets/gamification/bronzeMedal.png';
+
 
 const SequenceHome = (props) => {
 
@@ -103,32 +106,27 @@ const SequenceHome = (props) => {
                 } catch (error) {
                     console.error("Erreur lors de la récupération des scores:", error);
                 }
-            }else{
-
-                if (allScoreByExercises && allScoreByExercises.length > 0) {
-                    // Utilisez la méthode filter() pour obtenir les scores de la séquence spécifique
-                    const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
-                    console.log(filteredScores);
-                    // Assurez-vous que filteredScores n'est pas vide
-                    if (filteredScores.length > 0) {
-                        // Utilisez map() pour extraire les tabScores de chaque élément
-                        const tabScores = filteredScores.map(el => el.tabScores);
-                        console.log('tabScores', tabScores);
-                    
-                        // Mettez à jour l'état avec les scores filtrés
-                        setTabScore(tabScores);
-                    } else {
-                        console.log('Aucun score trouvé pour la séquence spécifiée');
-                    }
-                } else {
-                    console.log('allScoreByExercises est vide ou non défini');
+            }else if (!user && allScoreByExercises && allScoreByExercises.length > 0) {
+                // Si l'utilisateur n'est pas connecté et que des scores sont disponibles dans allScoreByExercises
+                const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
+                if (filteredScores.length > 0) {
+                    const tabScores = filteredScores[0].tabScores;
+                    const sumScores = tabScores.reduce((accumulator, currentValue) => {
+                        if (currentValue !== null) {
+                            return accumulator + currentValue;
+                        }
+                        return accumulator;
+                    }, 0);
+                    const avgScore = sumScores / tabScores.length;
+                    setFinalScore(avgScore);
+                    console.log('sum ======>', avgScore, tabScores.length);
                 }
             }
         };
         
     
         exercisesScore();
-    }, [exercises])
+    }, [exercises, user, idSeq])
 
 
 
@@ -170,6 +168,7 @@ const SequenceHome = (props) => {
                         <div className="header__percent">
                             {/* <img src={argentMedal} alt="medaille" /> */}
                             <p><CountUp end={finalScore}/> %</p>
+                            {finalScore !== 0 && <img src={(finalScore < 30) ? bronzeMedal : (finalScore > 30 && finalScore <60) ? silverMedal : goldMedal} alt="médaille" />}
                         </div>
 
                         <div className="header__actions">
@@ -228,7 +227,11 @@ const SequenceHome = (props) => {
                             <Outlet />
                     </main>
                     <footer>
-                    { (exercises && exercises.length === 0) ||  <Link to="exo"><div className="sequence__start">Commencer</div></Link>}
+                    { (exercises && exercises.length === 0) ||  <Link to="exo"><div className="sequence__start">
+                        START
+                        <img src={nextIcon} alt="next" />
+                        </div>
+                        </Link>}
 
                     </footer>
                 </div>

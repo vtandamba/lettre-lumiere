@@ -6,6 +6,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
 import imgNotFound from '../../../assets/images/not-found-image.jpg'
 import { CircleLoader } from "react-spinners";
+import { Modal } from "@mui/material";
+import SpringModal from "../../Modal";
 const Layout = (props) => {
 
     const {db , user, savingScore} = props;
@@ -20,9 +22,9 @@ const Layout = (props) => {
     const [sequences, setSequences] = useState();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-  
+    const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(true);
+    const [modalLink, setModalLink] = useState();
     const [attemptCount, setAttemptCount] = useState(0);
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
 
@@ -117,16 +119,7 @@ const Layout = (props) => {
         handleContinue();
     };
 
-    // useEffect(() => {
 
-    //     if (attemptCount + 1 === 4) {
-
-    //         setAttemptCount(0);
-    //         setCurrentExerciseIndex(prevIndex => prevIndex + 1);
-
-    //     }
-
-    // }, [attemptCount]);
 
     const fetchScore = () => {
 
@@ -238,6 +231,12 @@ const Layout = (props) => {
         }
     };
 
+    const handleGoHome =(link) => {
+        setModalLink(link)
+        setOpen(true);
+      
+    }
+
 
     const style = {
         position: 'absolute',
@@ -265,7 +264,7 @@ const Layout = (props) => {
             </div>
             <p className="header__sequence"> {sequence}</p>
           </div>
-          <Link to={`/etapes/${id}`}><img src={homeIcon} alt="" className="header__home" /></Link>
+          <img src={homeIcon} alt="" className="header__home" onClick={()=>handleGoHome(`/etapes/${id}`)}/>
           <ul className="progress-global">
             {exercisesScore.map((score, index) => (
               <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
@@ -273,7 +272,8 @@ const Layout = (props) => {
             ))}
           </ul>
         </header>
-
+        <SpringModal isOpen={open} setOpen={setOpen} link={modalLink}/>
+      
         <main className="exercice">
           {renderExerciseComponent(exercises[currentExerciseIndex])}
           <button onClick={goToNextExercise} 

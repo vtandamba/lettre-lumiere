@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
 import user from '../assets/images/Customer.svg';
 import { IoMdClose } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logoLettres from '../assets/images/Logo lettres en lumière.png'
 
 
 const MainHeader = (props) => {
     const {link, role} = props
+
     const username = sessionStorage.getItem('user_name');
+
+    // const location = useLocation();
+
+    // const redirectToIndex = () => {
+    //     console.log(location.pathname)
+        
+    //     if (location.pathname === '/home') {
+    //         sessionStorage.removeItem('user_id');
+    //         sessionStorage.removeItem('user_name'); //Se déconnecter
+    //         setTimeout(() => {
+    //             window.location.href = link; // Redirection vers index
+            
+    //         }, 500)
+    //         window.location.reload(); //Reload l'application 
+    //         console.log('salut')
+          
+    //     }else {
+    //         setTimeout(() => {
+    //             window.location.href = link; // Redirection vers index
+            
+    //         }, 500)
+    //     }
+    // };
     return  <header className="header">
                { role !== "user" 
                         ? <img src={logoLettres} alt="Page des étapes" className="header__logo" /> 
@@ -15,7 +39,7 @@ const MainHeader = (props) => {
                                 <img src={user} alt="Profil utilisateur " className="user__img" />
                                 <p className="user__name">{username || 'utilisateur'}</p>
                          </div> }
-                <button className="bouton__croix">
+                <button className="bouton__croix" >
                     <Link to={link} style={{ color: "#000" }}>
                         QUITTER <span className="close-icon">&times;</span>
                     </Link>
