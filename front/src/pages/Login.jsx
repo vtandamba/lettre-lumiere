@@ -3,11 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/images/logoLettresEnLumieres.png';
 import { GrFormClose } from "react-icons/gr";
 import Auth from "../hooks/useAuth";
+import { useUser } from "../contexts/UserContext";
 
 const Login = () =>{
 
     const navigate = useNavigate();
-    const [user, setUser] = useState({
+    const { user, setUser } = useUser();
+    const [data, setData] = useState({
         user_name:'',
         user_password:''
     });
@@ -25,15 +27,20 @@ const Login = () =>{
         evt.preventDefault();
       
         try{
-            const response = await Auth.login(user);
+            const response = await Auth.login(data);
             if (response){
+
+                setUser({ id: response.user_id, name: response.user_name });
+
+                sessionStorage.setItem('user_id', response.user_id);
+                sessionStorage.setItem('user_name', response.user_name);
+
                 setTimeout(()=>{
                     navigate('/home');
                 }, 1000)
               
             }
-            sessionStorage.setItem('user_id', response.user_id);
-            sessionStorage.setItem('user_name', response.user_name);
+           
 
         }catch(error){
             setFormErrors('Combinaison username - Password incorrecte');
@@ -52,12 +59,12 @@ const Login = () =>{
             <form action="" className="form" method="POST" onSubmit={handleSubmit}>
                 <div className="form__group">
                     <label className="form__label">Identifiant</label><br></br><br></br>
-                    <input type="text" name="username" required placeholder="identifiant" className="form__input" onChange={(evt)=>setUser({...user, user_name:evt.target.value})} />
+                    <input type="text" name="username" required placeholder="identifiant" className="form__input" onChange={(evt)=>setData({...data, user_name:evt.target.value})} />
                 </div>
 
                 <div className="form__group">
                     <label className="form__label">Mot de passe</label><br></br><br></br>
-                    <input type="password" name="password" required placeholder="Mot de passe" className="form__input" onChange={(evt)=>setUser({...user, user_password:evt.target.value})}/>
+                    <input type="password" name="password" required placeholder="Mot de passe" className="form__input" onChange={(evt)=>setData({...data, user_password:evt.target.value})}/>
                 </div>
                 <button type="submit" className="form__submit">
                     OK

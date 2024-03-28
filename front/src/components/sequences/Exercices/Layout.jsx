@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { fetchAllExerciceForSequences, fetchAllExercisesForRevisions, fetchOneSequence } from "../../../hooks/useDb";
 import homeIcon from '../../../assets/images/layoutexercices/home.png'
@@ -8,10 +8,13 @@ import imgNotFound from '../../../assets/images/not-found-image.jpg'
 import { CircleLoader } from "react-spinners";
 import { Modal } from "@mui/material";
 import SpringModal from "../../Modal";
+import { useUser } from "../../../contexts/UserContext";
 const Layout = (props) => {
 
-    const {db , user, savingScore} = props;
+    const {db , savingScore} = props;
+    const { user } = useUser();
     const params = useParams();
+    console.log(user);
     const id = params?.sequence;
     const idStage = params?.etape;
     const navigate = useNavigate();
@@ -21,9 +24,7 @@ const Layout = (props) => {
     const [sequence, setSequence] = useState();
     const [sequences, setSequences] = useState();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
-    const [showModal, setShowModal] = useState(false);
     const [open, setOpen] = useState(false);
-    const [openModal, setOpenModal] = useState(true);
     const [modalLink, setModalLink] = useState();
     const [attemptCount, setAttemptCount] = useState(0);
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
@@ -86,11 +87,11 @@ const Layout = (props) => {
     };
 
 
- 
+
 
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
-            return "H";
+            return "A";
         } else if (exerciseType.startsWith("B")) {
             return "B";
         } else if (exerciseType.startsWith("C")) {
@@ -110,14 +111,15 @@ const Layout = (props) => {
         }
     };
 
-   const handleContinue = () => {
-        navigate(`/etapes/${id || idSeq}`);
+//    const handleContinue = () => {
+//         navigate(`/etapes/${id || idSeq}`);
 
-    };
-    const handleClose = () => {
-        setOpen(false)
-        handleContinue();
-    };
+//     };
+
+//     const handleClose = () => {
+//         setOpen(false)
+//         handleContinue();
+//     };
 
 
 
@@ -167,7 +169,7 @@ const Layout = (props) => {
         // console.log('onAttemptMade');
         // console.log('shouldgo', shouldGoToNextExercise);
     
-        // Vérifiez si c'est le dernier exercice
+        // Vérifier si c'est le dernier exercice
         if (currentExerciseIndex === exercises.length - 1) {
             
              // Fetch le score avant de rediriger
@@ -231,11 +233,16 @@ const Layout = (props) => {
         }
     };
 
-    const handleGoHome =(link) => {
-        setModalLink(link)
-        setOpen(true);
+    const handleOpenModal = useCallback(() => {
+     
+        // setOpen(true);
+        navigate(`/etapes/${id}`)
+      }, []);
       
-    }
+
+      const handleCloseModal = useCallback(() => {
+        navigate(`/etapes/${id}`)
+      }, []);
 
 
     const style = {
@@ -248,12 +255,13 @@ const Layout = (props) => {
         boxShadow: 24,
         p: 4,
     };
-
+    console.log('n dsfjck,lds,relkjhbvfcrfvedbyuzdbh', exercises);
     
   return (
     exercises && exercises.length > 0 ? (
+   
       <div className="layout">
-
+      
         <header className="header">
           <div className="header__infos">
             <div className="header__etape">
@@ -264,7 +272,8 @@ const Layout = (props) => {
             </div>
             <p className="header__sequence"> {sequence}</p>
           </div>
-          <img src={homeIcon} alt="" className="header__home" onClick={()=>handleGoHome(`/etapes/${id}`)}/>
+          <img src={homeIcon} alt="Home" className="header__home" onClick={() => handleOpenModal()} />
+
           <ul className="progress-global">
             {exercisesScore.map((score, index) => (
               <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
@@ -272,7 +281,7 @@ const Layout = (props) => {
             ))}
           </ul>
         </header>
-        <SpringModal isOpen={open} setOpen={setOpen} link={modalLink}/>
+       
       
         <main className="exercice">
           {renderExerciseComponent(exercises[currentExerciseIndex])}
@@ -284,6 +293,7 @@ const Layout = (props) => {
 
           </button>
         </main>
+        <SpringModal isOpen={open} setOpen={setOpen} link={modalLink} handleClose={handleCloseModal}/>
       </div>
     ) : (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

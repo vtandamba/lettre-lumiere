@@ -2,7 +2,7 @@ import React from 'react';
 import DropZone from './DropZone';
 
 // context
-import DragContext from './Drag';
+import {DragContext} from './Drag';
 
 // if we need multiple dropzones
 function DropZones({ dropType, prevId, nextId, split = "y", remember, children, ...props }) {

@@ -14,11 +14,15 @@ import MainHeader from "../components/MainHeader";
 import silverMedal from '../assets/gamification/silverMedal.png';
 import goldMedal from '../assets/gamification/goldenMedal.png';
 import bronzeMedal from '../assets/gamification/bronzeMedal.png';
+import { useUser } from "../contexts/UserContext";
 
 
 const SequenceHome = (props) => {
 
-    const {db, user, allScoreByExercises} = props;
+    const {db, allScoreByExercises} = props;
+    const { user } = useUser();
+    
+    console.log('je suis le user avec l\'identifiant', user)
     const params = useParams();
     const id = params?.sequence;
     // Convertir sequenceId en entier
@@ -84,17 +88,21 @@ const SequenceHome = (props) => {
         const exercisesScore = async () => {
             // Si il y a un utilisateur connecté
             if (user){
-
-            
+                console.log('id du gars connecté hors du',user.user_id);
+                const id = user.user_id
+                console.log('salut je suis connéctée');
                 try {
                     const scorePromises = exercises?.map(async (exercise) => {
-                        const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=${user.user_id}&exercice_id=${exercise.exercice_id}`);
+                        console.log('dans le try')
+                        console.log('id du gars connecté',id);
+                        const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=${sessionStorage.getItem('user_id')}&exercice_id=${exercise.exercice_id}`);
+                        console.log('apres le fetch')
                         if (!response.ok) {
-                        
+                            console.log('response is not okay')
                             return null;
                         }
                         const data = await response.json();
-                
+                        console.log('ma progression', data)
                         const score = Array.isArray(data) && data.length > 0 && data[0].pro_score !== undefined ? data[0].pro_score : null;
                         console.log(`Score pour l'exercice ${exercise.exercice_id}:`, score);
                         return score;
@@ -107,7 +115,8 @@ const SequenceHome = (props) => {
                     console.error("Erreur lors de la récupération des scores:", error);
                 }
             }else if (!user && allScoreByExercises && allScoreByExercises.length > 0) {
-                // Si l'utilisateur n'est pas connecté et que des scores sont disponibles dans allScoreByExercises
+                // Si l'utilisateur n'est pas connecté et que des scores sont disponibles dans allScoreByExercises4
+                console.log('salut tu n\'es pas connecté');
                 const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
                 if (filteredScores.length > 0) {
                     const tabScores = filteredScores[0].tabScores;
@@ -124,7 +133,7 @@ const SequenceHome = (props) => {
             }
         };
         
-    
+        
         exercisesScore();
     }, [exercises, user, idSeq])
 
@@ -182,7 +191,7 @@ const SequenceHome = (props) => {
                                 <ul className="exercises__list">
                                     {exercises.map((el, index) => {
                                         let progressClass = "progress-item--no-score";
-                                        if (user) {
+                                        if (user && tabScore.length > 0) {
                                             if (tabScore[index] !== null) {
                                                 if (tabScore[index] <= 49) {
                                                     progressClass = "progress-item--orange";

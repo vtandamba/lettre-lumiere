@@ -11,13 +11,26 @@
         width: clamp(100px, 15vw, 500px);
       }
     
-      &__logout {
-        font-size: 1.8rem;
-        font-family: 'Satoshi', sans-serif;
-        margin-right: 1.5rem;
-        border: 1px $noir solid;
-        border-radius: 5px;
-        padding: 0.4rem 1rem
+      // &__logout {
+      //   font-size: 1.8rem;
+      //   font-family: 'Satoshi', sans-serif;
+      //   margin-right: 1.5rem;
+      //   border: 1px $noir solid;
+      //   border-radius: 5px;
+      //   padding: 0.4rem 1rem
+      // }
+
+      &__logout{
+        position: absolute  ;
+        bottom:3rem;
+        right: 2rem;
+        width:6rem;
+        cursor: pointer;
+        transition: all .2s ease-in-out;
+        &:hover{
+          transform: scale(1.07);
+          transition: all .2s ease-in-out
+        }
       }
     
       &__message {

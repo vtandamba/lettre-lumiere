@@ -100,12 +100,12 @@ const Etapes = (props) => {
                       <AccordionDetails>
                         <Typography className="Etape__container">
                         {sequences.filter((sequence) => sequence.stage_id === stage.stage_id)
-                                .map((s) => {
+                                .map((s, index) => {
                                   // console.log('la sequence ', sequences)
-                                  return  <Link to={`${s.sequence_id}`}>
+                                  return  <Link to={`${s.sequence_id}`} key={index}>
                                             <div className="Etape__seq">
-                                              <p className="Etape__content">{s.seq_title.replace(/-/g, '')}</p>
-                                                {/* {JSON.parse(s.seq_content).map(el => <p  className="Etape__content">{el}</p>)} */}
+                                              {/* <p className="Etape__content">{s.seq_title.replace(/-/g, '')}</p> */}
+                                                {JSON.parse(s.seq_content).map(el => <p  className="Etape__content">{el}</p>)}
                                             </div>
                                                 
                                                 {/* <EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /> */}

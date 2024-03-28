@@ -61,8 +61,8 @@ const style = {
   p: 4,
 };
 
-export default function SpringModal({ isOpen, setOpen, mode, link, children }) {
-  const handleClose = () => setOpen(false);
+export default function SpringModal({ isOpen, setOpen, mode, link, children, handleClose }) {
+
   console.log(link)
   return (
     <div>
@@ -95,7 +95,7 @@ export default function SpringModal({ isOpen, setOpen, mode, link, children }) {
                 <p className='modal__action' onClick={()=>setOpen(false)}>Annuler</p>
                
                   <Link to={link}>
-                    <p className='modal__action modal__action--backvert'>Continuer</p>
+                    <p className='modal__action modal__action--backvert' onClick={handleClose}>Continuer</p>
                   </Link>
                   </>
                 ) : null}

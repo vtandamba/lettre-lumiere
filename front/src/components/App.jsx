@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext, useContext, } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -29,7 +29,7 @@ import LayoutAlphabet from '../pages/ExoGraphoAlphabetique'
 import Etape from "./Etape";
 import Credits from "../pages/Credits";
 import SpringModal from "./Modal";
-
+import { UserProvider } from '../contexts/UserContext'; // Update the import path accordingly
 
 
 
@@ -43,15 +43,17 @@ console.log(allStages);
 
 
 
+
 const App = () => {
 
     const [isAuthentificated, setIsAuthentificated] = useState();
     const [scores, setScores] = useState([]);
-    const [user, setUser] = useState(null);
-    const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'));
+    // const [user, setUser] = useState(null);
+    // const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'));
     const [mode, setMode] = useState();
     const [forceUpdate, setForceUpdate] = useState(0);
     const [openModal, setOpenModal] = useState();
+    
 
     useEffect(() => {
         //useEffect est simplement utilisé pour déclencher la mise à jour
@@ -64,7 +66,7 @@ const App = () => {
       
       };
 
-    console.log('=====> id-user', idUser)
+    // console.log('=====> id-user', idUser)
 
 
     // Enregistrer les scores hors ligne
@@ -93,34 +95,34 @@ const App = () => {
     };
 
 
-    useEffect(() => {
-        const initUser = async () => {
-            const infoUser = (idUser) ? await fecthUser(parseInt(idUser, 10)) : null;
-            setUser(infoUser);
-            console.log(infoUser);
-        };
-        initUser();
-    }, [idUser]);
+    // useEffect(() => {
+    //     const initUser = async () => {
+    //         const infoUser = (idUser) ? await fecthUser(parseInt(idUser, 10)) : null;
+    //         setUser(infoUser);
+    //         console.log(infoUser);
+    //     };
+    //     initUser();
+    // }, [idUser]);
 
-    useEffect(() => {
-        // Fonction de gestion de changement d'utilisateur
+    // useEffect(() => {
+    //     // Fonction de gestion de changement d'utilisateur
 
-        const handleUserChange = () => {
-            const newIdUser = sessionStorage.getItem('user_id');
-            if (newIdUser !== idUser) {
-                setIdUser(newIdUser); // Mettre à jour l'état de l'id de l'utilisateur
-                window.location.reload(); // Recharger la page lorsque l'utilisateur change
-            }
-        };
+    //     const handleUserChange = () => {
+    //         const newIdUser = sessionStorage.getItem('user_id');
+    //         if (newIdUser !== idUser) {
+    //             setIdUser(newIdUser); // Mettre à jour l'état de l'id de l'utilisateur
+    //             window.location.reload(); // Recharger la page lorsque l'utilisateur change
+    //         }
+    //     };
     
-        // Ajouter un écouteur d'événements de stockage
-        window.addEventListener('storage', handleUserChange);
+    //     // Ajouter un écouteur d'événements de stockage
+    //     window.addEventListener('storage', handleUserChange);
     
-        // Retirer l'écouteur d'événements de stockage lors du démontage du composant
-        return () => {
-            window.removeEventListener('storage', handleUserChange);
-        };
-    }, [idUser]);
+    //     // Retirer l'écouteur d'événements de stockage lors du démontage du composant
+    //     return () => {
+    //         window.removeEventListener('storage', handleUserChange);
+    //     };
+    // }, [idUser]);
 
     // useEffect(() => {
         
@@ -145,67 +147,69 @@ const App = () => {
     }, [])
     
     return <>
-            <HashRouter>
-                <Routes>
+            <UserProvider >
+                <HashRouter>
+                    <Routes>
 
-                    {/* Route pour les remerciements */}
-                    <Route path="/credits" element={<Credits />} />
+                        {/* Route pour les remerciements */}
+                        <Route path="/credits" element={<Credits />} />
 
-                    {/* Route pour le bilan d'une séquence */}
-                    <Route path="etape/:etape/revisions" element={<LayoutExercice />}/>
+                        {/* Route pour le bilan d'une séquence */}
+                        <Route path="etape/:etape/revisions" element={<LayoutExercice />}/>
 
-                    {/* Route pour la page d'acceuil */}
-                    <Route index element={<Home forceUpdate = {handleForceUpdate} />}></Route> 
+                        {/* Route pour la page d'acceuil */}
+                        <Route index element={<Home forceUpdate = {handleForceUpdate} />}></Route> 
 
-                    {/* Route pour le formulaire de connexion */}
-                    <Route path="/login" index element={<Login />}></Route>
+                        {/* Route pour le formulaire de connexion */}
+                        <Route path="/login" index element={<Login />}></Route>
 
-                    {/* Route pour le choix du mode */}
-                    <Route path="/home" element={<Index />}></Route>
+                        {/* Route pour le choix du mode */}
+                        <Route path="/home" element={<Index  />}></Route>
 
-                    {/* Route pour l'affichage de toutes les étapes */}
-                    <Route path="/etapes" element={<Etapes />}>
-                    </Route>
+                        {/* Route pour l'affichage de toutes les étapes */}
+                        <Route path="/etapes" element={<Etapes />}>
+                        </Route>
 
-                    {/* Route pour l'affichage des éléments d'une étape */}
-                    <Route path="/etape/:etape" element={<Etape />}/>
+                        {/* Route pour l'affichage des éléments d'une étape */}
+                        <Route path="/etape/:etape" element={<Etape />}/>
 
-                    {/* Route pour la présentation d'une séquence */}
-                    <Route path="/etapes/:sequence" element={<SequenceHome user = {user} allScoreByExercises={scores}/>}>
+                        {/* Route pour la présentation d'une séquence */}
+                        <Route path="/etapes/:sequence" element={<SequenceHome  allScoreByExercises={scores}/>}>
 
-                    </Route>
-                    {/* Route pour les exercices de chaque séquence */}
-                    <Route path="/etapes/:sequence/exo" element={<LayoutExercice user = {user} savingScore={savingScoreOffline}/>}> </Route>
+                        </Route>
+                        {/* Route pour les exercices de chaque séquence */}
+                        <Route path="/etapes/:sequence/exo" element={<LayoutExercice  savingScore={savingScoreOffline}/>}> </Route>
 
-                    {/* Route pour la présentation de l'alphabet */}
-                    <Route path="/alphabet" element={<AlphabetHome />}>
+                        {/* Route pour la présentation de l'alphabet */}
+                        <Route path="/alphabet" element={<AlphabetHome />}>
 
-                    </Route>
+                        </Route>
 
-                    {/* Route pour la préentation des graphèmes */}
-                    <Route path="/graphemes" element={<GraphemesHome />} >
-                    </Route>
+                        {/* Route pour la préentation des graphèmes */}
+                        <Route path="/graphemes" element={<GraphemesHome />} >
+                        </Route>
 
-                    {/* Routes pour les exercices de l'alphabet et des graphèmes */}
-                    <Route path=":categorie/exercices" element={<LayoutAlphabet />}>
-                        <Route path="a1" element={<A />} />
-                        <Route path="b1" element={<B />} />
-                        <Route path="c1" element={<C />} />
-                        <Route path="d1" element={<D />} />
-                        <Route path="e1" element={<E />} />
-                        <Route path="h1" element={<H />} />
-                        <Route path="g1" element={<G />} />
-                    </Route>
-                
+                        {/* Routes pour les exercices de l'alphabet et des graphèmes */}
+                        <Route path=":categorie/exercices" element={<LayoutAlphabet />}>
+                            <Route path="a1" element={<A />} />
+                            <Route path="b1" element={<B />} />
+                            <Route path="c1" element={<C />} />
+                            <Route path="d1" element={<D />} />
+                            <Route path="e1" element={<E />} />
+                            <Route path="h1" element={<H />} />
+                            <Route path="g1" element={<G />} />
+                        </Route>
+                    
 
-                </Routes>
-                <SpringModal isOpen={openModal} setOpen={setOpenModal} mode='warningReload'>
-                
-                </SpringModal>
-    
-            </HashRouter>
+                    </Routes>
+                    <SpringModal isOpen={openModal} setOpen={setOpenModal} mode='warningReload'>
+                    
+                    </SpringModal>
+        
+                </HashRouter>
+            </UserProvider>
         </>
-    
+    // LayoutExercice, SequenceHome et Index ont bsoin du user
 }
 
 export default App;

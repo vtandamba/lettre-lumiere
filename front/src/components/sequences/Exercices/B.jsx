@@ -14,7 +14,7 @@ const B = (props) => {
     // const [score, setScore] = useState(0);
     const [tabResponses, setTabResponses] = useState(new Array(tabItems.length).fill(null));
     console.log(data.exo_type)
-
+    console.log('je me réaffiche !');
     useEffect(() => {
         if (data?.exo_choices) {
             const initialTabItems = JSON.parse(data.exo_choices).map(el => ({

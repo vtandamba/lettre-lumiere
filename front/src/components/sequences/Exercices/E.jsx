@@ -48,23 +48,33 @@ const E = (props) => {
     }, [attemptCount, onAttemptMade, tabResponses.length]);
 
     const handleChange = (evt) => {
-
-        // if (item && input.length <= item.length){
-        //     setInput(evt.target.value)
-        // }
-
-        let newValue = input;
         const inputText = evt.target.value;
-        // Recherche du premier trait dans la chaîne
-        const firstDashIndex = newValue.indexOf('_');
-
-        // Si un trait est trouvé, remplacez-le par la lettre saisie
-        if (firstDashIndex !== -1) {
-            newValue = newValue.slice(0, firstDashIndex) + inputText[inputText.length - 1] + newValue.slice(firstDashIndex + 1);
+    
+        if (inputText.length < input.length) {
+            setInput(input.replace(/[^_]/g, '_')); // Remplace tous les caractères non-trait par des traits
+            return;
         }
-        setInput(data.exo_type!== "E2 Bis" ? evt.target.value : newValue);
         
-    }
+        // Obtient le dernier caractère saisi
+        const lastChar = inputText.slice(-1);
+    
+        // Trouve le premier trait de soulignement dans l'entrée actuelle
+        const firstUnderscoreIndex = input.indexOf('_');
+    
+        if (firstUnderscoreIndex !== -1) {
+            // Construit la nouvelle chaîne avec le trait remplacé par le dernier caractère saisi
+            let updatedInput = input.substring(0, firstUnderscoreIndex) + lastChar + 
+                               input.substring(firstUnderscoreIndex + 1);
+    
+            
+            if (!updatedInput.includes('_')) {
+                
+            }
+    
+            setInput(updatedInput);
+        }
+    };
+    
 
     useEffect(() => {
         if (item){
@@ -78,21 +88,21 @@ const E = (props) => {
     }, [item, data.exo_type]);
 
 
-
     const handleSubmit = (event) => {
-        event.preventDefault(); 
-        console.log(input);
-        const isCorrect = input.trim().toUpperCase() === item.value.toUpperCase();
-     
+        event.preventDefault();
+        
+        // Assurez-vous de ne pas inclure le dernier trait dans la comparaison
+        const finalInput = input.endsWith('_') ? input.slice(0, -1) : input;
+        const isCorrect = finalInput.trim().toUpperCase() === item.value.toUpperCase();
+        
         const newTabResponses = [...tabResponses];
         newTabResponses[attemptCount] = isCorrect;
         setTabResponses(newTabResponses);
         setAttemptCount(attemptCount + 1);
-
-        setInput(""); //Réinitialise l'input après avoir entré sa réponse
-
-       
-    }
+    
+        setInput(""); // Réinitialise l'input après avoir entré sa réponse
+    };
+    
 
     const handleKeyDown = (event) => {
         if (event.key === 'Backspace') {
@@ -113,6 +123,7 @@ const E = (props) => {
                                              className="exercice__img"  
                                              onKeyDown={(event) => handleKeyDown(event)}
                                              onClick={() => speak(item.value)}
+                                             
                                              onError={(e) => {
                                                 e.target.src = imgNotFound;
                                               }}/>}

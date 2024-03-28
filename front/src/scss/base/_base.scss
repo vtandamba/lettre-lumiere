@@ -41,4 +41,18 @@ a:visited {
     transform: translate(0, 0);
 }
 
+.border-t-2{
+    border-color: pink;
+    height: 3px;
+    position: relative;
+    width: 59px;
+    z-index: 4000
+}
+
+.list {
+    min-height: 50px; /* Ou une hauteur appropriée */
+    min-width: 100px;
+  }
+  
+
 // Peut-etre ajouter une animation au drag
