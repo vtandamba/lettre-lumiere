@@ -26,7 +26,7 @@ const Layout = (props) => {
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [open, setOpen] = useState(false);
     const [openseq, setOpenseq] = useState(false);
-    const [openModal, setOpenModal] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
     const [modalLink, setModalLink] = useState();
     const [attemptCount, setAttemptCount] = useState(0);
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
@@ -107,7 +107,7 @@ const Layout = (props) => {
 
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
-            return "A";
+            return "H";
         } else if (exerciseType.startsWith("B")) {
             return "B";
         } else if (exerciseType.startsWith("C")) {
@@ -190,8 +190,8 @@ const Layout = (props) => {
 
             // Fetch le score avant de rediriger
             fetchScore(); // Envoyer le score à la base de donnée
-            setOpenseq(true)
-            setShowModal(true);
+            // setOpenseq(true)
+            // setShowModal(true);
         } else {
             // Si ce n'est pas le dernier exercice, définir shouldGoToNextExercise sur vrai
             setShouldGoToNextExercise(true);
@@ -309,8 +309,8 @@ const Layout = (props) => {
             Suivant
 
                     </button>
-                </main>
-                {showModal && (
+        </main>
+                {/* {showModal && (
                     <>
                         <p> <Link to={`/etapes/${id || idSeq}`}> - </Link></p>
                         <Modal
@@ -331,7 +331,8 @@ const Layout = (props) => {
                             </Box>
                         </Modal>
                     </>
-                )}
+                )} */}
+                <SpringModal isOpen={openModal} handleClose={handleCloseModal} setOpen={setOpenModal} />
             </div>
         ) : (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>

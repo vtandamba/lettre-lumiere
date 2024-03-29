@@ -11,18 +11,18 @@ export const DragContext = React.createContext();
 
 // drag context component
 function Drag({ draggable = true, handleDrop, children }) {
-  const [dragItem, setDragItem] = React.useState(null); // the item id being dragged
-  const [dragType, setDragType] = React.useState(null); // if multiple types of drag item
-  const [isDragging, setIsDragging] = React.useState(null); // drag is happening
-  const [drop, setDrop] = React.useState(null); // the active dropzone
+  const [dragItem, setDragItem] = React.useState(null); 
+  const [dragType, setDragType] = React.useState(null); 
+  const [isDragging, setIsDragging] = React.useState(null); 
+  const [drop, setDrop] = React.useState(null); 
 
   React.useEffect(() => {
     if (dragItem) {
-      document.body.style.cursor = "grabbing"; // changes mouse to grabbing while dragging
+      document.body.style.cursor = "grabbing"; 
     } else {
-      document.body.style.cursor = "default"; // back to default when no dragItem
+      document.body.style.cursor = "default"; 
     }
-  }, [dragItem]); // runs when dragItem state changes
+  }, [dragItem]); 
   
   const dragStart = function(e, dragId, dragType) {
     e.stopPropagation();

@@ -25,6 +25,14 @@ export const LinearCountdown = ({ onCountdownFinish }) => {
     
     return <React.Fragment>{count}</React.Fragment>;
 };
+
+export const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]]; // Échange
+  }
+  return array;
+};
   
 
 export function diviserEnSyllabes(mot) {

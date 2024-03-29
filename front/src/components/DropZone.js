@@ -10,6 +10,7 @@ function DropZone({ as, dropId, dropType, remember, style, children, ...props })
   function handleDragOver(e) {
     if (e.preventDefault) {
       e.preventDefault();
+      console.log("Drag Over DropZone: ", dropId);
     }
     return false;
   };
@@ -20,9 +21,18 @@ function DropZone({ as, dropId, dropType, remember, style, children, ...props })
     }
   };
 
+  const handleDragEnter = (e) => {
+    if (dragItem && dropType === dragType) {
+      setDrop(dropId);
+      // Log pour voir quand et quel dropId est défini
+      console.log("Drag Enter, setting drop: ", dropId);
+    }
+  };
+
+
   let Component = as || "div";
   return ( 
-    <Component onDragEnter={(e) => dragItem && dropType === dragType && setDrop(dropId)} onDragOver={handleDragOver} onDrop={onDrop} style={{position: "relative", ...style}} {...props}>
+    <Component onDragEnter={handleDragEnter} onDragOver={handleDragOver}  onDrop={onDrop} style={{position: "relative", ...style}} {...props}>
       { children }
       { drop === dropId && <div style={{position: "absolute", inset: "0px"}} onDragLeave={handleLeave}></div> }
     </Component>

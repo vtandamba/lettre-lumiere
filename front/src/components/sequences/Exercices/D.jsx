@@ -133,8 +133,6 @@ const D = (props) => {
                 }, 1000);
                 return ()=> clearTimeout(timeOutId)
             }
-        }else{
-            onAttemptMade()
         }
     };
 
