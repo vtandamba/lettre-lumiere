@@ -52,7 +52,7 @@ const D = (props) => {
               const filteredChoices = data?.choiceDetails.filter(choice => !answerAlreadyTaken.includes(choice));
               newItem = getElementRandom(filteredChoices);
           }
-        //   setItem(newItem);
+   
           setItem({...newItem, isAlreadyChosen:false});
 
 
@@ -75,7 +75,7 @@ const D = (props) => {
         if (item)
         {
             speak(item.value);
-            console.log(item.value);
+           
         }      
     }, [item])
 

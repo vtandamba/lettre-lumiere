@@ -8,7 +8,7 @@ const G = (props) => {
 
     const times = useRef(1);
 
-    const { data, score, onAttemptMade } = props;
+    const { data, score, onAttemptMade, isModalOpen } = props;
     const [tabItems, setTabItems] = useState([]);
     const [displayItems, setDisplayItems] = useState( );
     const [item, setItem] = useState('');
@@ -16,8 +16,8 @@ const G = (props) => {
     const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
     const navigate = useNavigate();
                                                         
-     console.log('displayItems',displayItems);
-     console.log('choice Details', data?.choiceDetails)
+    //  console.log('displayItems',displayItems);
+    //  console.log('choice Details', data?.choiceDetails)
 
 
     //  Initialisation du display Items
@@ -62,7 +62,7 @@ const G = (props) => {
      useEffect(() => {
         if (item) {
             speak(item.value);
-            console.log(item);
+         
         }
     }, [item]);
 
@@ -118,7 +118,8 @@ const G = (props) => {
             
                 setTimeout(() => {
                     tabItems?.forEach((item) => {return{...item, state: 'initial'}});
-                    console.log('onAttemptMade')
+                  
+                    
                     onAttemptMade();
                 }, 1000); 
            
@@ -127,18 +128,16 @@ const G = (props) => {
         }
     }
 
-    const handleCountdownFinish = () => { // Comportement à adopter à la fin du compte à rebours
-      
-        setTimeout(() => {
-            console.log('le score s\'envoie');
-            const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
-            score(scorePercent);
-       
-            onAttemptMade();
-        }, 2000); 
+    const handleCountdownFinish = () => {
     
-    };
-
+        if (!isModalOpen) { 
+            const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100;
+            score(scorePercent);
+          onAttemptMade();
+    
+        }
+      };
+      
     return <React.Fragment>
                <h2 className="exercice__consigne">{data?.exo_instruction}</h2>
                <p className="exercice__count">

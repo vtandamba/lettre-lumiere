@@ -81,27 +81,42 @@ export default function SpringModal({ isOpen, setOpen, mode, link, children, han
         }}
       >
         <Fade in={isOpen}>
-          <Box sx={style} className="modal">
-            <Typography id="spring-modal-title" variant="h6" component="h2" className='modal__title' sx={{fontFamily:'General Sans, sans-serif', fontSize:"3rem"}}>
-              <img src={warningIcon} alt="warning" />Attention
-            </Typography>
-            <Typography id="spring-modal-description" sx={{ mt: 2, fontFamily:'Ranade, sans-serif', fontSize:"1.7rem" }} className='modal__body'>
-                {!children ? 'Vous êtes sur le point de quitter un exercice en cours, les tâches faites ne seront pas enregistrées' : children} 
-            </Typography>
-            <Typography className='modal__actions' sx={{ mt: 2, fontFamily:'Ranade, sans-serif', fontSize:"1.7rem"}}>
+      <Box sx={style} className="modal">
+  <Typography 
+    id="spring-modal-title" 
+    variant="h6" 
+    component="h2" 
+    className='modal__title' 
+    sx={{
+      fontFamily: '"Roboto", sans-serif', // Remplacez par votre police de caractères
+      fontSize: "3.5rem", // Augmentez la taille de la police selon vos besoins
+    }}
+  >
+    <img src={warningIcon} alt="warning" />Attention
+  </Typography>
+  <Typography 
+    id="spring-modal-description" 
+    sx={{ 
+      mt: 2, 
+      fontFamily: '"Open Sans", sans-serif', // Changez la police de caractères
+      fontSize: "2rem", // Augmentez la taille de la police
+    }} 
+    className='modal__body'
+  >
+    {!children ? 'Vous êtes sur le point de quitter un exercice en cours, les tâches faites ne seront pas enregistrées' : children} 
+  </Typography>
+  <Typography className='modal__actions' sx={{ mt: 2, fontFamily:'"Montserrat", sans-serif', fontSize:"2rem"}}>
+    {mode !== 'wariningReload' ? (
+      <>
+        <p className='modal__action' onClick={()=>setOpen(false)}>Annuler</p>
+        <Link to={link}>
+          <p className='modal__action modal__action--backvert' onClick={handleClose}>Continuer</p>
+        </Link>
+      </>
+    ) : null}
+  </Typography>
+</Box>
 
-              {mode !== 'wariningReload' ? (
-                <>
-                <p className='modal__action' onClick={()=>setOpen(false)}>Annuler</p>
-               
-                  <Link to={link}>
-                    <p className='modal__action modal__action--backvert' onClick={handleClose}>Continuer</p>
-                  </Link>
-                  </>
-                ) : null}
-              
-            </Typography>
-          </Box>
         </Fade>
       </Modal>
     </div>

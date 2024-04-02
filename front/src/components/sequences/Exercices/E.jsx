@@ -35,9 +35,9 @@ const E = (props) => {
               
                 if (item){
                     const tabAnswerAlreadyTaken = answerAlreadyTaken;
-                    console.log(tabAnswerAlreadyTaken);
+              
                     tabAnswerAlreadyTaken.push(item);
-                    console.log(tabAnswerAlreadyTaken);
+               
                     setAnswerAlreadyTaken(tabAnswerAlreadyTaken)
                 }
             }
@@ -49,7 +49,7 @@ const E = (props) => {
 
     const handleChange = (evt) => {
         const inputText = evt.target.value;
-        console.log(inputText.length < input.length, inputText.length, input.length)
+
         if (item.chosenSyllable){
             if (inputText.length < input.length) {
                 setInput(input.replace(/[^_]/g, '_')); // Remplace tous les caractères non-trait par des traits

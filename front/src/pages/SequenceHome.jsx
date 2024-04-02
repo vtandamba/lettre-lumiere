@@ -207,11 +207,11 @@ const SequenceHome = (props) => {
                                                 if (filteredScores.length > 0) {
                                                     const tabScores = filteredScores[0].tabScores;
                                                     if (tabScores[index] !== null) {
-                                                        if (tabScores[index] > 25 && tabScores[index] < 25) {
+                                                        if (tabScores[index] >= 0 && tabScores[index] < 25) {
                                                             progressClass = "progress-item--orange";
-                                                        } else if (tabScores[index] < 25){
+                                                        } else if (tabScores[index] >= 25 && tabScores[index] < 50){
                                                             progressClass="progress-item--rouge"
-                                                        } else if (tabScores[index] >50 && tabScores[index]< 75){
+                                                        } else if (tabScores[index] >=50 && tabScores[index]< 75){
                                                             progressClass="progress-item--jaune"
                                                         }else if (tabScores[index] >= 75) {
                                                             progressClass = "progress-item--vert";

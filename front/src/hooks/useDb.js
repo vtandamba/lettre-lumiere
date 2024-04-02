@@ -44,13 +44,13 @@ export const fetchAllSequences = async() => {
 
 export const fetchOneSequence = async(id) => {
     try {
-        console.log(id);
+   
         const response = await fetch(`${urlSequences}/${id}`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération de la séquence');
         }
         const data = await response.json();
-       console.log(data);
+
         return data;
     } catch (error) {
         console.error("Erreur lors de la récupération de la séquence:", error);

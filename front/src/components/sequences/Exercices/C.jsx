@@ -14,14 +14,13 @@ const C = (props) => {
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
     
-    console.log(data?.exo_choices)
 
     useEffect(() => {
        
          if (attemptCount === tabResponses.length && attemptCount !== 0) {
             onAttemptMade(); // Passe à l'exercice suivant immédiatement
             const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
-            console.log("Score en pourcentage: ", scorePercent);
+       
             score(scorePercent);
         }
         else {
@@ -34,7 +33,7 @@ const C = (props) => {
             }, 3000);
             return () => clearTimeout(timer);
         }
-    }, [attemptCount, syllabes, currentSyllabeIndex, onAttemptMade, tabResponses]);
+    }, [attemptCount, syllabes, currentSyllabeIndex,  tabResponses]);
 
     const handleInputChange = (event) => {
         setUserInput(event.target.value);

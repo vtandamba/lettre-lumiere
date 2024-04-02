@@ -34,7 +34,7 @@ const B = (props) => {
         if (availableChoices.length > 0) {
             const newAnswer = getElementRandom(availableChoices);
             setAnswer(newAnswer);
-            console.log(newAnswer)
+        
             speak(newAnswer.value); // Assurez-vous de parler le nouvel item ici pour l'accessibilité
         }
     };
@@ -59,7 +59,7 @@ const B = (props) => {
 
     useEffect(() => {
         speak(answer.value);
-        console.log('answer', tabItems)
+     
     }, [answer]);
 
     const handleChoose = (index) => {
@@ -74,7 +74,7 @@ const B = (props) => {
     
 
     const handleClick = () => {
-        console.log('click')
+    
         if (!selectedAnswer || !answer) return;
         const isCorrect = selectedAnswer?.toLowerCase() === answer?.value.toLowerCase();
         setTabResponses(prev => {
@@ -119,9 +119,7 @@ const B = (props) => {
         setTabItems(resetItems);
     };
 
-    const handleImgError = () => {
 
-    }
 
     return (
         <React.Fragment>
