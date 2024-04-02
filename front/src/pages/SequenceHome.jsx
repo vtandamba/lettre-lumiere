@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { fetchAllExerciceForSequences, fetchOneSequence } from "../hooks/useDb";
-import { Box, CircularProgress, Modal, Typography } from "@mui/material";
-import Button from "../components/Button";
+import DOMPurify from 'dompurify';
 import videoCam from '../assets/images/camera.svg'
 import imgEtape from '../assets/images/layoutexercices/etape.png';
 import {BounceLoader} from 'react-spinners'
@@ -55,8 +54,9 @@ const SequenceHome = (props) => {
         const loadSequences = async () => {
 
             const loadedSequences = await fetchOneSequence(idSeq);
-            setSequence(loadedSequences[0]);
-            console.log(loadedSequences[0])
+            console.log(loadedSequences);
+            setSequence(loadedSequences);
+      
         };
 
         const loadExercises = async () => {
@@ -169,7 +169,7 @@ const SequenceHome = (props) => {
 
                             <div className="header__etape">
                                 <img src={imgEtape} alt="" />
-                                <p>Etape {sequence?.stage_id}</p>
+                                <p>Etape {sequence?.stage.id}</p>
                             </div>
                             <p className="header__sequence">{sequence?.seq_title}</p>
                         </div>
@@ -199,6 +199,7 @@ const SequenceHome = (props) => {
                                                     progressClass = "progress-item--vert";
                                                 }
                                             }
+
                                         } else {
                                             // Si les scores sont disponibles dans allScoreByExercises
                                             if (allScoreByExercises && allScoreByExercises.length > 0) {
@@ -221,11 +222,11 @@ const SequenceHome = (props) => {
                                                 }
                                             }
                                         }
-
+                                        const cleanInstruction = DOMPurify.sanitize(el.exo_instruction);
                                         return (
                                             <li className="exercises__item" key={el.exercice_id}>
                                                 <div className={`progress-item ${progressClass}`}></div>
-                                                <p className="consigne">{el.exo_consigne}</p>
+                                                <p className="consigne">{cleanInstruction}</p>
                                             </li>
                                         );
                                     })}

@@ -63,7 +63,7 @@ const style = {
 
 export default function SpringModal({ isOpen, setOpen, mode, link, children, handleClose }) {
 
-  console.log(link)
+
   return (
     <div>
      {/* <Button onClick={() => setOpen(true)}>Open modal</Button> */}

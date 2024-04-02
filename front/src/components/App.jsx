@@ -144,7 +144,9 @@ const App = () => {
 
     useEffect(() => {
         setIsAuthentificated (Auth.isAuthentificated());
-    }, [])
+
+        
+     }, [])
     
     return <>
             <UserProvider >

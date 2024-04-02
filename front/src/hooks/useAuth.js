@@ -5,7 +5,7 @@ const Auth = {
     login : async(form)=>{
         
         try{
-            const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.user.php?user_name=${form.user_name}&user_password=${form.user_password}`, )
+            const response = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/users?user_name=${form.user_name}&user_password=${form.user_password}`, )
             console.log(response);
     
             if (!response.ok) {

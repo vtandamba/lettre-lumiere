@@ -1,6 +1,6 @@
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { fetchAllExerciceForSequences, fetchAllExercisesForRevisions, fetchOneSequence } from "../../../hooks/useDb";
+import { fetchAllExerciceForSequences, fetchAllExercisesForRevisions, fetchChoiceDetailsById, fetchOneSequence } from "../../../hooks/useDb";
 import homeIcon from '../../../assets/images/layoutexercices/home.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
@@ -14,7 +14,7 @@ const Layout = (props) => {
     const {db , savingScore} = props;
     const { user } = useUser();
     const params = useParams();
-    console.log(user);
+
     const id = params?.sequence;
     const idStage = params?.etape;
     const navigate = useNavigate();
@@ -57,15 +57,29 @@ const Layout = (props) => {
                 if (idSeq) {
                     const exercisesList = await fetchAllExerciceForSequences(idSeq);
                     const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
-                    console.log(exercisesList)
-                    setExercises(sortedExercises);
-                    setExercisesScore(new Array(exercisesList.length).fill(0)) // Initialiser le tableau de score avec 0
+        
+                 
+                    const enrichedExercises = await Promise.all(sortedExercises.map(async (exercise) => {
+                        const choiceDetails = await Promise.all(exercise.choice.map(async (choicePath) => {
+                        
+                            const choiceId = choicePath.split('/').pop();
+                            return fetchChoiceDetailsById(choiceId);
+                        }));
+        
+                        // Ajoute les détails des choix à l'exercice
+                        return { ...exercise, choiceDetails };
+                    }));
+        
+                    console.log('enrichedExercises',enrichedExercises);
+                    setExercises(enrichedExercises);
+                    setExercisesScore(new Array(enrichedExercises.length).fill(0));
                 }
-
+        
             } catch (error) {
                 console.error("Erreur lors du chargement des exercices :", error);
             }
         };
+        
 
         const loadExercisesBilan = async () => {
             try {
@@ -73,6 +87,7 @@ const Layout = (props) => {
                     const response = await fetchAllExercisesForRevisions(parseInt(idStage, 10));
                     console.log('exos du bilan', response);
                     setExercises(response)
+                    
                 }
 
             } catch (error) {
@@ -83,8 +98,7 @@ const Layout = (props) => {
         const loadSequence = async () => {
             if (idSeq) {
                 const data = await fetchOneSequence(idSeq);
-                setSequences(data)
-                setSequence(data.seq_title);
+                setSequence(data);
 
                 // console.log('idsequence ==== >', idSeq)
                 // console.log('les sequences ==== >', data)
@@ -93,7 +107,7 @@ const Layout = (props) => {
         }
 
         loadExercises();
-
+        setExercisesScore(new Array(exercises.length).fill(0))
         loadSequence();
         loadExercisesBilan()
     }, [db, id]);
@@ -183,11 +197,11 @@ const Layout = (props) => {
 
     const onAttemptMade = () => {
         // console.log('onAttemptMade');
-        // console.log('shouldgo', shouldGoToNextExercise);
-    
+        console.log('shouldgo', shouldGoToNextExercise);
+        console.log('je passe à l\'exercice suivant')
         // Vérifier si c'est le dernier exercice
         if (currentExerciseIndex === exercises.length - 1) {
-
+            console.log('c\'était le dernier exercice')
             // Fetch le score avant de rediriger
             fetchScore(); // Envoyer le score à la base de donnée
             // setOpenseq(true)
@@ -196,6 +210,7 @@ const Layout = (props) => {
             // Si ce n'est pas le dernier exercice, définir shouldGoToNextExercise sur vrai
             setShouldGoToNextExercise(true);
         }
+        console.log('shouldgo', shouldGoToNextExercise);
     };
 
 
@@ -218,7 +233,7 @@ const Layout = (props) => {
 
         }
 
-    }, [shouldGoToNextExercise]);
+    }, [shouldGoToNextExercise, currentExerciseIndex]);
 
 
     // Enregistrer le score dans le tableau de score de la séquence
@@ -272,7 +287,7 @@ const Layout = (props) => {
         boxShadow: 24,
         p: 4,
     };
-    console.log('n dsfjck,lds,relkjhbvfcrfvedbyuzdbh', exercises);
+  
     
   return (
     exercises && exercises.length > 0 ? (
@@ -284,10 +299,10 @@ const Layout = (props) => {
             <div className="header__etape">
               <img src={imgEtape} alt="" />
               <p>Etape {sequences && sequences.map((s, index) => (
-                <span key={index}>{s.stage_id}{index < sequences.length - 1 ? ', ' : ''}</span>
+                <span key={index}>{s.stage.id}{index < sequences.length - 1 ? ', ' : ''}</span>
               ))}</p>
             </div>
-            <p className="header__sequence"> {sequence}</p>
+            <p className="header__sequence"> {sequence.seq_title}</p>
           </div>
           <img src={homeIcon} alt="Home" className="header__home" onClick={() => handleOpenModal()} />
 

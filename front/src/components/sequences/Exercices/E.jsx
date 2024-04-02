@@ -8,7 +8,7 @@ const E = (props) => {
     const [item, setItem] = useState(); //Valeur de l'item courant
     const [input, setInput] = useState("");//valeur de l'input
     const [attemptCount, setAttemptCount] = useState(0);  //Nombre de tâches
-    const [tabResponses, setTabResponses] = useState(new Array(JSON.parse(data?.exo_choices).length).fill(null));
+    const [tabResponses, setTabResponses] = useState(new Array(data?.choiceDetails.length).fill(null));
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
     const inputRef = useRef(null); // Référence à l'élément d'entrée
 
@@ -28,7 +28,7 @@ const E = (props) => {
                 score(scorePercent);
                 onAttemptMade(); 
             }else if(attemptCount  < tabResponses.length) {
-                setItem(getElementRandom(JSON.parse(data?.exo_choices).filter(el => {
+                setItem(getElementRandom(data?.choiceDetails.filter(el => {
                     return answerAlreadyTaken.map(it => it.value)
                                              .includes(el.value) === false;
                 })));
@@ -49,35 +49,40 @@ const E = (props) => {
 
     const handleChange = (evt) => {
         const inputText = evt.target.value;
-    
-        if (inputText.length < input.length) {
-            setInput(input.replace(/[^_]/g, '_')); // Remplace tous les caractères non-trait par des traits
-            return;
-        }
-        
-        // Obtient le dernier caractère saisi
-        const lastChar = inputText.slice(-1);
-    
-        // Trouve le premier trait de soulignement dans l'entrée actuelle
-        const firstUnderscoreIndex = input.indexOf('_');
-    
-        if (firstUnderscoreIndex !== -1) {
-            // Construit la nouvelle chaîne avec le trait remplacé par le dernier caractère saisi
-            let updatedInput = input.substring(0, firstUnderscoreIndex) + lastChar + 
-                               input.substring(firstUnderscoreIndex + 1);
-    
-            
-            if (!updatedInput.includes('_')) {
-                
+        console.log(inputText.length < input.length, inputText.length, input.length)
+        if (item.chosenSyllable){
+            if (inputText.length < input.length) {
+                setInput(input.replace(/[^_]/g, '_')); // Remplace tous les caractères non-trait par des traits
+                return;
             }
-    
-            setInput(updatedInput);
+            
+            // Obtient le dernier caractère saisi
+            const lastChar = inputText.slice(-1);
+        
+            // Trouve le premier trait de soulignement dans l'entrée actuelle
+            const firstUnderscoreIndex = input.indexOf('_');
+        
+            if (firstUnderscoreIndex !== -1) {
+                // Construit la nouvelle chaîne avec le trait remplacé par le dernier caractère saisi
+                let updatedInput = input.substring(0, firstUnderscoreIndex) + lastChar + 
+                                   input.substring(firstUnderscoreIndex + 1);
+        
+                
+                if (!updatedInput.includes('_')) {
+                    
+                }
+        
+                setInput(updatedInput);
+            }
+        }else{
+             setInput(evt.target.value)
         }
+     
     };
     
 
     useEffect(() => {
-        if (item){
+        if (item && item.chosenSyllable){
             speak(item.value);
             if (data.exo_type === "E2 bis" && item.chosenSyllable) {
                     setInput(
@@ -85,13 +90,14 @@ const E = (props) => {
                     )
             }
         }
+
     }, [item, data.exo_type]);
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
         
-        // Assurez-vous de ne pas inclure le dernier trait dans la comparaison
+    
         const finalInput = input.endsWith('_') ? input.slice(0, -1) : input;
         const isCorrect = finalInput.trim().toUpperCase() === item.value.toUpperCase();
         
@@ -118,10 +124,10 @@ const E = (props) => {
                 <h2 className="exercice__consigne">{data?.exo_consigne}</h2>
                 <div className="group">
                 {data.exo_type !== "E1" && 
-                <img src={'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/' + item?.value + '.jpg'} 
+                <img src={'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/' + item?.file } 
                                              alt="" 
                                              className="exercice__img"  
-                                             onKeyDown={(event) => handleKeyDown(event)}
+                                        
                                              onClick={() => speak(item.value)}
                                              
                                              onError={(e) => {
@@ -137,6 +143,7 @@ const E = (props) => {
                     <input type="text" 
                            value={input}
                            className="exercice__input" 
+                           onKeyDown={(event) => handleKeyDown(event)}
                         //    value={ data.exo_type=== "E2 Bis" && input.replace(new RegExp(`[^${item?.chosenSyllable}]`, "gi"), "-")}
                            onChange={(evt) => handleChange(evt)} 
                            autoFocus />

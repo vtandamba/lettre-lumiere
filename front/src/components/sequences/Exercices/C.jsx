@@ -6,7 +6,7 @@ import checkIcon from '../../../assets/images/check.svg'
 
 const C = (props) => {
     const { data, onAttemptMade, score, imgNotFound} = props;
-    const [syllabes, setSyllabes] = useState( Array.isArray(JSON.parse(data?.exo_choices)) && JSON.parse(data?.exo_choices));
+    const [syllabes, setSyllabes] = useState( data?.choiceDetails);
     const [currentSyllabeIndex, setCurrentSyllabeIndex] = useState(0);
     const [userInput, setUserInput] = useState("");
     const [showSyllabe, setShowSyllabe] = useState(true);
@@ -65,7 +65,7 @@ const C = (props) => {
             <div>
                 
                     {showSyllabe ? <div>
-                                        {  data.exo_type !== "C1" && <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/${syllabes[currentSyllabeIndex].value}.jpg`} 
+                                        {  data.exo_type !== "C1" && <img src={`http://lettrelumiere.localhost:8000/images/choices/${syllabes[currentSyllabeIndex].file}`} 
                                                                       alt={syllabes[currentSyllabeIndex].value}
                                                                       className="exercice__img"
                                                                       style={{marginBottom:'1rem'}}
