@@ -21,10 +21,10 @@ const A = (props) => {
             onAttemptMade();
             score(100);
         }
-    }, [tabResponses, onAttemptMade]); // Dépendances de l'effet
+    }, [tabResponses]); // Dépendances de l'effet
 
     const handleChoiceClick = (index) => {
-        speak(JSON.parse(data.exo_choices)[index].value);
+        speak(data.choiceDetails[index].value);
         const updatedTabResponses = tabResponses.map((response, i) => 
             i === index ? true : response
         );
@@ -34,8 +34,8 @@ const A = (props) => {
     return <React.Fragment>
                 <h1 className="exercice__consigne">{data?.exo_consigne}</h1>
                 <ul className="list">
-                    {data && JSON.parse(data.exo_choices).map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>
-                                                                             {data.exo_type==="A2" && e.image && <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/${e.value}.jpg`} 
+                    {data && data.choiceDetails.map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>
+                                                                             {data.exo_type==="A2" && e.image && <img src={`http://lettrelumiere.localhost:8000/images/choices/${e.file}`} 
                                                                                                                       alt={e.value} 
                                                                                                                       className="group__img"
                                                                                                                       onError={(e) => {

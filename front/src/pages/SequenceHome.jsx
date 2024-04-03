@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
 import { fetchAllExerciceForSequences, fetchOneSequence } from "../hooks/useDb";
-import { Box, CircularProgress, Modal, Typography } from "@mui/material";
-import Button from "../components/Button";
+import DOMPurify from 'dompurify';
 import videoCam from '../assets/images/camera.svg'
 import imgEtape from '../assets/images/layoutexercices/etape.png';
 import {BounceLoader} from 'react-spinners'
@@ -55,8 +54,9 @@ const SequenceHome = (props) => {
         const loadSequences = async () => {
 
             const loadedSequences = await fetchOneSequence(idSeq);
-            setSequence(loadedSequences[0]);
-            console.log(loadedSequences[0])
+            console.log(loadedSequences);
+            setSequence(loadedSequences);
+      
         };
 
         const loadExercises = async () => {
@@ -84,27 +84,26 @@ const SequenceHome = (props) => {
 
 
     useEffect(() => {
-        console.log('sequence',sequence);
+
         const exercisesScore = async () => {
             // Si il y a un utilisateur connecté
             if (user){
-                console.log('id du gars connecté hors du',user.user_id);
+            
                 const id = user.user_id
-                console.log('salut je suis connéctée');
+            
                 try {
                     const scorePromises = exercises?.map(async (exercise) => {
-                        console.log('dans le try')
-                        console.log('id du gars connecté',id);
-                        const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=${sessionStorage.getItem('user_id')}&exercice_id=${exercise.exercice_id}`);
-                        console.log('apres le fetch')
+                     
+                        const response = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
+                
                         if (!response.ok) {
                             console.log('response is not okay')
                             return null;
                         }
                         const data = await response.json();
-                        console.log('ma progression', data)
-                        const score = Array.isArray(data) && data.length > 0 && data[0].pro_score !== undefined ? data[0].pro_score : null;
-                        console.log(`Score pour l'exercice ${exercise.exercice_id}:`, score);
+
+                        const score = data['hydra:member'].length > 0 && data['hydra:member'][0].pro_score !== undefined ? data['hydra:member'][0].pro_score : null;
+                        console.log(`Score pour l'exercice ${exercise.id}:`, score);
                         return score;
                     });
             
@@ -169,7 +168,7 @@ const SequenceHome = (props) => {
 
                             <div className="header__etape">
                                 <img src={imgEtape} alt="" />
-                                <p>Etape {sequence?.stage_id}</p>
+                                <p>Etape {sequence?.stage.id}</p>
                             </div>
                             <p className="header__sequence">{sequence?.seq_title}</p>
                         </div>
@@ -199,6 +198,7 @@ const SequenceHome = (props) => {
                                                     progressClass = "progress-item--vert";
                                                 }
                                             }
+
                                         } else {
                                             // Si les scores sont disponibles dans allScoreByExercises
                                             if (allScoreByExercises && allScoreByExercises.length > 0) {
@@ -206,11 +206,11 @@ const SequenceHome = (props) => {
                                                 if (filteredScores.length > 0) {
                                                     const tabScores = filteredScores[0].tabScores;
                                                     if (tabScores[index] !== null) {
-                                                        if (tabScores[index] > 25 && tabScores[index] < 25) {
+                                                        if (tabScores[index] >= 0 && tabScores[index] < 25) {
                                                             progressClass = "progress-item--orange";
-                                                        } else if (tabScores[index] < 25){
+                                                        } else if (tabScores[index] >= 25 && tabScores[index] < 50){
                                                             progressClass="progress-item--rouge"
-                                                        } else if (tabScores[index] >50 && tabScores[index]< 75){
+                                                        } else if (tabScores[index] >=50 && tabScores[index]< 75){
                                                             progressClass="progress-item--jaune"
                                                         }else if (tabScores[index] >= 75) {
                                                             progressClass = "progress-item--vert";
@@ -221,11 +221,11 @@ const SequenceHome = (props) => {
                                                 }
                                             }
                                         }
-
+                                        const cleanInstruction = DOMPurify.sanitize(el.exo_instruction);
                                         return (
                                             <li className="exercises__item" key={el.exercice_id}>
                                                 <div className={`progress-item ${progressClass}`}></div>
-                                                <p className="consigne">{el.exo_consigne}</p>
+                                                <p className="consigne">{cleanInstruction}</p>
                                             </li>
                                         );
                                     })}

@@ -1,24 +1,29 @@
 
 //  ici on recupere fech les données de db.sqlite qui sont dans l'api http ... 
-const baseUrl = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/'
+const baseUrl = 'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/'
     
-const urlSequences = baseUrl + 'api.sequences.php';
-const urlExercices = baseUrl +'api.exercices.php';
-const urlStages = baseUrl +'api.stages.php';
-const urlUser = baseUrl +'api.user.php'; 
-const urlExercisesRevisions = baseUrl + 'api.report.php'
+const urlSequences = baseUrl + 'sequences';
+const urlExercices = baseUrl +'exercises';
+const urlStages = baseUrl +'stages';
+const urlUser = baseUrl +'users'; 
+const urlExercisesRevisions = baseUrl + 'reports'
+
+
 export const fetchAllStages = async () => {
     try {
         const response = await fetch(urlStages);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des étapes');
         }
-        return response.json();
+        const data = await response.json();
+       
+        return data['hydra:member'];
     } catch (error) {
         console.error(error);
         throw error;
     }
 }
+
 
 export const fetchAllSequences = async() => {
     try {
@@ -26,7 +31,9 @@ export const fetchAllSequences = async() => {
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des séquences');
         }
-        return response.json();
+        const data = await response.json();
+        console.log('liste des séquences', data['hydra:member'][2])
+        return data['hydra:member'];
     } catch (error) {
         console.error("Erreur lors de la récupération des séquences:", error);
         throw error; 
@@ -37,11 +44,14 @@ export const fetchAllSequences = async() => {
 
 export const fetchOneSequence = async(id) => {
     try {
-        const response = await fetch(`${urlSequences}?sequence_id=${id}`);
+   
+        const response = await fetch(`${urlSequences}/${id}`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération de la séquence');
         }
-        return response.json();
+        const data = await response.json();
+
+        return data;
     } catch (error) {
         console.error("Erreur lors de la récupération de la séquence:", error);
         throw error; 
@@ -57,7 +67,9 @@ export const fetchAllExercice = async () => {
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des exercices');
         }
-        return response.json();
+        const data = await response.json();
+       
+        return data['hydra:member'];
     } catch (error) {
         console.error("Erreur lors de la récupération des exercices:", error);
         throw error;
@@ -65,11 +77,13 @@ export const fetchAllExercice = async () => {
 };
 export const fetchAllExerciceForSequences = async (sequenceId) => {
     try {
-        const response = await fetch(`${urlExercices}?sequence_id=${sequenceId}`);
+        const response = await fetch(`${urlExercices}?sequence=${sequenceId}`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des exercices');
         }
-        return response.json();
+        const data = await response.json();
+       
+        return data['hydra:member'];
     } catch (error) {
         console.error("Erreur lors de la récupération des exercices:", error);
         throw error;
@@ -94,7 +108,7 @@ export const fetchAllExercisesForRevisions = async(stageId) => {
 // les séquences
 export const fetchSeqByStageId = async (stageId) => {
     try {
-        const response = await fetch(`${urlSequences}?stage_id=${stageId}`);
+        const response = await fetch(`${urlSequences}?stage=${stageId}`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération de la séquence');
         }
@@ -110,7 +124,7 @@ export const fetchSeqByStageId = async (stageId) => {
 export const fecthUser = async (userId) => {
 
     try{
-        const response = await fetch(`${urlUser}?user_id=${userId}`);
+        const response = await fetch(`${urlUser}/${userId}`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération de l\'utilisateur');
         }
@@ -121,3 +135,13 @@ export const fecthUser = async (userId) => {
         throw error; 
     }
 }
+
+// Supposons que cette fonction est ajoutée dans vos hooks (useDb.js ou un fichier similaire)
+
+export const fetchChoiceDetailsById = async (choiceId) => {
+    const response = await fetch(`http://lettrelumiere.localhost:8000/apip/choices/${choiceId}`);
+    if (!response.ok) {
+        throw new Error('Problème lors de la récupération des détails du choix');
+    }
+    return response.json();
+};

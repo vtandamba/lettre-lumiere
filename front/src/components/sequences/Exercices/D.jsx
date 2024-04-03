@@ -12,7 +12,7 @@ const D = (props) => {
     console.log(data)
     // const [tabItems, setTabItems] = useState();
     // const [validate, setValidate] = useState(false);
-    const [allItemsWithStyles, setAllItemsWithStyles] = useState(JSON.parse(data?.exo_choices));
+    const [allItemsWithStyles, setAllItemsWithStyles] = useState(data?.choiceDetails);
     const [tabResponses, setTabResponses] = useState(new Array(allItemsWithStyles.length).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
@@ -36,7 +36,7 @@ const D = (props) => {
 
       useEffect(() => {
         const init = () => {
-          let choices = JSON.parse(data?.exo_choices).map(el => ({
+          let choices = data?.choiceDetails.map(el => ({
             value: el.value,
             image: el.image,
             state: 'initial',
@@ -47,12 +47,12 @@ const D = (props) => {
           choices = [...choices]; // Créez une nouvelle référence pour le tableau
          
           // Suppression de la double utilisation erronée de getElementRandom
-          let newItem = getElementRandom(JSON.parse(data?.exo_choices));
+          let newItem = getElementRandom(data?.choiceDetails);
           while (answerAlreadyTaken.includes(newItem)) {
-              const filteredChoices = JSON.parse(data?.exo_choices).filter(choice => !answerAlreadyTaken.includes(choice));
+              const filteredChoices = data?.choiceDetails.filter(choice => !answerAlreadyTaken.includes(choice));
               newItem = getElementRandom(filteredChoices);
           }
-        //   setItem(newItem);
+   
           setItem({...newItem, isAlreadyChosen:false});
 
 
@@ -75,7 +75,7 @@ const D = (props) => {
         if (item)
         {
             speak(item.value);
-            console.log(item.value);
+           
         }      
     }, [item])
 
@@ -124,7 +124,7 @@ const D = (props) => {
                     setAttemptCount(prevCount => {
                         if (prevCount + 1 < tabResponses.length) {
                             //Prochain essaie
-                            setItem(getElementRandom(JSON.parse(data?.exo_choices)));
+                            setItem(getElementRandom(data?.choiceDetails));
                         }
                         return prevCount + 1;
                     });
@@ -167,10 +167,10 @@ const D = (props) => {
 
 
     return <React.Fragment>
-                <h2 className="exercice__consigne">{data.exo_consigne}</h2>
+                <h2 className="exercice__consigne">{data.exo_instruction}</h2>
                 {data.exo_type === "D1" 
                                 ? <p className="exercice__sound" onClick={()=>speak(item.value)}>?</p> 
-                                : <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images${item?.value}.jpg`} 
+                                : <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/${item?.file}`} 
                                        alt="item" 
                                        className="exercice__img"
                                        onClick={()=>speak(item.value)}

@@ -6,7 +6,7 @@ import checkIcon from '../../../assets/images/check.svg'
 
 const C = (props) => {
     const { data, onAttemptMade, score, imgNotFound} = props;
-    const [syllabes, setSyllabes] = useState( Array.isArray(JSON.parse(data?.exo_choices)) && JSON.parse(data?.exo_choices));
+    const [syllabes, setSyllabes] = useState( data?.choiceDetails);
     const [currentSyllabeIndex, setCurrentSyllabeIndex] = useState(0);
     const [userInput, setUserInput] = useState("");
     const [showSyllabe, setShowSyllabe] = useState(true);
@@ -14,14 +14,13 @@ const C = (props) => {
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
     
-    console.log(data?.exo_choices)
 
     useEffect(() => {
        
          if (attemptCount === tabResponses.length && attemptCount !== 0) {
             onAttemptMade(); // Passe à l'exercice suivant immédiatement
             const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
-            console.log("Score en pourcentage: ", scorePercent);
+       
             score(scorePercent);
         }
         else {
@@ -34,7 +33,7 @@ const C = (props) => {
             }, 3000);
             return () => clearTimeout(timer);
         }
-    }, [attemptCount, syllabes, currentSyllabeIndex, onAttemptMade, tabResponses]);
+    }, [attemptCount, syllabes, currentSyllabeIndex,  tabResponses]);
 
     const handleInputChange = (event) => {
         setUserInput(event.target.value);
@@ -65,7 +64,7 @@ const C = (props) => {
             <div>
                 
                     {showSyllabe ? <div>
-                                        {  data.exo_type !== "C1" && <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/${syllabes[currentSyllabeIndex].value}.jpg`} 
+                                        {  data.exo_type !== "C1" && <img src={`http://lettrelumiere.localhost:8000/images/choices/${syllabes[currentSyllabeIndex].file}`} 
                                                                       alt={syllabes[currentSyllabeIndex].value}
                                                                       className="exercice__img"
                                                                       style={{marginBottom:'1rem'}}

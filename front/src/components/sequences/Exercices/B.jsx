@@ -10,32 +10,31 @@ const B = (props) => {
     const [attemptCount, setAttemptCount] = useState(0);
     const [answer, setAnswer] = useState("");
     const [selectedAnswer, setSelectedAnswer] = useState("");
-    const [tabItems, setTabItems] = useState(JSON.parse(data.exo_choices));
+    const [tabItems, setTabItems] = useState(data?.choiceDetails);
     // const [score, setScore] = useState(0);
     const [tabResponses, setTabResponses] = useState(new Array(tabItems.length).fill(null));
-    console.log(data.exo_type)
-    console.log('je me réaffiche !');
+ 
     useEffect(() => {
-        if (data?.exo_choices) {
-            const initialTabItems = JSON.parse(data.exo_choices).map(el => ({
+        if (data?.choiceDetails) {
+            const initialTabItems = data?.choiceDetails.map(el => ({
                
                 value: el.value, 
                 state: 'initial',
                 isAlreadyChosen: false
             }));
     
-            console.log(data.exo_choices);
+       
             setTabItems(initialTabItems);
             selectNewAnswer(initialTabItems);  
         }
-    }, [data?.exo_choices]);
-
+    }, [data?.choiceDetails]);
 
     const selectNewAnswer = (items) => {
         const availableChoices = items.filter(el => !el.isAlreadyChosen);
         if (availableChoices.length > 0) {
             const newAnswer = getElementRandom(availableChoices);
             setAnswer(newAnswer);
+        
             speak(newAnswer.value); // Assurez-vous de parler le nouvel item ici pour l'accessibilité
         }
     };
@@ -60,7 +59,7 @@ const B = (props) => {
 
     useEffect(() => {
         speak(answer.value);
-        console.log('answer', answer.value)
+     
     }, [answer]);
 
     const handleChoose = (index) => {
@@ -75,9 +74,9 @@ const B = (props) => {
     
 
     const handleClick = () => {
-        
+    
         if (!selectedAnswer || !answer) return;
-        const isCorrect = selectedAnswer?.toLowerCase() === answer.value.toLowerCase();
+        const isCorrect = selectedAnswer?.toLowerCase() === answer?.value.toLowerCase();
         setTabResponses(prev => {
             const updatedResponses = [...prev];
             updatedResponses[attemptCount] = isCorrect;
@@ -120,16 +119,14 @@ const B = (props) => {
         setTabItems(resetItems);
     };
 
-    const handleImgError = () => {
 
-    }
 
     return (
         <React.Fragment>
-            <p className="exercice__consigne">{data.exo_consigne}</p>
+            <p className="exercice__consigne">{data.exo_instruction}</p>
             <div>
                 {data.exo_type === 'B2' ? 
-                                        <img src={'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images/' + answer.value + '.jpg'} 
+                                        <img src={'http://lettrelumiere.localhost:8000/images/choices/' + answer.file } 
                                              alt="" 
                                              className="exercice__img"  
                                              onClick={() => speak(answer.value)}
