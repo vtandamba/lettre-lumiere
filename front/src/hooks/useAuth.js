@@ -1,33 +1,40 @@
 import { useNavigate } from "react-router-dom";
 
 const Auth = {
-   
-    login : async(form)=>{
+    login: async (form) => {
+      try {
+        const url = `https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/users?user_name=${encodeURIComponent(form.user_name)}`;
+        const response = await fetch(url);
         
-        try{
-            const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.user.php?user_name=${form.user_name}&user_password=${form.user_password}`, )
-            console.log(response);
-    
-            if (!response.ok) {
-                throw new Error('La requête a échoué avec le statut ' + response.status);
-              }
-              const data = await response.json();
-            
-              console.log(response.jwt);
-              console.log(data);
-              return data
-        }catch(error){
-            throw new Error(error)
+        if (!response.ok) {
+          throw new Error('La requête a échoué avec le statut ' + response.status);
         }
+        console.log('après la vérificztion de la response');
+        const data = await response.json();
+        
+        // Trouver l'utilisateur avec le mot de passe correspondant (non recommandé pour des raisons de sécurité).
+        const user = data["hydra:member"].find(user => user.password === form.user_password);
+        console.log(user)
+        if (!user) {
+          throw new Error('Utilisateur non trouvé ou mot de passe incorrect.');
+        }
+        console.log('après la vérificztion de user');
+        console.log(user);
+      
+        
+        return user;
+        
+      } catch (error) {
+        throw new Error(error.message);
+      }
     },
-    isAuthentificated : () => {
-        return !!sessionStorage.getItem('user_id');
+    isAuthenticated: () => {
+      return !!sessionStorage.getItem('user_id');
     },
-
-    logout : () => {
-        sessionStorage.removeItem('user_id')
+    logout: () => {
+      sessionStorage.removeItem('user_id');
     }
-   
-}
+  };
+  
 
 export default Auth;

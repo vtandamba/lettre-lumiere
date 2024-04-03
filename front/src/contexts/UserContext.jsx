@@ -15,7 +15,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const userInfo = idUser ? await fecthUser(parseInt(idUser, 10)) : null;
+      const userInfo = idUser ? await fecthUser(idUser) : null;
       setUser(userInfo);
     };
     fetchUser();
@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
         const userInfo = await fecthUser(userId);
         setUser(userInfo);
     } else {
-        setUser(null); // Assurez-vous de réinitialiser l'utilisateur si le sessionStorage est vide
+        setUser(null); 
     }
 };
 

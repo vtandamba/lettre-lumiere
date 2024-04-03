@@ -21,18 +21,21 @@ const Login = () =>{
     //         navigate('/home');
     //     }
     // })
- 
+    
     
     const handleSubmit = async(evt) =>{
         evt.preventDefault();
-      
+    
         try{
+   
             const response = await Auth.login(data);
+            
+            console.log(response);
             if (response){
 
-                setUser({ id: response.user_id, name: response.user_name });
+                setUser({ id: response.id, name: response.user_name });
 
-                sessionStorage.setItem('user_id', response.user_id);
+                sessionStorage.setItem('user_id', response.id);
                 sessionStorage.setItem('user_name', response.user_name);
 
                 setTimeout(()=>{

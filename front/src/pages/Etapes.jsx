@@ -15,6 +15,7 @@ import {CircleLoader} from 'react-spinners';
 import MainHeader from '../components/MainHeader';
 import arrowRight from '../assets/images/arrow.png';
 import { IoMdArrowDropright } from "react-icons/io";
+import EtapeContent from "../components/EtapeContent";
 
 
 
@@ -99,16 +100,14 @@ const Etapes = (props) => {
                       </AccordionSummary>
                       <AccordionDetails>
                         <Typography className="Etape__container">
-                        {sequences.filter((sequence) => sequence.stage_id === stage.stage_id)
+                        {sequences.filter((sequence) => sequence.stage.id === stage.id)
                                 .map((s, index) => {
                                   // console.log('la sequence ', sequences)
-                                  return  <Link to={`${s.sequence_id}`} key={index}>
-                                            <div className="Etape__seq">
+                                  return  <Link to={`${s.id}`} key={index}>
+                                     
                                               {/* <p className="Etape__content">{s.seq_title.replace(/-/g, '')}</p> */}
-                                                {JSON.parse(s.seq_content).map(el => <p  className="Etape__content">{el}</p>)}
-                                            </div>
-                                                
-                                                {/* <EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} /> */}
+
+                                                <EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} />
                                               
                                       </Link>
                                 })}

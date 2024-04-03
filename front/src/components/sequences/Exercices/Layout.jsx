@@ -1,12 +1,12 @@
 import React, { Suspense, useCallback, useEffect, useState } from "react";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { fetchAllExerciceForSequences, fetchAllExercisesForRevisions, fetchOneSequence } from "../../../hooks/useDb";
+import { fetchAllExerciceForSequences, fetchAllExercisesForRevisions, fetchChoiceDetailsById, fetchOneSequence } from "../../../hooks/useDb";
 import homeIcon from '../../../assets/images/layoutexercices/home.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
 import imgNotFound from '../../../assets/images/not-found-image.jpg'
 import { CircleLoader } from "react-spinners";
-import { Box, Modal, Typography } from "@mui/material";
+import { Box, Button, Modal, Typography } from "@mui/material";
 import SpringModal from "../../Modal";
 import { useUser } from "../../../contexts/UserContext";
 const Layout = (props) => {
@@ -14,7 +14,7 @@ const Layout = (props) => {
     const {db , savingScore} = props;
     const { user } = useUser();
     const params = useParams();
-    console.log(user);
+
     const id = params?.sequence;
     const idStage = params?.etape;
     const navigate = useNavigate();
@@ -25,12 +25,12 @@ const Layout = (props) => {
     const [sequences, setSequences] = useState();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [open, setOpen] = useState(false);
-    const [openseq, setOpenseq] = useState(false);
+    const [openModalEndseq, setOpenModalEndseq] = useState(false);
     const [openModal, setOpenModal] = useState(false);
     const [modalLink, setModalLink] = useState();
     const [attemptCount, setAttemptCount] = useState(0);
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
-
+    const [finalScore, setFinalScore] = useState()
     const [exercisesScore, setExercisesScore] = useState([]);
 
 
@@ -57,22 +57,37 @@ const Layout = (props) => {
                 if (idSeq) {
                     const exercisesList = await fetchAllExerciceForSequences(idSeq);
                     const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
-                    console.log(exercisesList)
-                    setExercises(sortedExercises);
-                    setExercisesScore(new Array(exercisesList.length).fill(0)) // Initialiser le tableau de score avec 0
+        
+                 
+                    const enrichedExercises = await Promise.all(sortedExercises.map(async (exercise) => {
+                        const choiceDetails = await Promise.all(exercise.choice.map(async (choicePath) => {
+                        
+                            const choiceId = choicePath.split('/').pop();
+                            return fetchChoiceDetailsById(choiceId);
+                        }));
+        
+                        // Ajoute les détails des choix à l'exercice
+                        return { ...exercise, choiceDetails };
+                    }));
+        
+                  
+                    setExercises(enrichedExercises);
+                    setExercisesScore(new Array(enrichedExercises.length).fill(0));
                 }
-
+        
             } catch (error) {
                 console.error("Erreur lors du chargement des exercices :", error);
             }
         };
+        
 
         const loadExercisesBilan = async () => {
             try {
                 if (idStage) {
                     const response = await fetchAllExercisesForRevisions(parseInt(idStage, 10));
-                    console.log('exos du bilan', response);
+                 
                     setExercises(response)
+                    
                 }
 
             } catch (error) {
@@ -83,8 +98,7 @@ const Layout = (props) => {
         const loadSequence = async () => {
             if (idSeq) {
                 const data = await fetchOneSequence(idSeq);
-                setSequences(data)
-                setSequence(data.seq_title);
+                setSequence(data);
 
                 // console.log('idsequence ==== >', idSeq)
                 // console.log('les sequences ==== >', data)
@@ -93,7 +107,7 @@ const Layout = (props) => {
         }
 
         loadExercises();
-
+        setExercisesScore(new Array(exercises.length).fill(0))
         loadSequence();
         loadExercisesBilan()
     }, [db, id]);
@@ -103,11 +117,9 @@ const Layout = (props) => {
     };
 
 
-
-
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
-            return "H";
+            return "A";
         } else if (exerciseType.startsWith("B")) {
             return "B";
         } else if (exerciseType.startsWith("C")) {
@@ -161,14 +173,13 @@ const Layout = (props) => {
                     if (!response.ok) {
                         throw new Error('Erreur lors de l\'envoi du score');
                     }
-                    console.log('=================');
-                    // Effectuez les actions supplémentaires ici si nécessaire
+                  
                 })
                 .catch(error => {
                     console.error('Erreur lors de l\'envoi du score :', error);
-                    // Gérez l'erreur ici si nécessaire
+                   
                 });
-        } else { //Sinon envoyer les score au composant App
+        } else { 
 
             const allScores = {
                 "idSeq": idSeq,
@@ -182,43 +193,50 @@ const Layout = (props) => {
 
 
     const onAttemptMade = () => {
-        // console.log('onAttemptMade');
-        // console.log('shouldgo', shouldGoToNextExercise);
-    
-        // Vérifier si c'est le dernier exercice
-        if (currentExerciseIndex === exercises.length - 1) {
-
-            // Fetch le score avant de rediriger
-            fetchScore(); // Envoyer le score à la base de donnée
-            // setOpenseq(true)
-            // setShowModal(true);
-        } else {
-            // Si ce n'est pas le dernier exercice, définir shouldGoToNextExercise sur vrai
+        fetchScore();
+        if (currentExerciseIndex < exercises.length - 1) {
             setShouldGoToNextExercise(true);
+        }else {
+            setOpenModalEndseq(true); 
         }
+  
     };
-
+    
 
 
     useEffect(() => {
-        console.log('shouldgo', shouldGoToNextExercise)
+
+        fetchScore();
         if (shouldGoToNextExercise && currentExerciseIndex < exercises.length - 1) {
 
             console.log('enregistrement du score')
             // Envoyer la requête POST à l'API
-            fetchScore();
             // fin faire le post
-
             setAttemptCount(0);
             setCurrentExerciseIndex(prevIndex => prevIndex + 1);
             setShouldGoToNextExercise(false); // Réinitialisez le drapeau
-        } else if (shouldGoToNextExercise && currentExerciseIndex === exercises.length - 1) {
-            navigate(`/etapes/${id || idSeq}`);
-            console.log('Dernier exercice atteint, mais le score ne sera pas enregistré');
+    
+        } 
 
+    }, [shouldGoToNextExercise, currentExerciseIndex]);
+
+
+    // Logique d'ouverture de la modale
+    useEffect(() => {
+        if (currentExerciseIndex === exercises.length - 1) {
+            const sumScores = exercisesScore.reduce((accumulator, currentValue) => {
+                if (currentValue !== null) {
+                    return accumulator + currentValue;
+                }
+                return accumulator;
+            }, 0);
+            const avgScore = sumScores / exercisesScore.length;
+            setFinalScore(avgScore);
+        
+          
         }
-
-    }, [shouldGoToNextExercise]);
+    }, [exercisesScore, currentExerciseIndex, exercises.length]);
+    
 
 
     // Enregistrer le score dans le tableau de score de la séquence
@@ -241,7 +259,8 @@ const Layout = (props) => {
                     <ExerciseComponent key={exercise.exerciseId}
                         data={exercise} onAttemptMade={onAttemptMade}
                         score={recordAnswer}
-                        imgNotFound={imgNotFound} />
+                        imgNotFound={imgNotFound}
+                        isModalOpen={openModalEndseq} />
                 </Suspense>
             );
         } else {
@@ -252,27 +271,28 @@ const Layout = (props) => {
 
     const handleOpenModal = useCallback(() => {
      
-        // setOpen(true);
-        navigate(`/etapes/${id}`)
+        // setOpenModal(true);
+       
       }, []);
       
 
-      const handleCloseModal = useCallback(() => {
-        navigate(`/etapes/${id}`)
-      }, []);
+      const handleCloseModal = () => {
+        console.log('naviguer')
+        navigate('/etapes')
+      };
 
 
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 700,
-        bgcolor: 'background.paper',
-        boxShadow: 24,
-        p: 4,
-    };
-    console.log('n dsfjck,lds,relkjhbvfcrfvedbyuzdbh', exercises);
+    // const style = {
+    //     position: 'absolute',
+    //     top: '50%',
+    //     left: '50%',
+    //     transform: 'translate(-50%, -50%)',
+    //     width: 700,
+    //     bgcolor: 'background.paper',
+    //     boxShadow: 24,
+    //     p: 4,
+    // };
+  
     
   return (
     exercises && exercises.length > 0 ? (
@@ -284,12 +304,12 @@ const Layout = (props) => {
             <div className="header__etape">
               <img src={imgEtape} alt="" />
               <p>Etape {sequences && sequences.map((s, index) => (
-                <span key={index}>{s.stage_id}{index < sequences.length - 1 ? ', ' : ''}</span>
+                <span key={index}>{s.stage.id}{index < sequences.length - 1 ? ', ' : ''}</span>
               ))}</p>
             </div>
-            <p className="header__sequence"> {sequence}</p>
+            <p className="header__sequence"> {sequence.seq_title}</p>
           </div>
-          <img src={homeIcon} alt="Home" className="header__home" onClick={() => handleOpenModal()} />
+          <img src={homeIcon} alt="Home" className="header__home" onClick={ ()=>navigate(`/etapes/${id || idSeq}`)} />
 
           <ul className="progress-global">
             {exercisesScore.map((score, index) => (
@@ -310,29 +330,68 @@ const Layout = (props) => {
 
                     </button>
         </main>
-                {/* {showModal && (
+                {openModalEndseq && (
                     <>
                         <p> <Link to={`/etapes/${id || idSeq}`}> - </Link></p>
                         <Modal
                             keepMounted
-                            open={openseq}
-                            onClose={handleClose}
+                            open={true}
+                          
                             aria-labelledby="keep-mounted-modal-title"
                             aria-describedby="keep-mounted-modal-description"
                         >
-                            <Box sx={styleseq}>
-                                <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
-                                    Text in a modal
+                            <Box sx={{
+            
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                        
+                                }}>
+                                <Typography 
+                                    id="keep-mounted-modal-title" 
+                                    variant="h3" component="h2" 
+                                    textAlign="center"
+                                    sx={{ 
+                                        mt: 2, 
+                                        fontFamily: '"General Sans", sans-serif', 
+                                        fontSize: "3.2rem",
+                                    }} >
+                                    C'est la fin de cette séquence
                                 </Typography>
-                                <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
-                                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                                    <p> <Link to={`/etapes/${id || idSeq}`}> ceci est un tes</Link>t</p>
+                                <Typography 
+                                id="keep-mounted-modal-description" 
+                                sx={{ 
+                                    mt: 2, 
+                                    textAlign: 'center',
+                                    fontFamily: '"Switzer", sans-serif', 
+                                    fontSize: "2.2rem", }}
+                                >
+                                    {finalScore && finalScore <= 45 ? "C'est du bon boulot mais tu peux faire mieux, n'abandonnes pas" : finalScore > 45 && finalScore < 70 ? 'Bon boulot, tu as un très bon score' : 'Excellent travail, tu t\'en es très bien sorti'}
                                 </Typography>
-                            </Box>
+                                <Button
+                                    component={Link}
+                                    to={`/etapes/${id || idSeq}`}
+                                    sx={{
+                                    mt: 4,
+                                    bgcolor: 'success.main',
+                                    ':hover': {
+                                        bgcolor: 'success.dark',
+                                    },
+                                    color: 'white',
+                                    padding: '10px 20px',
+                                    borderRadius: '20px',
+                                    fontSize:"1.5rem"
+                                    }}
+                                >
+                                    Continuer
+                                </Button>
+</Box>
+
                         </Modal>
                     </>
-                )} */}
-                <SpringModal isOpen={openModal} handleClose={handleCloseModal} setOpen={setOpenModal} />
+                )}
+                <SpringModal isOpen={openModal}  setOpen={setOpenModal} />
             </div>
         ) : (
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -341,7 +400,7 @@ const Layout = (props) => {
         )
     );
 
-
+        
 };
 
 export default Layout;
