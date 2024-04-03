@@ -84,27 +84,26 @@ const SequenceHome = (props) => {
 
 
     useEffect(() => {
-        console.log('sequence',sequence);
+
         const exercisesScore = async () => {
             // Si il y a un utilisateur connecté
             if (user){
-                console.log('id du gars connecté hors du',user.user_id);
+            
                 const id = user.user_id
-                console.log('salut je suis connéctée');
+            
                 try {
                     const scorePromises = exercises?.map(async (exercise) => {
-                        console.log('dans le try')
-                        console.log('id du gars connecté',id);
-                        const response = await fetch(`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php?user_id=${sessionStorage.getItem('user_id')}&exercice_id=${exercise.exercice_id}`);
-                        console.log('apres le fetch')
+                     
+                        const response = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
+                
                         if (!response.ok) {
                             console.log('response is not okay')
                             return null;
                         }
                         const data = await response.json();
-                        console.log('ma progression', data)
-                        const score = Array.isArray(data) && data.length > 0 && data[0].pro_score !== undefined ? data[0].pro_score : null;
-                        console.log(`Score pour l'exercice ${exercise.exercice_id}:`, score);
+
+                        const score = data['hydra:member'].length > 0 && data['hydra:member'][0].pro_score !== undefined ? data['hydra:member'][0].pro_score : null;
+                        console.log(`Score pour l'exercice ${exercise.id}:`, score);
                         return score;
                     });
             

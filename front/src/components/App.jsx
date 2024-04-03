@@ -143,7 +143,7 @@ const App = () => {
 
 
     useEffect(() => {
-        setIsAuthentificated (Auth.isAuthentificated());
+        setIsAuthentificated (Auth.isAuthenticated());
 
         
      }, [])
