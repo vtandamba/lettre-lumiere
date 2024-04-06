@@ -10,28 +10,7 @@ const MainHeader = (props) => {
 
     const username = sessionStorage.getItem('user_name');
 
-    // const location = useLocation();
 
-    // const redirectToIndex = () => {
-    //     console.log(location.pathname)
-        
-    //     if (location.pathname === '/home') {
-    //         sessionStorage.removeItem('user_id');
-    //         sessionStorage.removeItem('user_name'); //Se déconnecter
-    //         setTimeout(() => {
-    //             window.location.href = link; // Redirection vers index
-            
-    //         }, 500)
-    //         window.location.reload(); //Reload l'application 
-    //         console.log('salut')
-          
-    //     }else {
-    //         setTimeout(() => {
-    //             window.location.href = link; // Redirection vers index
-            
-    //         }, 500)
-    //     }
-    // };
     return  <header className="header">
                { role !== "user" 
                         ? <img src={logoLettres} alt="Page des étapes" className="header__logo" /> 

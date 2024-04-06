@@ -97,11 +97,11 @@
       border-radius: 10px;
       font-size: $font-size-medium;
       font-family: $font-family-general;
-      background-color: $rouge;
+      background-color: #FFFBFB;
       transition: 0.2s all ease-out;
       bottom:5rem;
       a{
-        color:$blanc;
+        color:$noir;
       }
       &:hover{
         scale:1.17;

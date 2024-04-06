@@ -4,6 +4,7 @@ import { Link, Outlet } from "react-router-dom";
 import speak from "../hooks/useSpeak";
 import imageTraining from '../assets/images/coureur.png'
 import soundTitle from '../assets/sons/graphemes/titreGraphemes.mp3';
+import MainHeader from "../components/MainHeader";
 
 const GraphemesHome = () => {
 
@@ -64,18 +65,9 @@ const GraphemesHome = () => {
     }
 
     return <React.Fragment>
-        <header className="index__header">
-            
-            <Link to="/home">
-                <img src={logoLettres} alt="" className="index__logo" />
-            </Link>
-         
-            <Link to={'/home'}><button className="bouton__croix">
-                QUITTER <span className="close-icon">&times;</span>
-            </button>
-            </Link>
 
-        </header>
+        
+        <MainHeader />
         <main className="graphemes">
             <h1 className="graphemes__title" onClick={handleSpeak}>an  on  in</h1>
             <div className="list">

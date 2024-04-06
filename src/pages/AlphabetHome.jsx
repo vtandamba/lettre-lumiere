@@ -3,6 +3,7 @@ import logoLettres from '../assets/images/Logo lettres en lumière.png'
 import courreur from '../assets/images/coureur.png'
 import { Link, Outlet } from "react-router-dom";
 import speak from '../hooks/useSpeak.js';
+import MainHeader from "../components/MainHeader.jsx";
 
 const AlphabetHome = () => {
     const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(i + 65));
@@ -11,17 +12,7 @@ const AlphabetHome = () => {
 
 
 
-        <header className="index__header">
-            <Link to="/home">
-                <img src={logoLettres} alt="" className="index__logo" />
-            </Link>
-
-            <Link to={'/home'}><button className="bouton__croix">
-                QUITTER <span className="close-icon">&times;</span>
-            </button>
-            </Link>
-
-        </header>
+       <MainHeader link='/home'/>
         <main className="alphabet">
 
 

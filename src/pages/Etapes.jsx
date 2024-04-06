@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { fetchAllStages, fetchAllSequences} from "../hooks/useDb";
-// import EtapeBlue from './../assets/images/etapes/EtapeBlue.svg'
-// import Etape from "../components/Etape";
-// import EtapeContent from "../components/EtapeContent";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import {CircleLoader} from 'react-spinners';
 import MainHeader from '../components/MainHeader';
 import arrowRight from '../assets/images/arrow.png';
@@ -38,6 +33,7 @@ const Etapes = (props) => {
         styleOverrides: {
           root: {
             boxShadow: 'none',
+            backgroundColor:"fff",
             border: 'none',
             '&:before': {
               display: 'none',
@@ -81,10 +77,11 @@ const Etapes = (props) => {
               etapes.map((stage) => {
                 return (
                   <ThemeProvider theme={theme} key={stage.stage_id}>
-                    <Accordion style={{ border: 'none' }}>
+                    <Accordion style={{ border: 'none' , backgroundColor:"transparent"}}>
                       <AccordionSummary
                         aria-controls="panel1-content"
                         id="panel1-header"
+                        
                       >
                         <Typography className="Etape">
                           <button className="Etape__accordion"></button>

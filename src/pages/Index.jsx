@@ -38,15 +38,13 @@ const Index = () => {
         
         <MainHeader role="general" link="/"/>
         <main>
-            {/* <div className="progress">
-                <p className="progress__container"></p> <p>0%</p>
-            </div>
-            <div >
-
-            </div> */}
+        {
+            user && 
             <div className="progress-container">
-                <div className="progress-bar" data-percentage="10"> </div>
-            </div>
+            <div className="progress-bar" data-percentage="10"> </div>
+        </div>
+        }
+           
             <p className="index__message">Bonjour {sessionStorage.getItem("user_name")}</p>
 
             <div className="parts">
@@ -56,9 +54,9 @@ const Index = () => {
                             className="index__logoBrain"
                             initial={{ y: 100}} 
                             animate={{
-                                y: [-10, 0, -10], // Utilisez une liste pour définir les différentes hauteurs de lévitation
+                                y: [-10, 0, -10], 
                                 transition: { duration: 1.5, repeat: Infinity },
-                                // Définissez la durée de l'animation et la répétition infinie
+                          
                             }}
                         >
                             <img src={logoBrain} alt="" />
