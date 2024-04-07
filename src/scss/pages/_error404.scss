@@ -1,0 +1,44 @@
+.error {
+    display: flex;
+    flex-direction: column;
+    font-family: 'AbeeZee';
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 12rem;
+    &__container {
+        // background-color: slateblue;
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        margin-left: 19rem;
+    }
+    &__title {
+        color: $orange;
+        font-size: 7rem;
+        text-align: center;
+        letter-spacing: 1px;
+        &--span {
+            display: block;
+        }
+    }
+    &__img {
+        width: 19rem;
+        margin: 0 0 2rem 2rem;
+    }
+    &_button {
+        width: fit-content;
+        background-color: $blanc;
+        border-radius: 20px;
+        font-size: 3rem;
+        color: $noir;
+        display: flex;
+        align-items: center;
+        letter-spacing: 1px;
+        padding: 1.6rem;
+        &__img {
+            margin-left: 2.4rem;
+            height: 5rem;
+        }
+    }
+}

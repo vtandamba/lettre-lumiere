@@ -61,8 +61,8 @@ const Layout = (props) => {
                  
                     const enrichedExercises = await Promise.all(sortedExercises.map(async (exercise) => {
                         const choiceDetails = await Promise.all(exercise.choice.map(async (choicePath) => {
-                        
-                            const choiceId = choicePath.split('/').pop();
+                            console.log(choicePath);
+                            const choiceId = choicePath['@id'].split('/').pop();
                             return fetchChoiceDetailsById(choiceId);
                         }));
         

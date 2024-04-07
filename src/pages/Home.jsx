@@ -5,6 +5,7 @@ import { FormControl, InputLabel, MenuItem, Select, duration } from "@mui/materi
 import { CircleLoader } from "react-spinners";
 import { motion } from "framer-motion";
 
+
 const Home = (props) => {
     const {forceUpdate} = props;
     const [state, setState] = useState("");
@@ -55,6 +56,7 @@ const Home = (props) => {
                     </p>
                 </React.Fragment>
             )}
+         
         </div>
     );
 }

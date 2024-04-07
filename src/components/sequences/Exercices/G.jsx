@@ -8,7 +8,7 @@ const G = (props) => {
 
     const times = useRef(1);
 
-    const { data, score, onAttemptMade, isModalOpen } = props;
+    const { data, score, onAttemptMade, isModalOpen, imgNotFound } = props;
     const [tabItems, setTabItems] = useState([]);
     const [displayItems, setDisplayItems] = useState( );
     const [item, setItem] = useState('');
@@ -16,11 +16,7 @@ const G = (props) => {
     const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
     const navigate = useNavigate();
                                                         
-    //  console.log('displayItems',displayItems);
-    //  console.log('choice Details', data?.choiceDetails)
-
-
-    //  Initialisation du display Items
+  
     useEffect(() => {
         if (data?.choiceDetails || data?.rep_contenu) {
             const initialDisplayItems = (data.choiceDetails || data.rep_contenu).map(el => ({
@@ -89,7 +85,8 @@ const G = (props) => {
         if (times.current <= 4){
             times.current += 1; // Incrémente times
             
-            const newTabItems = tabItems.map((el, idx) => { //Vérifie si l'élément sélectionné est faux ou pas et met le state de la bonne réponse à juste
+             //Vérifie si l'élément sélectionné est faux ou pas et met le state de la bonne réponse à juste
+            const newTabItems = tabItems.map((el, idx) => {
                 if (idx === index) {
                     const isCorrect = el.value === item.value;
                     updateExercise(isCorrect);
@@ -141,9 +138,10 @@ const G = (props) => {
     return <React.Fragment>
                <h2 className="exercice__consigne">{data?.exo_instruction}</h2>
                <p className="exercice__count">
-                <LinearCountdown onCountdownFinish={handleCountdownFinish} />
-            </p>
+                 <LinearCountdown onCountdownFinish={handleCountdownFinish} />
+                </p>
             <p className="exercice__sound" onClick={() => speak(item.value)}>?</p>
+       
             <ul className="list">
                 {tabItems?.map((item, index) => {
                     return <li className={`list__item ${item.state}`}
@@ -153,12 +151,20 @@ const G = (props) => {
             </ul>
 
             <div className="exercice__footer">
+            {  data.exo_type === "G2" && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/${item.file}`} 
+                                                                      alt={item.value}
+                                                                      className="exercice__img"
+                                                                      style={{marginBottom:'1rem'}}
+                                                                      onError={(e) => {
+                                                                        e.target.src = imgNotFound;
+                                                                      }}/>}
                 <ul className="progress">
                     {tabResponses.map(response => (
                         <li className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                     ))}
                 </ul>
                 <button className="exercice__valid" onClick={handleClick}>Ok <img src={checkIcon} alt="ok" /></button>
+
             </div>
     </React.Fragment>
 }

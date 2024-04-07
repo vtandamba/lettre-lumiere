@@ -23,16 +23,13 @@ const Etape = (props) => {
             const loadedSequences = await fetchAllSequences(db);
             setIsLoading(false);
             console.log(loadedSequences);
-            setSequences(loadedSequences.filter((sequence) => sequence.stage_id === parseInt(idStage, 10)));
+            setSequences(loadedSequences.filter((sequence) => sequence.stage.id === parseInt(idStage, 10)));
         }
 
         loadSequences();
 
     }, [])
-    // sequences.map(el => {
-    //     console.log('itération',JSON.parse(el.seq_content));
-    //     return  JSON.parse(el?.seq_content).map(el => console.log (el))
-    // });
+
     return <React.Fragment>
         <MainHeader
             role={"user"}
@@ -50,7 +47,7 @@ const Etape = (props) => {
                         return <div class="sequenceGroup">
                             <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
                                 <div class="sequenceGroup__content">
-                                {sequence.seq_content && Array.isArray(JSON.parse(sequence.seq_content)) && JSON.parse(sequence.seq_content).map(el => <p>{el}</p>)}
+                                {sequence.seq_title}
     
                                 </div>
                             </Link>

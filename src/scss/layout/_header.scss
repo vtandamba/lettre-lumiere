@@ -1,3 +1,4 @@
+
 .header {
     display: flex;
     justify-content: space-between;
@@ -5,7 +6,7 @@
     max-width: 100%;
     font-size: 2rem;
     font-family: 'Satoshi', sans-serif;
-    margin: 1rem 2.3rem 7rem 2.3rem;
+    margin: 1rem 2.3rem 4rem 2.3rem;
     .user,
     .quit {
         display: flex;
@@ -14,6 +15,7 @@
         gap: 2px
     }
 
+   
 
     .user {
 
@@ -30,12 +32,6 @@
     }
 
     .quit {
-        // letter-spacing: 2px;
-        // color: $blanc;
-        // background-color: red;
-        // padding: 0.6rem 1.4rem;
-        // border-radius: 5px;
-        // align-items: normal;
 
         background-color: white;
         color: $noir;
@@ -64,12 +60,10 @@
       
         display: flex;
         align-items: center;
+        justify-content: center;
         box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.1);
         font-size: 1.5vw;
-      
-        // margin-top: 4%;
-      
-      
+
       }
 
       &__logo{

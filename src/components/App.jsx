@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, useContext, } from "react";
+import React, { useEffect, useState } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -7,10 +7,8 @@ import Etapes from "../pages/Etapes";
 import AlphabetHome from "../pages/AlphabetHome";
 import LayoutExercice from './sequences/Exercices/Layout'
 import GraphemesHome from "../pages/GraphemesHome";
-import { fecthUser, fetchAllExerciceForSequences } from "../hooks/useDb";
-import { fetchAllSequences } from "../hooks/useDb";
-import { fetchAllStages } from "../hooks/useDb";
-import { fetchSeqByStageId } from "../hooks/useDb";
+import Error from '../pages/Error404'
+
 import Auth from "../hooks/useAuth";
 // import db from '../Dexie'
 
@@ -33,14 +31,6 @@ import { UserProvider } from '../contexts/UserContext'; // Update the import pat
 
 
 
-const allSequences = fetchAllSequences();
-console.log(allSequences);
-
-const allExerciceForSequences = fetchAllExerciceForSequences(1);
-console.log("by seq_id ===> ", allExerciceForSequences);
-const allStages = fetchAllStages();
-console.log(allStages);
-
 
 
 
@@ -48,8 +38,7 @@ const App = () => {
 
     const [isAuthentificated, setIsAuthentificated] = useState();
     const [scores, setScores] = useState([]);
-    // const [user, setUser] = useState(null);
-    // const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'));
+
     const [mode, setMode] = useState();
     const [forceUpdate, setForceUpdate] = useState(0);
     const [openModal, setOpenModal] = useState();
@@ -95,51 +84,6 @@ const App = () => {
     };
 
 
-    // useEffect(() => {
-    //     const initUser = async () => {
-    //         const infoUser = (idUser) ? await fecthUser(parseInt(idUser, 10)) : null;
-    //         setUser(infoUser);
-    //         console.log(infoUser);
-    //     };
-    //     initUser();
-    // }, [idUser]);
-
-    // useEffect(() => {
-    //     // Fonction de gestion de changement d'utilisateur
-
-    //     const handleUserChange = () => {
-    //         const newIdUser = sessionStorage.getItem('user_id');
-    //         if (newIdUser !== idUser) {
-    //             setIdUser(newIdUser); // Mettre à jour l'état de l'id de l'utilisateur
-    //             window.location.reload(); // Recharger la page lorsque l'utilisateur change
-    //         }
-    //     };
-    
-    //     // Ajouter un écouteur d'événements de stockage
-    //     window.addEventListener('storage', handleUserChange);
-    
-    //     // Retirer l'écouteur d'événements de stockage lors du démontage du composant
-    //     return () => {
-    //         window.removeEventListener('storage', handleUserChange);
-    //     };
-    // }, [idUser]);
-
-    // useEffect(() => {
-        
-    //     const handleBeforeUnload = (event) => {
-    //         // Affichez la modale d'avertissement lorsque l'événement beforeunload est déclenché
-    //         setOpenModal(true);
-      
-    //         // Empêchez la fermeture de la fenêtre par défaut
-    //         event.preventDefault();
-    //       };
-    //       if (!user){
-    //         window.addEventListener("beforeunload", handleBeforeUnload);
-    //       }
-
-    // }, [user]
-    // )
-    
 
 
     useEffect(() => {
@@ -174,6 +118,9 @@ const App = () => {
 
                         {/* Route pour l'affichage des éléments d'une étape */}
                         <Route path="/etape/:etape" element={<Etape />}/>
+
+                        {/* Route pour la page d'erreur 404 */}
+                        <Route path="*" element={<Error />}/>
 
                         {/* Route pour la présentation d'une séquence */}
                         <Route path="/etapes/:sequence" element={<SequenceHome  allScoreByExercises={scores}/>}>

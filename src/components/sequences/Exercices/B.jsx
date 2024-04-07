@@ -126,7 +126,7 @@ const B = (props) => {
             <p className="exercice__consigne">{data.exo_instruction}</p>
             <div>
                 {data.exo_type === 'B2' ? 
-                                        <img src={'http://lettrelumiere.localhost:8000/images/choices/' + answer.file } 
+                                        <img src={'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/' + answer.file } 
                                              alt="" 
                                              className="exercice__img"  
                                              onClick={() => speak(answer.value)}

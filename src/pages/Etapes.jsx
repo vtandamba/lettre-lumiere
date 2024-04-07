@@ -85,10 +85,10 @@ const Etapes = (props) => {
                       >
                         <Typography className="Etape">
                           <button className="Etape__accordion"></button>
-                          {/* <img className="Etape__img" src={EtapeBlue} alt="Etape" /> */}
+                     
                           <div className="Etape__Title">
                             <h2>{stage.sta_name}</h2>
-                            <Link to={`/etape/${stage.stage_id}`}>
+                            <Link to={`/etape/${stage.id}`}>
                               <IoMdArrowDropright size={55} color="#FFF"/>
                             </Link>
                           </div>

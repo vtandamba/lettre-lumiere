@@ -18,12 +18,10 @@ const MainHeader = (props) => {
                                 <img src={user} alt="Profil utilisateur " className="user__img" />
                                 <p className="user__name">{username || 'utilisateur'}</p>
                          </div> }
-                <button className="bouton__croix" >
-                    <Link to={link} style={{ color: "#000" }}>
-                        QUITTER <span className="close-icon">&times;</span>
-                    </Link>
-
-                </button>
+                         <Link to={link} className="bouton__croix">
+                            <p style={{ color: "#000" }}>QUITTER </p>
+                            <p><span className="close-icon">&times;</span></p>
+                        </Link>
             </header>
 }
 

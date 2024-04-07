@@ -121,7 +121,7 @@ const E = (props) => {
     };
 
     return <React.Fragment>
-                <h2 className="exercice__consigne">{data?.exo_consigne}</h2>
+                <h2 className="exercice__consigne">{data?.exo_instruction}</h2>
                 <div className="group">
                 {data.exo_type !== "E1" && 
                 <img src={'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/' + item?.file } 

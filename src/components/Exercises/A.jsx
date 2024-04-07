@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import speak from "../../hooks/useSpeak";
 import { Box, Modal, Typography } from "@mui/material";
 import { IoArrowForwardSharp } from "react-icons/io5";
-import videoSrc from '../../assets/videos/a.mp4'
+
 import videoLogo from '../../assets/images/video-logo.svg';
 import hautParleur from '../../assets/images/haut-parleur.svg';
 
@@ -139,11 +139,7 @@ const A = () => {
 
                                 <span className="exerciceA__lettre exerciceA__letter--verdana ">{lettre.toLowerCase()}</span>
                                 <span className="exerciceA__lettre exerciceA__letter--belleAllure"> {lettre.toLowerCase()} </span>
-                                <img className="exerciceA__iconHp"
-                                    src={videoLogo}
-                                    alt={`${lettre} video`}
-                                    id="haut-parleur"
-                                    onClick={() => handleOpenModal(lettre, index)} />
+                                
                             </li>
                         ))}
                     </ul>
@@ -163,11 +159,7 @@ const A = () => {
 
                                 <span className="exerciceA__lettre exerciceA__lettre--verdana">{lettre}</span>
                                 <span className="exerciceA__lettre exerciceA__lettre--belleAllure"> {lettre} </span>
-                                <img className="exerciceA__iconHp"
-                                    src={videoLogo}
-                                    alt={`${lettre} video`}
-                                    id="haut-parleur"
-                                    onClick={() => handleOpenModal(lettre, index)} />
+                               
                             </li>
                         ))}
                     </ul>
@@ -184,20 +176,7 @@ const A = () => {
         </p>
 
 
-        <Modal
-            open={open}
-            onClose={handleCloseModal}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-        >
-            <Box sx={style}>
-
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-
-                    <video style={{ width: "20vw" }} src={videoSrc} controls />
-                </Typography>
-            </Box>
-        </Modal>
+     
     </React.Fragment>)
 
 }

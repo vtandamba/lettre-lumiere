@@ -60,11 +60,11 @@ const C = (props) => {
 
     return (
         <React.Fragment>
-            <h2 className="exercice__consigne">{data.exo_consigne}</h2>
+            <h2 className="exercice__consigne">{data.exo_instruction}</h2>
             <div>
                 
                     {showSyllabe ? <div>
-                                        {  data.exo_type !== "C1" && <img src={`http://lettrelumiere.localhost:8000/images/choices/${syllabes[currentSyllabeIndex].file}`} 
+                                        {  data.exo_type !== "C1" && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/${syllabes[currentSyllabeIndex].file}`} 
                                                                       alt={syllabes[currentSyllabeIndex].value}
                                                                       className="exercice__img"
                                                                       style={{marginBottom:'1rem'}}

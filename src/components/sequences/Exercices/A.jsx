@@ -8,10 +8,6 @@ const A = (props) => {
     const {data, onAttemptMade, score, imgNotFound} = props;
     const [tabResponses, setTabResponses] = useState(new Array(6).fill(null));
 
-    //every
-    //some
-    //map
-    ///flatMap
     
     useEffect(() => {
         
@@ -32,10 +28,10 @@ const A = (props) => {
        
     };
     return <React.Fragment>
-                <h1 className="exercice__consigne">{data?.exo_consigne}</h1>
+                <h1 className="exercice__consigne">{data?.exo_instruction}</h1>
                 <ul className="list">
                     {data && data.choiceDetails.map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>
-                                                                             {data.exo_type==="A2" && e.image && <img src={`http://lettrelumiere.localhost:8000/images/choices/${e.file}`} 
+                                                                             {data.exo_type==="A2"  && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/${e.file}`} 
                                                                                                                       alt={e.value} 
                                                                                                                       className="group__img"
                                                                                                                       onError={(e) => {

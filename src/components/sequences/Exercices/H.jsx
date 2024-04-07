@@ -34,25 +34,6 @@ const H = (props) => {
 
 
 
-    // // Tableaux d'éléments droppables
-    // const dummyData = [
-    //     {
-    //         id: 1,
-    //         name: "List 1",
-    //         cards: tabItems.map((el, index) => {
-    //             return {
-    //                 id: index + 1,
-    //                 name: el.value
-    //             }
-    //         })
-    //     },
-    //     { id: 2, name: "List 2", cards: [
-    //         {
-    //             id:78741,
-    //             name:"mais"
-    //         }
-    //     ] },
-    // ];
 
     useEffect(() => {
          initializeGame();
@@ -147,9 +128,10 @@ const H = (props) => {
 
 return (
   <>
+         <h2 className="exercice__consigne">{data?.exo_instruction}</h2>
       {data.exo_type !== "H1" 
                                 ? <p className="exercice__sound" onClick={()=>speak(answer)}>?</p> 
-                                : <img src={`https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/assets/images${answer?.value}.jpg`} 
+                                : <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices${answer?.value}.jpg`} 
                                        alt="item" 
                                        className="exercice__img"
                                        onClick={()=>speak(answer.value)}
