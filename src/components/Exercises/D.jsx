@@ -44,8 +44,8 @@
 //             { style: "list__item--lowercase", item: item },
 //             // { style: "list__item--belleallure", item: item }
 //         ])
-    
-        
+
+
 //         shuffleArray(allItemsWithStyles);
 //         if (params.categorie==="alphabet") {
 //             let newTabItems = [];
@@ -63,7 +63,7 @@
 //             selectDisplayGraphemes();
 //         }
 
-   
+
 //         console.log(item)
 //     }, []);
 
@@ -79,7 +79,7 @@
 //     };
 
 
-    
+
 
 //     let tabResponse = [];
 //     function clickResponse(evt) {
@@ -110,7 +110,7 @@
 //             el.classList.add(isCorrect ? 'true' : 'false');
 //         });
 
-       
+
 //         items.forEach(oneItem => {
 //             if (params.categorie === 'grapheme') {
 //                 if (oneItem.textContent.trim().toLowerCase() === item.toLowerCase() && !oneItem.classList.contains('true')) {
@@ -130,7 +130,7 @@
 //     };
 
 //       return <React.Fragment>
-       
+
 //             <p className="exercice__sound" onClick={()=>speak(item)}>?</p>
 //             <ul className="list">
 //                 {allItemsWithStyles.map((item, index) => (
@@ -154,6 +154,7 @@ import speak from "../../hooks/useSpeak";
 import { IoArrowForwardSharp } from "react-icons/io5";
 import { getElementRandom } from "../../hooks/useRandom";
 import { useNavigate, useParams } from "react-router-dom";
+import hautParleur from '../../assets/images/haut-parleur.svg';
 
 
 const D = (props) => {
@@ -167,23 +168,23 @@ const D = (props) => {
     const [tabItems, setTabItems] = useState([]);
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
-    const navigate =  useNavigate();
+    const navigate = useNavigate();
 
     const params = useParams();
 
     const graphemesGroups = [
-                ['in', 'un'],
-                ['an', 'en'],
-                ['on'],
-                ['au', 'eau'],
-                ['ou'],
-                ['eu', 'œu'],
-                ['ei', 'et', 'er'],
-                ['est', 'ai', 'es'],
-                ['ien'],
-                ['ed']
-              ];
-        
+        ['in', 'un'],
+        ['an', 'en'],
+        ['on'],
+        ['au', 'eau'],
+        ['ou'],
+        ['eu', 'œu'],
+        ['ei', 'et', 'er'],
+        ['est', 'ai', 'es'],
+        ['ien'],
+        ['ed']
+    ];
+
     const selectDisplayGraphemes = () => {
 
         let selectedGraphemes = graphemesGroups.map(group => getElementRandom(group));
@@ -219,15 +220,15 @@ const D = (props) => {
 
     const prepareItemsWithoutShuffling = (items) => {
         return items.flatMap(item => [
-          { ...item, style: "list__item--uppercase", value: item.value.toUpperCase() },
-          { ...item,style: "list__item--lowercase", value: item.value },
-          { ...item,style: "list__item--belleallure", value: item.value }
+            { ...item, style: "list__item--uppercase", value: item.value.toUpperCase() },
+            { ...item, style: "list__item--lowercase", value: item.value },
+            { ...item, style: "list__item--belleallure", value: item.value }
         ]);
-      };
-   
+    };
 
 
-      useEffect(() => { //UseEffect de l'initialisation de la liste d'éléments
+
+    useEffect(() => { //UseEffect de l'initialisation de la liste d'éléments
 
         const loadElements = () => {
             if (params.categorie === "alphabet") {
@@ -237,7 +238,7 @@ const D = (props) => {
             }
             console.log(item);
         };
-    
+
         loadElements();
         console.log(allItemsWithStyles);
     }, [params.categorie]);
@@ -249,31 +250,30 @@ const D = (props) => {
         setAllItemsWithStyles(updatedItemsWithStyles);
     }, [tabItems]);
 
-  
 
-            
+
+
     useEffect(() => { //UseEffect pour le changement de l'item après chaque attemps
-        if (item)
-        {
+        if (item) {
             console.log(item);
             speak(item);
-        }      
+        }
     }, [item])
 
-    useEffect(() =>{ //useEffect pour le passage à l'exercice suivant, si le nombre d'essais est terminé
+    useEffect(() => { //useEffect pour le passage à l'exercice suivant, si le nombre d'essais est terminé
         console.log(attemptCount);
-        if(attemptCount + 1 > tabResponses.length){
+        if (attemptCount + 1 > tabResponses.length) {
             console.log('exo suivant')
-            const timeout = setTimeout(()=> {
+            const timeout = setTimeout(() => {
                 navigate(`/${params.categorie}/exercices/e1`)
             }, 800)
 
-            return ()=> clearTimeout(timeout)
-            
+            return () => clearTimeout(timeout)
+
         }
     }, [attemptCount])
 
- 
+
 
     const handleChooseResponse = () => {
         if (attemptCount < tabResponses.length) {
@@ -297,14 +297,14 @@ const D = (props) => {
                     }
                 });
                 setAllItemsWithStyles(updatedItems); //L'assigner pour le nouvel affichage
-    
+
                 const timeOutId = setTimeout(() => {
                     setTabResponses(prev => {
                         const newTabResponses = [...prev];
                         newTabResponses[attemptCount] = allItemsChosen.some(el => el.value.toLowerCase() === item);
                         return newTabResponses;
                     });
-        
+
                     setAttemptCount(prevCount => {
                         if (prevCount + 1 < tabResponses.length) {
                             //Prochain essaie
@@ -312,10 +312,10 @@ const D = (props) => {
                         }
                         return prevCount + 1;
                     });
-        
+
                     resetAllItemsState();
                 }, 1000);
-                return ()=> clearTimeout(timeOutId)
+                return () => clearTimeout(timeOutId)
             }
             console.log(attemptCount);
         }
@@ -328,50 +328,61 @@ const D = (props) => {
     }
 
 
- 
+
 
     const clickResponse = (clickedIndex) => {
         // const tab = allItemsWithStyles.map(el => el.state='choosen');
         // setAllItemsWithStyles(tab)
         const allItemsChosen = allItemsWithStyles.filter(el => el.state === 'choosen');
-            if (allItemsChosen.length < 3){
-                setAllItemsWithStyles(currentItems =>
-                    currentItems.map((item, index) => {
-                    if (index === clickedIndex){
+        if (allItemsChosen.length < 3) {
+            setAllItemsWithStyles(currentItems =>
+                currentItems.map((item, index) => {
+                    if (index === clickedIndex) {
                         return {
                             ...item,
                             state: item.state === 'initial' ? 'choosen' : 'initial',
                         };
                     }
-                        return item;
-                    })
-                
-                );
-            }
+                    return item;
+                })
+
+            );
+        }
     };
 
 
     return <React.Fragment>
-                <h2 className="exercice__consigne" onClick={(evt)=> speak(evt.target.textContent)}> Trouve les 3 écritures {params.categorie === "alphabet" ? "de la même lettre" : "du même graphème"} </h2>
-                <p className="exercice__sound" onClick={()=>speak(item)}>?</p>
-                <ul className="list">
-                    {allItemsWithStyles?.map((item, index) => (
-                        <li className={`list__item ${item.style} ${item.state}`} key={index} onClick={()=>clickResponse(index)}>
-                            {item.value}
-                        </li>
-                    ))}
-                </ul>
+       <div onClick={(evt) => speak(`Trouve les 3 écritures ${params.categorie === "alphabet" ? "de la même lettre" : "du même graphème"} `)}>
+            <h2 className="exercice__consigne ligne" onClick={(evt) => speak(evt.target.textContent)}>
+                <span>
+                    <img src={hautParleur} />
+                </span>
+                Trouve les 3 écritures {params.categorie === "alphabet" ? "de la même lettre" : "du même graphème"}
+
+            </h2>
+        </div>
 
 
-                <div className="exercice__footer">
-                    {/* <ul className="progress">
+
+        <p className="exercice__sound" onClick={() => speak(item)}>?</p>
+        <ul className="list">
+            {allItemsWithStyles?.map((item, index) => (
+                <li className={`list__item ${item.style} ${item.state}`} key={index} onClick={() => clickResponse(index)}>
+                    {item.value}
+                </li>
+            ))}
+        </ul>
+
+
+        <div className="exercice__footer">
+            {/* <ul className="progress">
                         {tabResponses.map(response => (
                             <li className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                         ))}
                     </ul> */}
-                    <button className="exercice__valid" onClick={handleChooseResponse}>OK</button>
-                </div>
-            </React.Fragment>
+            <button className="exercice__valid" onClick={handleChooseResponse}>OK</button>
+        </div>
+    </React.Fragment>
 }
 
 export default D;

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { getElementRandom } from "../../hooks/useRandom";
 import speak from "../../hooks/useSpeak";
 import { IoArrowForwardSharp } from "react-icons/io5";
+import hautParleur from '../../assets/images/haut-parleur.svg';
 
 const B = () => {
 
@@ -60,8 +61,16 @@ const B = () => {
         (evt.target.textContent === item) ? evt.target.classList.add('true') : evt.target.classList.add('false');
     };
     return <React.Fragment>
-                <h2 className="exercice__consigne" onClick={(evt)=> speak(evt.target.textContent)}>Clique sur {params.categorie === "alphabet" ? "la lettre" : "le graphème"} correspondant au son écouté</h2>
-                <p className="exercice__sound" onClick={() => speak(item)}>?</p>
+                        <div onClick={(evt) => speak(`Clique sur ${params.categorie === "alphabet" ? "la lettre" : "le graphème"} correspondante au son écouté`)}>
+            <h2 className="exercice__consigne ligne" onClick={(evt) => speak(evt.target.textContent)}>
+                <span>
+                    <img src={hautParleur} />
+                </span>
+                Clique sur {params.categorie === "alphabet" ? "la lettre" : "le graphème"} correspondante au son écouté
+
+            </h2>
+        </div>
+            <p className="exercice__sound" onClick={() => speak(item)}>?</p>
                 <ul className="list">
                     {displayItems.map((grapheme, index) => {
                         return <li key={index} className="list__item" onClick={handleClick}>{grapheme}</li>;

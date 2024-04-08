@@ -7,6 +7,7 @@
     justify-content: flex-start;
     text-align: right;
     font-weight: bold;
+    background-color: aliceblue;
 
     span {
 
@@ -18,15 +19,23 @@
         text-align: right;
         height: 12vh;
         width: 30vw;
-
+        font-size: 3vw;
 
     }
 
     &__titre {
         background-color: $rubriques;
-        clip-path: polygon(0% 20%, 60% 20%, 66% 23%, 100% 50%, 66% 76%, 60% 80%, 0% 80%);
+        // clip-path: polygon(0% 20%, 60% 20%, 66% 23%, 100% 50%, 66% 76%, 60% 80%, 0% 80%);
+        // background-image: url('./../../assets/images/Etape.svg');
+        clip-path: polygon(75% 0%, 100% 50%, 75% 100%, 0% 100%, 0 48%, 0% 0%);
         color: $blanc;
         text-transform: capitalize;
+
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+
+
     }
 
 
@@ -39,7 +48,7 @@
     column-gap: 10vw;
     /* Espacement entre les colonnes */
     // width: 100%;
-    margin: 5vh 30vw;
+    margin: 5vh 3vw;
 
 
     &__span {
@@ -143,7 +152,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap:5rem;
+    gap: 5rem;
     flex-direction: column;
     margin-top: 10vh;
     font-family: 'Satoshi', sans-serif;
@@ -152,10 +161,11 @@
         margin: 0 0 6rem 0;
         font-size: 3rem;
         font-family: 'Satoshi', sans-serif;
+        padding: 3vw;
     }
 
     &__img {
-        width:18rem;
+        width: 18rem;
         margin-bottom: 2vh;
     }
 
@@ -163,16 +173,17 @@
         width: 1vw;
         margin: 1vw;
         cursor: pointer;
-        &:hover{
-            scale:1.35;
+
+        &:hover {
+            scale: 1.35;
             transition: 0.2s all ease-in-out;
         }
     }
 
-    &__dragArea{
+    &__dragArea {
         display: flex;
         flex-direction: column;
-        gap:5rem;
+        gap: 5rem;
     }
 
     &__group {
@@ -233,7 +244,7 @@
         }
     }
 
-   
+
 
     &__input {
         @extend %learning-block;
@@ -322,6 +333,7 @@
         border: none;
         cursor: pointer;
         color: $blanc;
+        border-radius: 10px;
 
         a {
             color: $blanc
@@ -345,16 +357,18 @@
         gap: 3px
     }
 
-    .group { //classesz pour les groupes img/mots
+    .group {
+        //classesz pour les groupes img/mots
         display: flex;
         flex-direction: column;
         padding: 1rem 1.2rem;
         border: 2px $gris solid;
         border-radius: 10px;
         box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-        flex:1;
+        flex: 1;
+
         &__img {
-            height:10rem;
+            height: 10rem;
             object-fit: cover;
         }
     }
@@ -378,7 +392,8 @@
             @extend %learning-block;
             padding: 1.1rem 1.4rem;
             flex-grow: 0;
-            flex-shrink: 0;;
+            flex-shrink: 0;
+            ;
             flex: 1;
             min-width: 10rem;
 
@@ -439,8 +454,8 @@
         border: none;
         justify-content: center;
         align-items: center;
-        gap:1rem;
-        border-radius: 30px;
+        gap: 1rem;
+        border-radius: 10px;
         margin-right: 2rem;
         color: $blanc;
         cursor: pointer;
@@ -452,16 +467,17 @@
         font-size: 1.8vw;
         transition: all .2s ease-out;
 
-        img{
-            width:3rem;
+        img {
+            width: 3rem;
             transition: all .2s ease-out;
-            
+
         }
 
         &:hover {
             background-color: rgba(59, 155, 165, 0.9);
             transition: all .2s ease-out;
-            img{
+
+            img {
                 transform: scale(1.18);
                 transition: all .2s ease-out;
             }
@@ -470,4 +486,10 @@
     }
 
 
+}
+
+.ligne {
+    display: flex;
+    gap: 1vw;
+    cursor: pointer;
 }

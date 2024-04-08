@@ -1,66 +1,69 @@
-
-
 %learning-block {
-    padding: 0.5rem 1rem;
-    border: 2px solid $gris;
-    border-radius: 8px;
-    background-color: $fond-exos; 
-    color: $noir; 
-    text-align: center;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 0.5rem 1rem;
+  border: 2px solid $gris;
+  border-radius: 8px;
+  background-color: $fond-exos;
+  color: $noir;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 
-%button{ //Bouton qui sera importé dans components/buttons pour tyliser les différents comportements du button
-    align-self: flex-end;
-    font-size: 1.7rem;
-    margin: 5vh 10vh 0 0;
-    padding: 1.3rem 1.7rem;
-    background-color: $kepel;
-    font-family: 'Satoshi', sans-serif;
-    color: $blanc;
-    border:none ;
-    cursor: pointer;
-    color: $blanc;
-    &.disable{
-        background-color: $gris;
-        pointer-events: none;
-    }
+%button {
+  //Bouton qui sera importé dans components/buttons pour tyliser les différents comportements du button
+  align-self: flex-end;
+  font-size: 1.7rem;
+  margin: 5vh 10vh 0 0;
+  padding: 1.3rem 1.7rem;
+  background-color: $kepel;
+  font-family: 'Satoshi', sans-serif;
+  color: $blanc;
+  border: none;
+  cursor: pointer;
+  color: $blanc;
+  border-radius: 20px;
+
+  &.disable {
+    background-color: $gris;
+    pointer-events: none;
+  }
 }
 
-%button-quit{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 0, 0, 0.5);
-    color: $noir;
-    border: none;
-    padding: 10px 20px;
-    font-size: $font-size-medium;
-    font-family: $font-family-ranade;
-    border-radius: 10vw;
-    cursor: pointer;
-    box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.1);
-    gap:7px;
+%button-quit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 0, 0, 0.5);
+  color: $noir;
+  border: none;
+  padding: 10px 20px;
+  font-size: $font-size-medium;
+  font-family: $font-family-ranade;
+  border-radius: 10vw;
+  cursor: pointer;
+  box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.1);
+  gap: 7px;
 }
 
-%progress{
-    width:50px;
-    height:50px;
-    border-radius: 50%;
-    border:1px solid $gris;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
+%progress {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid $gris;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.18) 0px 2px 4px;
 }
 
 @keyframes bounceRight {
-    0% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(5px);
-    }
-    100% {
-      transform: translateX(0);
-    }
+  0% {
+    transform: translateX(0);
   }
+
+  50% {
+    transform: translateX(5px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
