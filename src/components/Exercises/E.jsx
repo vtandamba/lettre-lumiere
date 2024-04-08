@@ -3,6 +3,7 @@ import speak from "../../hooks/useSpeak";
 import { getElementRandom } from "../../hooks/useRandom";
 import { Link, useParams } from "react-router-dom";
 import { IoArrowForwardSharp } from "react-icons/io5";
+import hautParleur from '../../assets/images/haut-parleur.svg';
 
 const E = () => {
     const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(i + 65));
@@ -78,7 +79,16 @@ const E = () => {
     }, [item])
 
     return <React.Fragment>
-            <h2 className="exercice__consigne" onClick={(evt)=> speak(evt.target.textContent)}>Ecris {params.categorie === "alphabet" ? "la lettre" : "le graphème"} dictée</h2>
+            
+            <div onClick={(evt) => speak(`Ecris ${params.categorie === "alphabet" ? "la lettre" : "le graphème"} dictée`)}>
+      <h2 className="exercice__consigne ligne" onClick={(evt) => speak(evt.target.textContent)}>
+        <span>
+          <img src={hautParleur} />
+        </span>
+        Ecris {params.categorie === "alphabet" ? "la lettre" : "le graphème"} dictée
+
+      </h2>
+    </div>
             <p className="exercice__sound" onClick={handleSpeakerClick}>?</p>
 
             <form onSubmit={handleSubmit} className="exercice__form">

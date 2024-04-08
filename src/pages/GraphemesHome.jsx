@@ -5,6 +5,7 @@ import speak from "../hooks/useSpeak";
 import imageTraining from '../assets/images/coureur.png'
 import soundTitle from '../assets/sons/graphemes/titreGraphemes.mp3';
 import MainHeader from "../components/MainHeader";
+import courreur from '../assets/images/courreur.svg'
 
 const GraphemesHome = () => {
 
@@ -59,17 +60,17 @@ const GraphemesHome = () => {
     };
 
     const handleSpeak = () => {
-    
-            let audio = new Audio(soundTitle);
-            audio.play();
+
+        let audio = new Audio(soundTitle);
+        audio.play();
     }
 
     return <React.Fragment>
 
-        
-        <MainHeader />
+
+        <MainHeader link={"/home"} />
         <main className="graphemes">
-            <h1 className="graphemes__title" onClick={handleSpeak}>an  on  in</h1>
+            <h1 className="alphabet__title" onClick={handleSpeak}>an  on  in</h1>
             <div className="list">
                 {graphemes.map((g, index) => (
                     <div
@@ -94,8 +95,20 @@ const GraphemesHome = () => {
                         ))}
                     </div>
                 ))}
+
             </div>
-            <p className="graphemes__next"><Link to="exercices/a1" >S'entraîner </Link><img src={imageTraining} alt="" /> </p>
+
+            {/* <p className="graphemes__next"><Link to="exercices/a1" >S'entraîner </Link><img src={imageTraining} alt="" /> </p> */}
+            <div className="alphabet">
+                <section className="entrainement">
+                    <Link to="exercices/a1">
+                        <div className="entrainement__test">
+                            <p className="entrainement__bouton">S'entraîner</p>
+                            <img className="entrainement__logo" src={courreur} alt="entrainement" />
+                        </div>
+                    </Link>
+                </section>
+            </div>
         </main>
     </React.Fragment>
 }

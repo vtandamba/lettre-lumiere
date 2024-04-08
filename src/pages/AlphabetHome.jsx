@@ -1,6 +1,6 @@
 import React from "react";
 import logoLettres from '../assets/images/Logo lettres en lumière.png'
-import courreur from '../assets/images/coureur.png'
+import courreur from '../assets/images/courreur.svg'
 import { Link, Outlet } from "react-router-dom";
 import speak from '../hooks/useSpeak.js';
 import MainHeader from "../components/MainHeader.jsx";

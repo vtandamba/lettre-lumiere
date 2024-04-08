@@ -93,7 +93,21 @@ const A = () => {
     };
 
     return (<React.Fragment>
-        <h2 className="exercice__consigne" onClick={(evt) => speak(evt.target.textContent)}>Ecoute et répète</h2>
+        <div onClick={(evt) => speak("Ecoute et répète")} >
+            <h2 className="exercice__consigne ligne" onClick={(evt) => speak(evt.target.textContent)}>
+                <span>
+                    <img src={hautParleur} />
+                </span>
+                Ecoute et répète
+            </h2>
+        </div>
+
+
+
+
+
+
+
         {(params.categorie === "graphemes") ?
             <ul >
                 {Object.keys(graphemes).map((key, index) => {
@@ -126,8 +140,8 @@ const A = () => {
             </ul>
             :
             <React.Fragment>
+                <h2 className="rubrique"> <span className="rubrique__titre">Alphabet </span>  <span > les minuscules </span></h2>
                 <div>
-                    <h2 className="rubrique"> <span className="rubrique__titre">Alphabet </span>  <span > les minuscules </span></h2>
                     <ul className="exerciceA">
                         {alphabet.map((lettre, index) => (
                             <li className="exerciceA__liste" key={index}>
@@ -139,7 +153,7 @@ const A = () => {
 
                                 <span className="exerciceA__lettre exerciceA__letter--verdana ">{lettre.toLowerCase()}</span>
                                 <span className="exerciceA__lettre exerciceA__letter--belleAllure"> {lettre.toLowerCase()} </span>
-                                
+
                             </li>
                         ))}
                     </ul>
@@ -159,7 +173,7 @@ const A = () => {
 
                                 <span className="exerciceA__lettre exerciceA__lettre--verdana">{lettre}</span>
                                 <span className="exerciceA__lettre exerciceA__lettre--belleAllure"> {lettre} </span>
-                               
+
                             </li>
                         ))}
                     </ul>
@@ -176,7 +190,7 @@ const A = () => {
         </p>
 
 
-     
+
     </React.Fragment>)
 
 }

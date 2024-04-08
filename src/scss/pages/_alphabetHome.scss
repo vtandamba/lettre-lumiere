@@ -1,34 +1,35 @@
-
-
-.alphabet{
+.alphabet {
     max-width: 100%;
-    margin: 0 3rem;
-    &__container{
+    margin: 10vh 2vw;
+
+    &__container {
         display: flex;
         flex-direction: column;
-        gap:7vh    }
-    
+        gap: 7vh;
+        padding-top: 5vh;
+    }
+
     &__list {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border-radius:10px;
+        border-radius: 10px;
         margin: 0 2rem;
-        background-color: rgba($color: $kepel, $alpha: 0.56) ;
-       
+        background-color: rgba($color: $kepel, $alpha: 0.56);
+
         padding: 3.2rem 2rem;
         max-width: 100%;
     }
-    
+
     &__listItem {
         font-family: 'Belle Allure', sans-serif;
         color: $noir;
-        font-size: clamp(10px,2.5vw,57px);
-        height:fit-content
+        font-size: clamp(10px, 2.5vw, 57px);
+        height: fit-content
     }
-    
+
     &__title {
-    
+
         display: flex;
         align-items: center;
         justify-content: center;
@@ -47,49 +48,50 @@
         width: fit-content;
         border-radius: 15px;
         color: black;
-    
+
         &__1 {
             padding: 15%;
-    
+
         }
     }
-    
+
     .entrainement {
-   
-     
+
+
         margin-left: auto;
         background-color: white;
         border-radius: 15px;
         margin-top: 5%;
         width: fit-content;
-        padding: 1rem 2.3rem;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+        padding: 2vh 2vh 3vh 2vh;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
         transition: transform .2s ease-in-out;
-        &:hover{
+
+        &:hover {
             transform: scale(1.07);
             transition: transform .2s ease-in-out;
         }
+
         &__test {
             display: flex;
             display: flex;
             justify-content: center;
-            gap:1rem;
+            gap: 1rem;
             align-items: center;
         }
-    
+
         &__bouton {
             font-size: 23px;
             color: black;
             margin-left: 7%;
             margin-top: 5%;
-            
-    
+
+
         }
-    
+
         &__logo {
             width: 3rem;
             height: 3rem;
-      
         }
     }
 }
