@@ -13,7 +13,7 @@ const Auth = {
         const data = await response.json();
         
         // Trouver l'utilisateur avec le mot de passe correspondant (non recommandé pour des raisons de sécurité).
-        const user = data["hydra:member"].find(user => user.password === form.user_password);
+        const user = data["hydra:member"];
         console.log(user)
         if (!user) {
           throw new Error('Utilisateur non trouvé ou mot de passe incorrect.');
