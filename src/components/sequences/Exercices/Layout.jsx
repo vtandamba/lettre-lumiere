@@ -22,7 +22,6 @@ const Layout = (props) => {
     const idSeq = parseInt(id, 10);
     const [exercises, setExercises] = useState([]);
     const [sequence, setSequence] = useState();
-    const [sequences, setSequences] = useState();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
     const [openModalEndseq, setOpenModalEndseq] = useState(false);
     const [openModal, setOpenModal] = useState(false);
@@ -45,7 +44,7 @@ const Layout = (props) => {
         p: 4,
     };
 
-    const url = 'http://lettrelumiere.localhost:8000/apip/user_progresses';
+    const url = 'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/user_progresses';
 
     useEffect(() => {
 
@@ -125,7 +124,7 @@ const Layout = (props) => {
 
 
     const fetchScore = (score) => {
-
+        console.log('enregistrement du score');
         // Si un user existe , enregistrer les scores dans la base de donnée
         if (user) {
             const date = new Date();

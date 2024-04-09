@@ -1,12 +1,14 @@
 
 //  ici on recupere fech les données de db.sqlite qui sont dans l'api http ... 
-const baseUrl = 'http://lettrelumiere.localhost:8000/apip/'
+const baseUrl = 'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/'
     
 const urlSequences = baseUrl + 'sequences';
 const urlExercices = baseUrl +'exercises';
 const urlStages = baseUrl +'stages';
 const urlUser = baseUrl +'users'; 
 const urlExercisesRevisions = baseUrl + 'reports'
+const urlChoices = baseUrl + 'choices'
+const urlProgressSeq = baseUrl + 'progress_seqs'
 
 
 export const fetchAllStages = async () => {
@@ -139,9 +141,20 @@ export const fecthUser = async (userId) => {
 
 // Fetch le contenu d'exercices
 export const fetchChoiceDetailsById = async (choiceId) => {
-    const response = await fetch(`http://lettrelumiere.localhost:8000/apip/choices/${choiceId}`);
+    const response = await fetch(`${urlChoices}/${choiceId}`);
     if (!response.ok) {
         throw new Error('Problème lors de la récupération des détails du choix');
     }
     return response.json();
 };
+
+
+
+// Fetch la progression par séquence
+export const fetchUserProgressSeq = async (user, sequence) => {
+    const response = await fetch(`${urlProgressSeq}?user=${user}&sequence=${sequence}`);
+    if (!response.ok) {
+        throw new Error('Problème lors de la récupération de la progression par séquence');
+    }
+    return response.json();
+}

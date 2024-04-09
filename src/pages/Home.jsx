@@ -4,23 +4,32 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FormControl, InputLabel, MenuItem, Select, duration } from "@mui/material";
 import { CircleLoader } from "react-spinners";
 import { motion } from "framer-motion";
+import { useUser } from "../contexts/UserContext";
 
 
 const Home = (props) => {
-    const {forceUpdate} = props;
     const [state, setState] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { user, setUser } = useUser();
     
     useEffect(() => {
-        if (state === "identifie" || state === "libre") {
+        if (state === "libre") {
+            // Supprimer le sessionStorage donc le user s'il passe en mode libre
+            sessionStorage.clear(); 
+            setUser(null) //Envoyer l'information au context
             setLoading(true);
-            forceUpdate();
             setTimeout(() => {
-                navigate((state === 'identifie') ?'login' : 'home')
-            }, 1000)
+                navigate('home');
+            }, 1000);
+        } else if (state === "identifie") {
+            setLoading(true);
+     
+            setTimeout(() => {
+                navigate('login');
+            }, 1000);
         }
-    }, [state])
+    }, [state, navigate]);
   
     return (
         <div className="home">

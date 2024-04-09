@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import logoBrain from '../assets/images/brainLogo.png';
-import logoLettres from '../assets/images/Logo lettres en lumière.png'
 import logoChrono from '../assets/images/bx_timer.png';
 import { Link, useNavigate } from "react-router-dom";
 import MainHeader from "../components/MainHeader";
@@ -26,9 +25,7 @@ const Index = () => {
         })
 
         setUser(null)
-        sessionStorage.removeItem('user_id');
-        sessionStorage.removeItem('user_name');
-
+        sessionStorage.clear()
         
     }
 
