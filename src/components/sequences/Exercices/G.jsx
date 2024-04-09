@@ -14,12 +14,12 @@ const G = (props) => {
     const [item, setItem] = useState('');
     const [attemptCount, setAttemptCount] = useState(0);
     const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
-    const navigate = useNavigate();
+
                                                         
   
     useEffect(() => {
         if (data?.choiceDetails || data?.rep_contenu) {
-            const initialDisplayItems = (data.choiceDetails || data.rep_contenu).map(el => ({
+            const initialDisplayItems = (data.choice|| data.choices).map(el => ({
                 value: el.value, 
                 image: el.file,
                 state: 'initial'
@@ -80,7 +80,7 @@ const G = (props) => {
         tabItems?.map((item) => {return {...item, state:'initial'}});
 
         const secondes = document.querySelector('.exercice__count');
-        const response = tabItems.find((r) => r.textContent === item);
+     
 
         if (times.current <= 4){
             times.current += 1; // Incrémente times
@@ -151,7 +151,7 @@ const G = (props) => {
             </ul>
 
             <div className="exercice__footer">
-            {  data.exo_type === "G2" && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/${item.file}`} 
+            {  data.exo_type === "G2" && <img src={`${process.env.URL_IMG}${item.file}`} 
                                                                       alt={item.value}
                                                                       className="exercice__img"
                                                                       style={{marginBottom:'1rem'}}

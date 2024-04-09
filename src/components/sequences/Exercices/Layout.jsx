@@ -24,10 +24,8 @@ const Layout = (props) => {
     const [sequence, setSequence] = useState();
     const [sequences, setSequences] = useState();
     const [currentExerciseIndex, setCurrentExerciseIndex] = useState(0);
-    const [open, setOpen] = useState(false);
     const [openModalEndseq, setOpenModalEndseq] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const [modalLink, setModalLink] = useState();
     const [attemptCount, setAttemptCount] = useState(0);
     const [shouldGoToNextExercise, setShouldGoToNextExercise] = useState(false);
     const [finalScore, setFinalScore] = useState()
@@ -58,21 +56,10 @@ const Layout = (props) => {
                     const exercisesList = await fetchAllExerciceForSequences(idSeq);
                     const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
         
-                 
-                    const enrichedExercises = await Promise.all(sortedExercises.map(async (exercise) => {
-                        const choiceDetails = await Promise.all(exercise.choice.map(async (choicePath) => {
-                            console.log(choicePath);
-                            const choiceId = choicePath['@id'].split('/').pop();
-                            return fetchChoiceDetailsById(choiceId);
-                        }));
+                    setExercises(sortedExercises);
+                    setExercisesScore(new Array(sortedExercises.length).fill(0));
+                    return exercisesList['hydra:member'];
         
-                        // Ajoute les détails des choix à l'exercice
-                        return { ...exercise, choiceDetails };
-                    }));
-        
-                  
-                    setExercises(enrichedExercises);
-                    setExercisesScore(new Array(enrichedExercises.length).fill(0));
                 }
         
             } catch (error) {
@@ -99,11 +86,7 @@ const Layout = (props) => {
             if (idSeq) {
                 const data = await fetchOneSequence(idSeq);
                 setSequence(data);
-
-                // console.log('idsequence ==== >', idSeq)
-                // console.log('les sequences ==== >', data)
             }
-
         }
 
         loadExercises();
@@ -139,33 +122,24 @@ const Layout = (props) => {
         }
     };
 
-//    const handleContinue = () => {
-//         navigate(`/etapes/${id || idSeq}`);
-
-//     };
-
-//     const handleClose = () => {
-//         setOpen(false)
-//         handleContinue();
-//     };
 
 
-
-    const fetchScore = () => {
+    const fetchScore = (score) => {
 
         // Si un user existe , enregistrer les scores dans la base de donnée
         if (user) {
-
+            const date = new Date();
             const scoreData = {
-                pro_score: exercisesScore[currentExerciseIndex],
-                user_id: user.user_id,
-                exercice_id: exercises[currentExerciseIndex].exercice_id
+                pro_score: score,
+                user_id: user.id,
+                createdAt: date.toISOString(),
+                exercice_id: exercises[currentExerciseIndex]?.id
             };
-
+     
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/ld+json',
                 },
                 body: JSON.stringify(scoreData)
             })
@@ -193,25 +167,20 @@ const Layout = (props) => {
 
 
     const onAttemptMade = () => {
-        fetchScore();
+     
         if (currentExerciseIndex < exercises.length - 1) {
             setShouldGoToNextExercise(true);
         }else {
             setOpenModalEndseq(true); 
         }
-  
     };
     
 
 
     useEffect(() => {
-
-        fetchScore();
         if (shouldGoToNextExercise && currentExerciseIndex < exercises.length - 1) {
 
-            console.log('enregistrement du score')
-            // Envoyer la requête POST à l'API
-            // fin faire le post
+        
             setAttemptCount(0);
             setCurrentExerciseIndex(prevIndex => prevIndex + 1);
             setShouldGoToNextExercise(false); // Réinitialisez le drapeau
@@ -243,8 +212,10 @@ const Layout = (props) => {
     const recordAnswer = (percent) => {
         const updatedScores = [...exercisesScore];
         updatedScores[currentExerciseIndex] = percent;
-        console.log(percent, '% de score')
+        console.log('percent', percent)
         setExercisesScore(updatedScores);
+        console.log('score enregistré')
+        fetchScore(percent);
     };
 
     // Render exercice par exercice
@@ -269,17 +240,17 @@ const Layout = (props) => {
         }
     };
 
-    const handleOpenModal = useCallback(() => {
+    // const handleOpenModal = useCallback(() => {
      
-        // setOpenModal(true);
+    //     // setOpenModal(true);
        
-      }, []);
+    //   }, []);
       
 
-      const handleCloseModal = () => {
-        console.log('naviguer')
-        navigate('/etapes')
-      };
+    //   const handleCloseModal = () => {
+    //     console.log('naviguer')
+    //     navigate('/etapes')
+    //   };
 
 
     // const style = {
@@ -307,7 +278,7 @@ const Layout = (props) => {
                 <span key={index}>{s.stage.id}{index < sequences.length - 1 ? ', ' : ''}</span>
               ))}</p>
             </div>
-            <p className="header__sequence"> {sequence.seq_title}</p>
+            <p className="header__sequence"> {sequence?.seq_title}</p>
           </div>
           <img src={homeIcon} alt="Home" className="header__home" onClick={ ()=>navigate(`/etapes/${id || idSeq}`)} />
 

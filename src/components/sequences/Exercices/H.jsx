@@ -8,7 +8,7 @@ import speak from "../../../hooks/useSpeak";
 const H = (props) => {
 
     const { data, imgNotFound , score, onAttemptMade} = props;
-    const [tabItems, setTabItems] = useState(data?.choiceDetails);
+    const [tabItems, setTabItems] = useState(data?.choice);
     const [answer, setAnswer] = useState();
     const [attemptCount, setAttemptCount] = useState(0);
     const [showModel, setShowModel] = useState(false);

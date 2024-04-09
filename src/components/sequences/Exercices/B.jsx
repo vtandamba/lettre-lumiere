@@ -10,13 +10,13 @@ const B = (props) => {
     const [attemptCount, setAttemptCount] = useState(0);
     const [answer, setAnswer] = useState("");
     const [selectedAnswer, setSelectedAnswer] = useState("");
-    const [tabItems, setTabItems] = useState(data?.choiceDetails);
+    const [tabItems, setTabItems] = useState(data?.choice);
     // const [score, setScore] = useState(0);
     const [tabResponses, setTabResponses] = useState(new Array(tabItems.length).fill(null));
  
     useEffect(() => {
-        if (data?.choiceDetails) {
-            const initialTabItems = data?.choiceDetails.map(el => ({
+        if (data?.choice) {
+            const initialTabItems = data?.choice.map(el => ({
                
                 value: el.value, 
                 state: 'initial',

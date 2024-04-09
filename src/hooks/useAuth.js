@@ -35,8 +35,7 @@ const Auth = {
 
         if (idResponse.ok) {
           const userData = await idResponse.json();
-          console.log(userData); 
-        
+     
           return userData['hydra:member'][0]
         }
       }

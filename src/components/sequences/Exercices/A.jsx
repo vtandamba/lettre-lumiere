@@ -20,7 +20,7 @@ const A = (props) => {
     }, [tabResponses]); // Dépendances de l'effet
 
     const handleChoiceClick = (index) => {
-        speak(data.choiceDetails[index].value);
+        speak(data.choice[index].value);
         const updatedTabResponses = tabResponses.map((response, i) => 
             i === index ? true : response
         );
@@ -30,7 +30,7 @@ const A = (props) => {
     return <React.Fragment>
                 <h1 className="exercice__consigne">{data?.exo_instruction}</h1>
                 <ul className="list">
-                    {data && data.choiceDetails.map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>
+                    {data && data.choice.map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>
                                                                              {data.exo_type==="A2"  && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/${e.file}`} 
                                                                                                                       alt={e.value} 
                                                                                                                       className="group__img"

@@ -21,7 +21,7 @@ const SequenceHome = (props) => {
     const {db, allScoreByExercises} = props;
     const { user } = useUser();
     
-    console.log('je suis le user avec l\'identifiant', user)
+  
     const params = useParams();
     const id = params?.sequence;
     // Convertir sequenceId en entier
@@ -35,8 +35,7 @@ const SequenceHome = (props) => {
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
     const videoSrc = `/video/SEQUENCE ${encodeURIComponent(id - 1)}.mp4`;
-    console.log(videoSrc)
-
+  
 
     const style = {
         position: 'absolute',
@@ -54,7 +53,7 @@ const SequenceHome = (props) => {
         const loadSequences = async () => {
 
             const loadedSequences = await fetchOneSequence(idSeq);
-            console.log(loadedSequences);
+    
             setSequence(loadedSequences);
       
         };
@@ -66,7 +65,7 @@ const SequenceHome = (props) => {
 
                 const exercisesList = await fetchAllExerciceForSequences(idSeq);
                 const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
-                console.log('liste dexos', exercisesList);
+             
                 setExercises(sortedExercises);
             } catch (error) {
                 setError("Impossible de charger les exercices");
@@ -97,25 +96,25 @@ const SequenceHome = (props) => {
                         const response = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
                 
                         if (!response.ok) {
-                            console.log('response is not okay')
+                        
                             return null;
                         }
                         const data = await response.json();
 
                         const score = data['hydra:member'].length > 0 && data['hydra:member'][0].pro_score !== undefined ? data['hydra:member'][0].pro_score : null;
-                        console.log(`Score pour l'exercice ${exercise.id}:`, score);
+                    
                         return score;
                     });
             
                     const scores = await Promise.all(scorePromises);
                     setTabScore(scores);
-                    console.log('Tous les scores ont été récupérés:', scores);
+        
                 } catch (error) {
                     console.error("Erreur lors de la récupération des scores:", error);
                 }
             }else if (!user && allScoreByExercises && allScoreByExercises.length > 0) {
                 // Si l'utilisateur n'est pas connecté et que des scores sont disponibles dans allScoreByExercises4
-                console.log('salut tu n\'es pas connecté');
+            
                 const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
                 if (filteredScores.length > 0) {
                     const tabScores = filteredScores[0].tabScores;
@@ -127,7 +126,8 @@ const SequenceHome = (props) => {
                     }, 0);
                     const avgScore = sumScores / tabScores.length;
                     setFinalScore(avgScore);
-                    console.log('sum ======>', avgScore, tabScores.length);
+                   
+
                 }
             }
         };
@@ -140,7 +140,8 @@ const SequenceHome = (props) => {
 
     useEffect(() => {
         setOpen(true);
-        console.log(tabScore);
+      
+
         if (tabScore.length){
             const getFinalScore = tabScore?.reduce((accumulator, currentValue) => {
                 
@@ -151,7 +152,7 @@ const SequenceHome = (props) => {
                 return accumulator + currentValue;
             }, 0) / tabScore.length;
             setFinalScore(getFinalScore); 
-            console.log('sum ======>' , getFinalScore, tabScore?.length)
+         
         }
       
         

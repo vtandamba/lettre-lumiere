@@ -8,7 +8,7 @@ const E = (props) => {
     const [item, setItem] = useState(); //Valeur de l'item courant
     const [input, setInput] = useState("");//valeur de l'input
     const [attemptCount, setAttemptCount] = useState(0);  //Nombre de tâches
-    const [tabResponses, setTabResponses] = useState(new Array(data?.choiceDetails.length).fill(null));
+    const [tabResponses, setTabResponses] = useState(new Array(data?.choice.length).fill(null));
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
     const inputRef = useRef(null); // Référence à l'élément d'entrée
 
@@ -28,7 +28,7 @@ const E = (props) => {
                 score(scorePercent);
                 onAttemptMade(); 
             }else if(attemptCount  < tabResponses.length) {
-                setItem(getElementRandom(data?.choiceDetails.filter(el => {
+                setItem(getElementRandom(data?.choice.filter(el => {
                     return answerAlreadyTaken.map(it => it.value)
                                              .includes(el.value) === false;
                 })));
@@ -144,7 +144,7 @@ const E = (props) => {
                            value={input}
                            className="exercice__input" 
                            onKeyDown={(event) => handleKeyDown(event)}
-                        //    value={ data.exo_type=== "E2 Bis" && input.replace(new RegExp(`[^${item?.chosenSyllable}]`, "gi"), "-")}
+                      
                            onChange={(evt) => handleChange(evt)} 
                            autoFocus />
                 </form>

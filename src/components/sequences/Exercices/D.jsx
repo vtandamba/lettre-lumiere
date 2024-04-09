@@ -9,10 +9,7 @@ const D = (props) => {
   
     const { data, onAttemptMade, score, imgNotFound } = props;
     const [item, setItem] = useState();
-    console.log(data)
-    // const [tabItems, setTabItems] = useState();
-    // const [validate, setValidate] = useState(false);
-    const [allItemsWithStyles, setAllItemsWithStyles] = useState(data?.choiceDetails);
+    const [allItemsWithStyles, setAllItemsWithStyles] = useState(data?.choice);
     const [tabResponses, setTabResponses] = useState(new Array(allItemsWithStyles.length).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
@@ -36,7 +33,7 @@ const D = (props) => {
 
       useEffect(() => {
         const init = () => {
-          let choices = data?.choiceDetails.map(el => ({
+          let choices = data?.choice.map(el => ({
             value: el.value,
             image: el.image,
             state: 'initial',
@@ -47,9 +44,9 @@ const D = (props) => {
           choices = [...choices]; // Créez une nouvelle référence pour le tableau
          
           // Suppression de la double utilisation erronée de getElementRandom
-          let newItem = getElementRandom(data?.choiceDetails);
+          let newItem = getElementRandom(data?.choice);
           while (answerAlreadyTaken.includes(newItem)) {
-              const filteredChoices = data?.choiceDetails.filter(choice => !answerAlreadyTaken.includes(choice));
+              const filteredChoices = data?.choice.filter(choice => !answerAlreadyTaken.includes(choice));
               newItem = getElementRandom(filteredChoices);
           }
    
@@ -83,7 +80,7 @@ const D = (props) => {
     useEffect(() => {
         if (attemptCount  === tabResponses.length){
             onAttemptMade(); //Passser à l'exercice suivant
-            console.log('essaies terminés');
+          
             const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
             score(scorePercent); // Envoyer le score au composant parent
            
@@ -124,7 +121,7 @@ const D = (props) => {
                     setAttemptCount(prevCount => {
                         if (prevCount + 1 < tabResponses.length) {
                             //Prochain essaie
-                            setItem(getElementRandom(data?.choiceDetails));
+                            setItem(getElementRandom(data?.choice));
                         }
                         return prevCount + 1;
                     });
@@ -146,8 +143,7 @@ const D = (props) => {
  
 
     const clickResponse = (clickedIndex) => {
-        // const tab = allItemsWithStyles.map(el => el.state='choosen');
-        // setAllItemsWithStyles(tab)
+       
         const allItemsChosen = allItemsWithStyles.filter(el => el.state === 'choosen');
             if (allItemsChosen.length < 3){
                 setAllItemsWithStyles(currentItems =>
@@ -170,7 +166,7 @@ const D = (props) => {
                 <h2 className="exercice__consigne">{data.exo_instruction}</h2>
                 {data.exo_type === "D1" 
                                 ? <p className="exercice__sound" onClick={()=>speak(item.value)}>?</p> 
-                                : <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/${item?.file}`} 
+                                : <img src={`http://lettrelumiere.localhost:8000/${item?.file}`} 
                                        alt="item" 
                                        className="exercice__img"
                                        onClick={()=>speak(item.value)}

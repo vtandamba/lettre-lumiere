@@ -1,6 +1,6 @@
 
 //  ici on recupere fech les données de db.sqlite qui sont dans l'api http ... 
-const baseUrl = 'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/'
+const baseUrl = 'http://lettrelumiere.localhost:8000/apip/'
     
 const urlSequences = baseUrl + 'sequences';
 const urlExercices = baseUrl +'exercises';
