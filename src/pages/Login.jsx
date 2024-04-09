@@ -16,25 +16,19 @@ const Login = () =>{
 
     const [formErrors, setFormErrors] = useState("");
 
-    // useEffect(() => {
-    //     if(localStorage.getItem('user_id')){
-    //         navigate('/home');
-    //     }
-    // })
-    
-    
+
     const handleSubmit = async(evt) =>{
         evt.preventDefault();
     
         try{
    
-            const response = await Auth.login(data);
-            
-            console.log(response);
+            const response = await Auth.login(data.user_name, data.user_password);
+            console.log(response, 'response');
+
             if (response){
 
                 setUser({ id: response.id, name: response.user_name });
-
+                console.log('username', response.user_name);
                 sessionStorage.setItem('user_id', response.id);
                 sessionStorage.setItem('user_name', response.user_name);
 

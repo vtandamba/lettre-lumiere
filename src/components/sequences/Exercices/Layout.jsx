@@ -47,7 +47,7 @@ const Layout = (props) => {
         p: 4,
     };
 
-    const url = 'https://vtandamb.lpmiaw.univ-lr.fr/PHP/lettre_en_lumiere/back-lettre-en-lumiere/api/api.userprogess.php';
+    const url = 'http://lettrelumiere.localhost:8000/apip/user_progresses';
 
     useEffect(() => {
 
