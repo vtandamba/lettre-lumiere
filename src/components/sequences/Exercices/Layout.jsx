@@ -131,9 +131,9 @@ const Layout = (props) => {
             const date = new Date();
             const scoreData = {
                 pro_score: score,
-                user_id: user.id,
+                user: "/apip/users/" + user.id,
                 createdAt: date.toISOString(),
-                exercice_id: exercises[currentExerciseIndex]?.id
+                exercise:  "/apip/exercises/" + exercises[currentExerciseIndex]?.id
             };
      
             fetch(url, {
@@ -212,9 +212,7 @@ const Layout = (props) => {
     const recordAnswer = (percent) => {
         const updatedScores = [...exercisesScore];
         updatedScores[currentExerciseIndex] = percent;
-        console.log('percent', percent)
         setExercisesScore(updatedScores);
-        console.log('score enregistré')
         fetchScore(percent);
     };
 

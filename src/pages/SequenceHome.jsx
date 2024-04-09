@@ -93,20 +93,29 @@ const SequenceHome = (props) => {
                 try {
                     const scorePromises = exercises?.map(async (exercise) => {
                      
-                        const response = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
+                        const response = await fetch(`http://lettrelumiere.localhost:8000/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
                 
                         if (!response.ok) {
                         
                             return null;
                         }
                         const data = await response.json();
+                        console.log('data', data)
+                        
+                        // Chercher le plus grand score pour un même exercice
+                        const scores = data['hydra:member'];
+                        const highestScore = scores.reduce((maxScore, current) => {
+                            if (current.pro_score === null || current.pro_score === undefined) {
+                                return maxScore;
+                            }
+                            return maxScore === null ? current.pro_score : Math.max(maxScore, current.pro_score);
+                        }, null); 
 
-                        const score = data['hydra:member'].length > 0 && data['hydra:member'][0].pro_score !== undefined ? data['hydra:member'][0].pro_score : null;
-                    
-                        return score;
+                        return highestScore;
                     });
             
                     const scores = await Promise.all(scorePromises);
+                    console.log('tous les scores', scores)
                     setTabScore(scores);
         
                 } catch (error) {
