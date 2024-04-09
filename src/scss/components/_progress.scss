@@ -91,6 +91,12 @@
             background-color: $rouge ;
             transition : all .2s ease-in-out
         }
+
+       
+
+        &--current{
+            border: 2px solid $vert;
+        }
      }
 
     

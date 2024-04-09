@@ -18,7 +18,7 @@ import { useUser } from "../contexts/UserContext";
 
 const SequenceHome = (props) => {
 
-    const {db, allScoreByExercises} = props;
+    const {allScoreByExercises} = props;
     const { user } = useUser();
     
   
@@ -34,7 +34,6 @@ const SequenceHome = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [open, setOpen] = useState(false);
-    const videoSrc = `/video/SEQUENCE ${encodeURIComponent(id - 1)}.mp4`;
   
 
     const style = {
@@ -100,7 +99,6 @@ const SequenceHome = (props) => {
                             return null;
                         }
                         const data = await response.json();
-                        console.log('data', data)
                         
                         // Chercher le plus grand score pour un même exercice
                         const scores = data['hydra:member'];
@@ -115,7 +113,7 @@ const SequenceHome = (props) => {
                     });
             
                     const scores = await Promise.all(scorePromises);
-                    console.log('tous les scores', scores)
+              
                     setTabScore(scores);
         
                 } catch (error) {
@@ -202,9 +200,13 @@ const SequenceHome = (props) => {
                                         let progressClass = "progress-item--no-score";
                                         if (user && tabScore.length > 0) {
                                             if (tabScore[index] !== null) {
-                                                if (tabScore[index] <= 49) {
+                                                if (tabScore[index] >= 0 && tabScore[index] < 25) {
                                                     progressClass = "progress-item--orange";
-                                                } else if (tabScore[index] >= 50) {
+                                                } else if (tabScore[index] >= 25 && tabScore[index] < 50){
+                                                    progressClass="progress-item--rouge"
+                                                } else if (tabScore[index] >=50 && tabScore[index]< 75){
+                                                    progressClass="progress-item--jaune"
+                                                }else if (tabScore[index] >= 75) {
                                                     progressClass = "progress-item--vert";
                                                 }
                                             }

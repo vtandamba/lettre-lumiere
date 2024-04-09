@@ -57,7 +57,7 @@ const Layout = (props) => {
                     const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
         
                     setExercises(sortedExercises);
-                    setExercisesScore(new Array(sortedExercises.length).fill(0));
+                    setExercisesScore(new Array(sortedExercises.length).fill(null));
                     return exercisesList['hydra:member'];
         
                 }
@@ -238,6 +238,32 @@ const Layout = (props) => {
         }
     };
 
+    // Fonction pour add une classe en fonction du score
+    function getProgressClass(score, index) {
+ 
+        if (index === currentExerciseIndex){
+            return "progress-item--current";
+        }
+        if (score === null){
+            return "progress-item--noscore"
+        }
+        else if (score >= 0 && score < 25) {
+            return "progress-item--orange";
+        } else if (score >= 25 && score < 50) {
+            return "progress-item--rouge";
+        } else if (score >= 50 && score < 75) {
+            return "progress-item--jaune";
+        } else if (score >= 75) {
+            return "progress-item--vert";
+        }
+
+      
+        return "progress-item--noscore"; // Retourne une chaîne vide par défaut si aucune condition n'est remplie
+    }
+    
+
+    
+
     // const handleOpenModal = useCallback(() => {
      
     //     // setOpenModal(true);
@@ -282,7 +308,7 @@ const Layout = (props) => {
 
           <ul className="progress-global">
             {exercisesScore.map((score, index) => (
-              <li key={index} className={`progress-item ${score > 50 ? 'progress-item--vert' : score === 0 ? '' : 'progress-item--orange'}`}>
+              <li key={index} className={`progress-item ${getProgressClass(score, index)}`}>
               </li>
             ))}
           </ul>
