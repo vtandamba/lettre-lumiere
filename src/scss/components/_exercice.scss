@@ -73,13 +73,13 @@
         text-decoration-color: $kepel;
         text-decoration-thickness: 1px;
 
-        &--belleAlure {
+        &--belleAllure {
             font-family: 'Belle Allure', sans-serif;
             margin-left: 1vw;
         }
 
         &--verdana {
-            font-family: Verdana, sans-serif;
+            font-family: 'Verdana', sans-serif;
             margin-right: 1vw;
         }
     }
@@ -160,6 +160,8 @@
     &__consigne {
         margin: 0 0 6rem 0;
         font-size: 3rem;
+        display: flex;
+        gap:1rem;
         font-family: 'Satoshi', sans-serif;
         padding: 3vw;
     }

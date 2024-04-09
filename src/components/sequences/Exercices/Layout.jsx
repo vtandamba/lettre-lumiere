@@ -295,35 +295,33 @@ const Layout = (props) => {
       <div className="layout">
       
         <header className="header">
-          <div className="header__infos">
-            <div className="header__etape">
-              <img src={imgEtape} alt="" />
-              <p>Etape {sequences && sequences.map((s, index) => (
-                <span key={index}>{s.stage.id}{index < sequences.length - 1 ? ', ' : ''}</span>
-              ))}</p>
-            </div>
-            <p className="header__sequence"> {sequence?.seq_title}</p>
-          </div>
-          <img src={homeIcon} alt="Home" className="header__home" onClick={ ()=>navigate(`/etapes/${id || idSeq}`)} />
+                <div className="header__infos">
+                    <div className="header__etape">
+                    <img src={imgEtape} alt="" />
+                    <p>Etape {sequence.stage.id}</p>
+                    </div>
+                    <p className="header__sequence"> {sequence?.seq_title}</p>
+                </div>
+                <img src={homeIcon} alt="Home" className="header__home" onClick={ ()=>navigate(`/etapes/${id || idSeq}`)} />
 
-          <ul className="progress-global">
-            {exercisesScore.map((score, index) => (
-              <li key={index} className={`progress-item ${getProgressClass(score, index)}`}>
-              </li>
-            ))}
-          </ul>
+                <ul className="progress-global">
+                    {exercisesScore.map((score, index) => (
+                    <li key={index} className={`progress-item ${getProgressClass(score, index)}`}>
+                    </li>
+                    ))}
+                </ul>
         </header>
        
       
         <main className="exercice">
           {renderExerciseComponent(exercises[currentExerciseIndex])}
-          <button onClick={goToNextExercise} 
+          {/* <button onClick={goToNextExercise} 
                   disabled={currentExerciseIndex === exercises.length - 1} 
                   className="exercice__validate"
           >
             Suivant
 
-                    </button>
+                    </button> */}
         </main>
                 {openModalEndseq && (
                     <>

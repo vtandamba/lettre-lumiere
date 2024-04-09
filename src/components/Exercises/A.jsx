@@ -96,7 +96,7 @@ const A = () => {
         <div onClick={(evt) => speak("Ecoute et répète")} >
             <h2 className="exercice__consigne ligne" onClick={(evt) => speak(evt.target.textContent)}>
                 <span>
-                    <img src={hautParleur} />
+                    <img src={hautParleur} alt="haut parleur" />
                 </span>
                 Ecoute et répète
             </h2>
@@ -151,8 +151,8 @@ const A = () => {
                                     id="haut-parleur"
                                     onClick={() => handleSpeakerClick(lettre)} />
 
-                                <span className="exerciceA__lettre exerciceA__letter--verdana ">{lettre.toLowerCase()}</span>
-                                <span className="exerciceA__lettre exerciceA__letter--belleAllure"> {lettre.toLowerCase()} </span>
+                                <span className="exerciceA__lettre exerciceA__lettre--verdana ">{lettre.toLowerCase()}</span>
+                                <span className="exerciceA__lettre exerciceA__lettre--belleAllure"> {lettre.toLowerCase()} </span>
 
                             </li>
                         ))}

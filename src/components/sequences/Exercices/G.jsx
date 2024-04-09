@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { LinearCountdown, getElementRandom } from "../../../hooks/useRandom";
 import speak from "../../../hooks/useSpeak";
-import { useNavigate } from "react-router-dom";
+import speaker from '../../../assets/images/haut-parleur.svg'
 import checkIcon from '../../../assets/images/check.svg'
 
 const G = (props) => {
@@ -136,7 +136,10 @@ const G = (props) => {
       };
       
     return <React.Fragment>
-               <h2 className="exercice__consigne">{data?.exo_instruction}</h2>
+               <div  className="exercice__consigne">
+                    <img src={speaker} alt="" />
+                    <h1>{data?.exo_instruction}</h1>
+                </div>
                <p className="exercice__count">
                  <LinearCountdown onCountdownFinish={handleCountdownFinish} />
                 </p>

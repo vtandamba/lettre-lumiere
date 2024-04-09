@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
-import { IoArrowForwardSharp } from "react-icons/io5";
+import speaker from '../../../assets/images/haut-parleur.svg'
 import { getElementRandom } from "../../../hooks/useRandom";
 import checkIcon from '../../../assets/images/check.svg'
 
@@ -163,7 +163,10 @@ const D = (props) => {
 
 
     return <React.Fragment>
-                <h2 className="exercice__consigne">{data.exo_instruction}</h2>
+                 <div  className="exercice__consigne">
+                    <img src={speaker} alt="" />
+                    <h1>{data?.exo_instruction}</h1>
+                </div>
                 {data.exo_type === "D1" 
                                 ? <p className="exercice__sound" onClick={()=>speak(item.value)}>?</p> 
                                 : <img src={`http://lettrelumiere.localhost:8000/${item?.file}`} 

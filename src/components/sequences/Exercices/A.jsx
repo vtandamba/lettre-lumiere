@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import speak from "../../../hooks/useSpeak"
-import { diviserEnSyllabes } from "../../../hooks/useRandom";
+import speaker from '../../../assets/images/haut-parleur.svg'
+
 
 
 const A = (props) => {
@@ -28,7 +28,11 @@ const A = (props) => {
        
     };
     return <React.Fragment>
-                <h1 className="exercice__consigne">{data?.exo_instruction}</h1>
+                <div  className="exercice__consigne">
+                    <img src={speaker} alt="" />
+                    <h1>{data?.exo_instruction}</h1>
+                </div>
+                
                 <ul className="list">
                     {data && data.choice.map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>
                                                                              {data.exo_type==="A2"  && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/${e.file}`} 

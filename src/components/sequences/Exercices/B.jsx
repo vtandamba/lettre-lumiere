@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
 import { getElementRandom } from "../../../hooks/useRandom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckDouble } from '@fortawesome/free-solid-svg-icons';
 import checkIcon from '../../../assets/images/check.svg'
+import speaker from '../../../assets/images/haut-parleur.svg'
 
 const B = (props) => {
     const { data, onAttemptMade, score , imgNotFound} = props;
@@ -19,6 +18,7 @@ const B = (props) => {
             const initialTabItems = data?.choice.map(el => ({
                
                 value: el.value, 
+                file : el.file,
                 state: 'initial',
                 isAlreadyChosen: false
             }));
@@ -35,7 +35,7 @@ const B = (props) => {
             const newAnswer = getElementRandom(availableChoices);
             setAnswer(newAnswer);
         
-            speak(newAnswer.value); // Assurez-vous de parler le nouvel item ici pour l'accessibilité
+            speak(newAnswer.value); 
         }
     };
 
@@ -123,7 +123,10 @@ const B = (props) => {
 
     return (
         <React.Fragment>
-            <p className="exercice__consigne">{data.exo_instruction}</p>
+             <div  className="exercice__consigne">
+                    <img src={speaker} alt="" />
+                    <h1>{data?.exo_instruction}</h1>
+            </div>
             <div>
                 {data.exo_type === 'B2' ? 
                                         <img src={'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/' + answer.file } 
@@ -133,7 +136,7 @@ const B = (props) => {
                                              onError={(e) => {
                                                 e.target.src = imgNotFound;
                                               }}/>
-                                        :<p className="exercice__sound" onClick={() => speak(answer.value)}>?</p>}
+                                        :<p className="exercice__sound" onClick={() => speak(answer?.value)}>?</p>}
             </div>
            
             <ul className="list">

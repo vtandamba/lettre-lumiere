@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
 import checkIcon from '../../../assets/images/check.svg'
-
+import speaker from '../../../assets/images/haut-parleur.svg'
 
 
 const C = (props) => {
@@ -60,7 +60,10 @@ const C = (props) => {
 
     return (
         <React.Fragment>
-            <h2 className="exercice__consigne">{data.exo_instruction}</h2>
+             <div  className="exercice__consigne">
+                    <img src={speaker} alt="" />
+                    <h1>{data?.exo_instruction}</h1>
+            </div>
             <div>
                 
                     {showSyllabe ? <div>

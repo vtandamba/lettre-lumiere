@@ -3,6 +3,7 @@ import Drag from "../../Drag";
 import { getElementRandom, shuffleArray } from "../../../hooks/useRandom";
 import checkIcon from '../../../assets/images/check.svg'
 import speak from "../../../hooks/useSpeak";
+import speaker from '../../../assets/images/haut-parleur.svg'
 
 
 const H = (props) => {
@@ -128,7 +129,10 @@ const H = (props) => {
 
 return (
   <>
-         <h2 className="exercice__consigne">{data?.exo_instruction}</h2>
+         <div  className="exercice__consigne">
+                    <img src={speaker} alt="" />
+                    <h1>{data?.exo_instruction}</h1>
+            </div>
       {data.exo_type !== "H1" 
                                 ? <p className="exercice__sound" onClick={()=>speak(answer)}>?</p> 
                                 : <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices${answer?.value}.jpg`} 

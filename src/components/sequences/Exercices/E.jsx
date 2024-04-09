@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { getElementRandom } from "../../../hooks/useRandom";
 import speak from "../../../hooks/useSpeak";
 import checkIcon from '../../../assets/images/check.svg'
+import speaker from '../../../assets/images/haut-parleur.svg'
 
 const E = (props) => {
     const { data, onAttemptMade, score, imgNotFound } = props;
@@ -121,7 +122,10 @@ const E = (props) => {
     };
 
     return <React.Fragment>
-                <h2 className="exercice__consigne">{data?.exo_instruction}</h2>
+                 <div  className="exercice__consigne">
+                    <img src={speaker} alt="" />
+                    <h1>{data?.exo_instruction}</h1>
+                </div>
                 <div className="group">
                 {data.exo_type !== "E1" && 
                 <img src={'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/' + item?.file } 
