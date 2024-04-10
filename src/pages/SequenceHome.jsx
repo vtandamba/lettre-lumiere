@@ -92,7 +92,7 @@ const SequenceHome = (props) => {
                 try {
                     const scorePromises = exercises?.map(async (exercise) => {
                      
-                        const response = await fetch(`http://lettrelumiere.localhost:8000/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
+                        const response = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
                 
                         if (!response.ok) {
                         

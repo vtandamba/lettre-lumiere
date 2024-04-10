@@ -12,7 +12,7 @@ const C = (props) => {
     const [showSyllabe, setShowSyllabe] = useState(true);
     const [tabResponses, setTabResponses] = useState(new Array(syllabes.length).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
-    const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
+    // const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
     
 
     useEffect(() => {
@@ -67,7 +67,7 @@ const C = (props) => {
             <div>
                 
                     {showSyllabe ? <div>
-                                        {  data.exo_type !== "C1" && <img src={`http://lettrelumiere.localhost:8000/${syllabes[currentSyllabeIndex].file}`} 
+                                        {  data.exo_type !== "C1" && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/${syllabes[currentSyllabeIndex].file}`} 
                                                                       alt={syllabes[currentSyllabeIndex].value}
                                                                       className="exercice__img"
                                                                       style={{marginBottom:'1rem'}}

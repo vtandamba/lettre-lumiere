@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import logo from '../assets/images/logoLettresEnLumieres.png'
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { FormControl, InputLabel, MenuItem, Select, duration } from "@mui/material";
 import { CircleLoader } from "react-spinners";
 import { motion } from "framer-motion";
 import { useUser } from "../contexts/UserContext";

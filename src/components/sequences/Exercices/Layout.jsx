@@ -314,13 +314,13 @@ const Layout = (props) => {
       
         <main className="exercice">
           {renderExerciseComponent(exercises[currentExerciseIndex])}
-          {/* <button onClick={goToNextExercise} 
+          <button onClick={goToNextExercise} 
                   disabled={currentExerciseIndex === exercises.length - 1} 
                   className="exercice__validate"
           >
             Suivant
 
-                    </button> */}
+                    </button>
         </main>
                 {openModalEndseq && (
                     <>

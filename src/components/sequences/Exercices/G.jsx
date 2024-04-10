@@ -18,7 +18,7 @@ const G = (props) => {
                                                         
   
     useEffect(() => {
-        if (data?.choiceDetails || data?.rep_contenu) {
+        if (data?.choice || data?.rep_contenu) {
             const initialDisplayItems = (data.choice|| data.choices).map(el => ({
                 value: el.value, 
                 image: el.file,

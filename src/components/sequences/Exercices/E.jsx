@@ -11,11 +11,12 @@ const E = (props) => {
     const [attemptCount, setAttemptCount] = useState(0);  //Nombre de tâches
     const [tabResponses, setTabResponses] = useState(new Array(data?.choice.length).fill(null));
     const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
-    const inputRef = useRef(null); // Référence à l'élément d'entrée
 
+   
     useEffect(() => {
         if (item){
             speak(item.value);
+            console.log(item);
         }
        
     }, [item])
@@ -45,15 +46,16 @@ const E = (props) => {
         }
        
         init();
-      
+        
     }, [attemptCount, onAttemptMade, tabResponses.length]);
 
     const handleChange = (evt) => {
         const inputText = evt.target.value;
 
-        if (item.chosenSyllable){
+        if (item?.chosenSyllable){
+            
             if (inputText.length < input.length) {
-                setInput(input.replace(/[^_]/g, '_')); // Remplace tous les caractères non-trait par des traits
+                setInput(input.replace(/[^_]/g, '_')); 
                 return;
             }
             
@@ -83,16 +85,16 @@ const E = (props) => {
     
 
     useEffect(() => {
-        if (item && item.chosenSyllable){
+        if (item && item.chosenSyllable) {
+            // Initialisation de l'input avec des _
+            const initialInput = item.value.split('').map(char => 
+                item.chosenSyllable.includes(char) ? '_' : char
+            ).join('');
+            setInput(initialInput);
             speak(item.value);
-            if (data.exo_type === "E2 bis" && item.chosenSyllable) {
-                    setInput(
-                        item?.value.replace(new RegExp(`[^${item?.chosenSyllable}]`, "gi"), "_")
-                    )
-            }
         }
-
-    }, [item, data.exo_type]);
+    }, [item]);
+    
 
 
     const handleSubmit = (event) => {
@@ -113,13 +115,22 @@ const E = (props) => {
 
     const handleKeyDown = (event) => {
         if (event.key === 'Backspace') {
-            const lastUnderscoreIndex = input.lastIndexOf('_'); 
-            if (lastUnderscoreIndex !== -1) { // Vérifie si une occurrence a été trouvée
-                const newInput = input.substring(0, lastUnderscoreIndex) + '_' + input.substring(lastUnderscoreIndex + 1); // Supprime la dernière occurrence du caractère "_"
-                setInput(newInput); // Met à jour l'input avec la nouvelle chaîne
-            }
+            event.preventDefault(); 
+    
+            // Trouve l'index à partir duquel commencer à effacer (le dernier caractère non '_' ou le début)
+            let indexToErase = input.split('').lastIndexOf('_') - 1;
+            indexToErase = indexToErase >= 0 ? indexToErase : input.length - 1;
+            const newInput = input.split('').map((char, index) => {
+                if (index === indexToErase) {
+                    return '_'; 
+                }
+                return char; 
+            }).join('');
+    
+            setInput(newInput);
         }
     };
+    
 
     return <React.Fragment>
                  <div  className="exercice__consigne">
@@ -132,7 +143,7 @@ const E = (props) => {
                                              alt="" 
                                              className="exercice__img"  
                                         
-                                             onClick={() => speak(item.value)}
+                                             onClick={() => speak(item?.value)}
                                              
                                              onError={(e) => {
                                                 e.target.src = imgNotFound;
