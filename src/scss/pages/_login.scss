@@ -1,76 +1,89 @@
-
 .login {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  background-color: $fond-exos2;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  padding: 10rem 5rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  &__quit {
+
+    background-color: white;
+    color: #151414;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    cursor: pointer;
     display: flex;
-    position: relative;
-    flex-direction: column;
     align-items: center;
-    background-color: $fond-exos;
-    position: absolute;
-    top:0;
-    bottom:0;
-    right:0;
-    left:0;
+    justify-content: center;
+    box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.1);
+    font-size: 1.5vw;
+  }
 
-    padding: 10rem 5rem;
-    margin-left: auto;
-    margin-right: auto;
-  
-    &__quit {
-  
-      position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      right: 5rem;
-      top:2rem;
+  &__logo {
+    width: 40rem;
+    margin-bottom: 2rem;
+
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    &__label {
       font-family: 'Satoshi';
-      font-size: 2.5rem;
-      color: $noir;
-      font-weight: bold;
-      background-color: white;
-      padding: 1rem 2rem;
-      border-radius: 5px;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
     }
 
-    &__logo{
-      width:40rem;
-      margin-bottom:2rem;
+    &__input {
+      border: $gris 3px solid;
+      font-size: 1.8rem;
+      border-radius: 5px;
+      min-height: 7.5rem;
+      width: 100%;
+      padding-left: 1rem;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
     }
-  
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-  
-      &__label {
-        font-family: 'Satoshi';
-        font-size: 1.8rem;
-        margin-bottom: 2rem;
-      }
-  
-      &__input {
-        background-color: transparent;
-        border: $gris 3px solid;
-        font-size:1.8rem;
-        border-radius: 5px;
-        min-height: 7.5rem;
-        width:100%;
-        padding-left: 1rem;
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-      }
-  
-      &__submit {
-        align-self: flex-end;
-        position: absolute;
-        right:5rem;
-        bottom:10rem;
-        background-color: $kepel;
-        border: none;
-        font-size: 2.4rem;
-        color:#fff;
-        padding: 1.5rem 2.5rem;
-        border-radius: 10px;
-      }
+
+    &__submit {
+      align-self: flex-end;
+      position: absolute;
+      right: 5rem;
+      bottom: 10rem;
+      background-color: $kepel;
+      border: none;
+      font-size: 2.4rem;
+      color: #fff;
+      padding: 1.5rem 2.5rem;
+      border-radius: 10px;
     }
   }
-  
+}
+
+.bouton__croix {
+  background-color: white;
+  color: #151414;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.1);
+  font-size: 1.5vw;
+  font-family: 'Satoshi', sans-serif;
+  margin-left: 75%;
+
+}
