@@ -48,7 +48,10 @@ const Login = () =>{
 
   
     return <div className="login">
-        <Link to="/"><p className="login__quit">Quitter <GrFormClose size={32}/></p></Link>
+        <Link to={"/"} className="bouton__croix">
+                            <p style={{ color: "#000" }}>QUITTER </p>
+                            <p><span className="close-icon">&times;</span></p>
+                        </Link>
         
         <div>
             <img src={logo} alt="Logo" className="login__logo"/>
