@@ -248,7 +248,7 @@ const SequenceHome = (props) => {
                     </main>
                     <footer>
                     { (exercises && exercises.length === 0) ||  <Link to="exo"><div className="sequence__start">
-                        START
+                        Commencer
                         <img src={nextIcon} alt="next" />
                         </div>
                         </Link>}
