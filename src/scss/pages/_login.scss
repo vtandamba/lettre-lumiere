@@ -29,6 +29,13 @@
     font-size: 1.5vw;
   }
 
+  &__error{
+    margin-bottom:2rem;
+    color:$rouge;
+    font-size: 2rem;
+    font-family: 'Satoshi', sans-serif;
+  }
+
   &__logo {
     width: 40rem;
     margin-bottom: 2rem;

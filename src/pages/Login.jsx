@@ -14,7 +14,7 @@ const Login = () =>{
         user_password:''
     });
 
-    const [formErrors, setFormErrors] = useState("");
+    const [formErrors, setFormErrors] = useState(false);
 
 
     const handleSubmit = async(evt) =>{
@@ -36,11 +36,13 @@ const Login = () =>{
                     navigate('/home');
                 }, 1000)
               
+            }else{
+                setFormErrors(true)
             }
            
 
         }catch(error){
-            setFormErrors('Combinaison username - Password incorrecte');
+           console.error(error);
             
         }
        
@@ -56,6 +58,7 @@ const Login = () =>{
         <div>
             <img src={logo} alt="Logo" className="login__logo"/>
            
+            {formErrors && <p className="login__error">Identifiants incorrects, veuillez recommencer</p>}
             <form action="" className="form" method="POST" onSubmit={handleSubmit}>
                 <div className="form__group">
                     <label className="form__label">Identifiant</label><br></br><br></br>
