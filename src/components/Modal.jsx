@@ -82,24 +82,26 @@ export default function SpringModal({ isOpen, setOpen, mode, link, children, han
       >
         <Fade in={isOpen}>
       <Box sx={style} className="modal">
+
   <Typography 
     id="spring-modal-title" 
     variant="h6" 
     component="h2" 
     className='modal__title' 
     sx={{
-      fontFamily: '"Roboto", sans-serif', // Remplacez par votre police de caractères
-      fontSize: "3.5rem", // Augmentez la taille de la police selon vos besoins
+      fontFamily: '"Roboto", sans-serif', 
+      fontSize: "3.5rem", 
     }}
   >
     <img src={warningIcon} alt="warning" />Attention
   </Typography>
+
   <Typography 
     id="spring-modal-description" 
     sx={{ 
       mt: 2, 
-      fontFamily: '"Open Sans", sans-serif', // Changez la police de caractères
-      fontSize: "2rem", // Augmentez la taille de la police
+      fontFamily: '"Open Sans", sans-serif', 
+      fontSize: "2rem",
     }} 
     className='modal__body'
   >

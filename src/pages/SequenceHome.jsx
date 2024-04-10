@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { fetchAllExerciceForSequences, fetchOneSequence } from "../hooks/useDb";
+import { fetchAllExerciceForSequences, fetchOneSequence, video } from "../hooks/useDb";
 import DOMPurify from 'dompurify';
 import videoCam from '../assets/images/camera.svg'
 import imgEtape from '../assets/images/layoutexercices/etape.png';
@@ -8,8 +8,10 @@ import {BounceLoader} from 'react-spinners'
 import nextIcon from '../assets/images/next.svg'
 import CountUp from 'react-countup';
 import MainHeader from "../components/MainHeader";
-//Import des différentes coupes
+import SpringModal from "../components/ModalMedia";
 
+
+//Import des différentes coupes
 import silverMedal from '../assets/gamification/silverMedal.png';
 import goldMedal from '../assets/gamification/goldenMedal.png';
 import bronzeMedal from '../assets/gamification/bronzeMedal.png';
@@ -33,7 +35,7 @@ const SequenceHome = (props) => {
     const [finalScore, setFinalScore] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [open, setOpen] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
   
 
     const style = {
@@ -52,7 +54,7 @@ const SequenceHome = (props) => {
         const loadSequences = async () => {
 
             const loadedSequences = await fetchOneSequence(idSeq);
-    
+            console.log(loadedSequences, 'sequence');
             setSequence(loadedSequences);
       
         };
@@ -77,6 +79,7 @@ const SequenceHome = (props) => {
  
         loadExercises();
         loadSequences();
+        
       
     }, [idSeq]);
 
@@ -87,7 +90,6 @@ const SequenceHome = (props) => {
             // Si il y a un utilisateur connecté
             if (user){
             
-                const id = user.user_id
             
                 try {
                     const scorePromises = exercises?.map(async (exercise) => {
@@ -146,8 +148,6 @@ const SequenceHome = (props) => {
 
 
     useEffect(() => {
-        setOpen(true);
-      
 
         if (tabScore.length){
             const getFinalScore = tabScore?.reduce((accumulator, currentValue) => {
@@ -169,7 +169,6 @@ const SequenceHome = (props) => {
     return <React.Fragment>
                 <MainHeader role="user" link="/etapes"/>
                 <div className="sequence">
-                    {/* {process.env.REACT_APP_NAME_VARIABLE} */}
                 
                     <div className="header">
                         <div className="header__title">
@@ -182,13 +181,13 @@ const SequenceHome = (props) => {
                         </div>
 
                         <div className="header__percent">
-                            {/* <img src={argentMedal} alt="medaille" /> */}
+                        
                             <p><CountUp end={finalScore}/> %</p>
                             {finalScore !== 0 && <img src={(finalScore < 30) ? bronzeMedal : (finalScore > 30 && finalScore <60) ? silverMedal : goldMedal} alt="médaille" />}
                         </div>
 
                         <div className="header__actions">
-                            <img src={videoCam} alt="Video Cam" onClick={() => setOpen(true)} />
+                            <img src={videoCam} alt="Video Cam" onClick={() => setOpenModal(true)} />
                         </div>
                     </div>
                     <main className="exercises">
@@ -255,6 +254,19 @@ const SequenceHome = (props) => {
                         </Link>}
 
                     </footer>
+
+                    <SpringModal isOpen={openModal}  setOpen={setOpenModal} >
+                
+
+                        <video controls className="sequence__video" onError={(e) => e.target.innerHTML = "La vidéo n'est pas disponible pour le moment. Veuillez réessayer plus tard."}>
+                            <source src={video(sequence?.fileName)} type="video/mp4" />
+                            <p>
+                                Votre navigateur ne prend pas en charge les vidéos HTML5. Voici
+                                <a href={video(sequence?.fileName)}>un lien pour télécharger la vidéo</a>.
+                            </p>
+                        </video>
+
+                    </SpringModal>
                 </div>
     </React.Fragment>
 

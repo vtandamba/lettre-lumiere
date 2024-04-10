@@ -43,7 +43,7 @@ const D = (props) => {
           shuffleArray(choices); // Mélangez les choix en place
           choices = [...choices]; // Créez une nouvelle référence pour le tableau
          
-          // Suppression de la double utilisation erronée de getElementRandom
+      
           let newItem = getElementRandom(data?.choice);
           while (answerAlreadyTaken.includes(newItem)) {
               const filteredChoices = data?.choice.filter(choice => !answerAlreadyTaken.includes(choice));

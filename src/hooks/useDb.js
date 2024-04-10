@@ -9,6 +9,7 @@ const urlUser = baseUrl +'users';
 const urlExercisesRevisions = baseUrl + 'reports'
 const urlChoices = baseUrl + 'choices'
 const urlProgressSeq = baseUrl + 'progress_seqs'
+const urlVideos = 'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/uploads/videos'
 
 
 export const fetchAllStages = async () => {
@@ -34,7 +35,7 @@ export const fetchAllSequences = async() => {
             throw new Error('Erreur lors de la récupération des séquences');
         }
         const data = await response.json();
-        console.log('liste des séquences', data['hydra:member'][2])
+ 
         return data['hydra:member'];
     } catch (error) {
         console.error("Erreur lors de la récupération des séquences:", error);
@@ -158,3 +159,9 @@ export const fetchUserProgressSeq = async (user, sequence) => {
     }
     return response.json();
 }
+
+
+    export const video = (file) => {
+        return `${urlVideos}/${file}`
+    }
+

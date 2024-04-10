@@ -1,6 +1,6 @@
-import React, { Suspense, useCallback, useEffect, useState } from "react";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { fetchAllExerciceForSequences, fetchAllExercisesForRevisions, fetchChoiceDetailsById, fetchOneSequence } from "../../../hooks/useDb";
+import React, { Suspense, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { fetchAllExerciceForSequences, fetchAllExercisesForRevisions,  fetchOneSequence } from "../../../hooks/useDb";
 import homeIcon from '../../../assets/images/layoutexercices/home.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
@@ -328,7 +328,7 @@ const Layout = (props) => {
                         <Modal
                             keepMounted
                             open={true}
-                          
+                            style={styleseq}
                             aria-labelledby="keep-mounted-modal-title"
                             aria-describedby="keep-mounted-modal-description"
                         >

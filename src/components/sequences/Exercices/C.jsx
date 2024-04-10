@@ -8,11 +8,11 @@ const C = (props) => {
     const { data, onAttemptMade, score, imgNotFound} = props;
     const [syllabes, setSyllabes] = useState( data?.choice);
     const [currentSyllabeIndex, setCurrentSyllabeIndex] = useState(0);
-    const [userInput, setUserInput] = useState("");
+    const [input, setInput] = useState("");
     const [showSyllabe, setShowSyllabe] = useState(true);
     const [tabResponses, setTabResponses] = useState(new Array(syllabes.length).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
-    // const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
+
     
 
     useEffect(() => {
@@ -35,29 +35,85 @@ const C = (props) => {
         }
     }, [attemptCount, syllabes, currentSyllabeIndex,  tabResponses]);
 
-    const handleInputChange = (event) => {
-        setUserInput(event.target.value);
+
+    // Initialise l'input en mettant des _ ou il faut
+    useEffect(() => {
+        let initialInput = "";
+        const currentSyllabe = syllabes[currentSyllabeIndex];
+        if (currentSyllabe?.chosenSyllable) {
+            initialInput = currentSyllabe.value.split('').map(char => 
+                currentSyllabe.chosenSyllable.includes(char) ? '_' : char
+            ).join('');
+        } else {
+            initialInput = currentSyllabe.value.replace(/./g, '_');
+        }
+        
+        setInput(initialInput);
+        speak(currentSyllabe.value);
+    }, [syllabes, currentSyllabeIndex]); 
+
+    
+
+    const handleInputChange = (evt) => {
+        const inputText = evt.target.value;
+
+     
+            
+            if (inputText.length < input.length) {
+                setInput(input.replace(/[^_]/g, '_')); 
+                return;
+            }
+            
+            const lastChar = inputText.slice(-1);
+            const firstUnderscoreIndex = input.indexOf('_');
+        
+            if (firstUnderscoreIndex !== -1) {
+                let updatedInput = input.substring(0, firstUnderscoreIndex) + lastChar + 
+                                   input.substring(firstUnderscoreIndex + 1);
+        
+        
+                setInput(updatedInput);
+            }
     };
+    
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const isCorrect = userInput.trim().toLowerCase() === syllabes[currentSyllabeIndex]?.value.toLowerCase();
-        const newTabResponses = tabResponses.map((res, index) => 
-            index === attemptCount ? isCorrect : res
-        );
-
+    
+        const finalInput = input.endsWith('_') ? input.slice(0, -1) : input;
+        const isCorrect = finalInput.trim().toUpperCase() === syllabes[currentSyllabeIndex]?.value.toUpperCase();
+        
+        const newTabResponses = [...tabResponses];
+        newTabResponses[attemptCount] = isCorrect;
         setTabResponses(newTabResponses);
-        setAttemptCount(prevAttemptCount => prevAttemptCount + 1);
-
-
-        setUserInput("");
+        setAttemptCount(attemptCount + 1);
+    
+        setInput(""); // Réinitialise l'input après avoir entré sa réponse
         if (currentSyllabeIndex + 1 < syllabes.length) {
             setCurrentSyllabeIndex(prevIndex => prevIndex + 1);
-        } else {
-           
         }
     };
 
+
+    
+    const handleKeyDown = (event) => {
+        if (event.key === 'Backspace') {
+            event.preventDefault(); 
+    
+            // Trouve l'index à partir duquel commencer à effacer (le dernier caractère non '_' ou le début)
+            let indexToErase = input.split('').lastIndexOf('_') - 1;
+            indexToErase = indexToErase >= 0 ? indexToErase : input.length - 1;
+            const newInput = input.split('').map((char, index) => {
+                if (index === indexToErase) {
+                    return '_'; 
+                }
+                return char; 
+            }).join('');
+    
+            setInput(newInput);
+        }
+    };
+    
     return (
         <React.Fragment>
              <div  className="exercice__consigne">
@@ -78,7 +134,13 @@ const C = (props) => {
                                         <p className="list__item">{syllabes[currentSyllabeIndex].value}</p>
                                     </div> 
                                  : <form onSubmit={handleSubmit} className="exercice__form">
-                                    <input type="text" value={userInput} onChange={handleInputChange} autoFocus className="exercice__input"/>
+                                     <input type="text" 
+                                    value={input}
+                                    className="exercice__input" 
+                                    onKeyDown={(event) => handleKeyDown(event)}
+                                
+                                    onChange={(evt) => handleInputChange(evt)} 
+                                    autoFocus />
                                   </form>
                     }
                 

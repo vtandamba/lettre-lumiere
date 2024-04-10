@@ -37,9 +37,7 @@ const E = (props) => {
               
                 if (item){
                     const tabAnswerAlreadyTaken = answerAlreadyTaken;
-              
                     tabAnswerAlreadyTaken.push(item);
-               
                     setAnswerAlreadyTaken(tabAnswerAlreadyTaken)
                 }
             }
@@ -49,60 +47,53 @@ const E = (props) => {
         
     }, [attemptCount, onAttemptMade, tabResponses.length]);
 
+
+
     const handleChange = (evt) => {
         const inputText = evt.target.value;
 
-        if (item?.chosenSyllable){
-            
-            if (inputText.length < input.length) {
-                setInput(input.replace(/[^_]/g, '_')); 
-                return;
-            }
-            
-            // Obtient le dernier caractère saisi
-            const lastChar = inputText.slice(-1);
-        
-            // Trouve le premier trait de soulignement dans l'entrée actuelle
-            const firstUnderscoreIndex = input.indexOf('_');
-        
-            if (firstUnderscoreIndex !== -1) {
-                // Construit la nouvelle chaîne avec le trait remplacé par le dernier caractère saisi
-                let updatedInput = input.substring(0, firstUnderscoreIndex) + lastChar + 
-                                   input.substring(firstUnderscoreIndex + 1);
-        
-                
-                if (!updatedInput.includes('_')) {
-                    
-                }
-        
-                setInput(updatedInput);
-            }
-        }else{
-             setInput(evt.target.value)
+    
+        if (inputText.length < input.length) {
+            setInput(input.replace(/[^_]/g, '_')); 
+            return;
         }
-     
+        
+        const lastChar = inputText.slice(-1);
+        const firstUnderscoreIndex = input.indexOf('_');
+    
+        if (firstUnderscoreIndex !== -1) {
+            let updatedInput = input.substring(0, firstUnderscoreIndex) + lastChar + 
+                                input.substring(firstUnderscoreIndex + 1);
+    
+    
+            setInput(updatedInput);
+        }
+
     };
     
 
     useEffect(() => {
+        let initialInput  = "";
         if (item && item.chosenSyllable) {
             // Initialisation de l'input avec des _
-            const initialInput = item.value.split('').map(char => 
+            initialInput = item.value.split('').map(char => 
                 item.chosenSyllable.includes(char) ? '_' : char
             ).join('');
-            setInput(initialInput);
-            speak(item.value);
+        
+        } else {
+            initialInput = item?.value.replace(/./g, '_');
         }
+        setInput(initialInput);
+        speak(item?.value);
     }, [item]);
     
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
     
         const finalInput = input.endsWith('_') ? input.slice(0, -1) : input;
-        const isCorrect = finalInput.trim().toUpperCase() === item.value.toUpperCase();
+        const isCorrect = finalInput.trim().toUpperCase() === item?.value.toUpperCase();
         
         const newTabResponses = [...tabResponses];
         newTabResponses[attemptCount] = isCorrect;
@@ -112,6 +103,7 @@ const E = (props) => {
         setInput(""); // Réinitialise l'input après avoir entré sa réponse
     };
     
+
 
     const handleKeyDown = (event) => {
         if (event.key === 'Backspace') {

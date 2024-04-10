@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkprojettut=self.webpackChunkprojettut||[]).push([[922],{5922:(e,t,s)=>{s.r(t),s.d(t,{default:()=>u});var a=s(5043),c=s(1013),r=s(579);const u=e=>{const{data:t}=e,[s,u]=(0,a.useState)(null===t||void 0===t?void 0:t.exo_choices);return(0,r.jsx)(c.JY,{children:(0,r.jsx)(c.gL,{droppableId:"characters",children:e=>(0,r.jsx)("ul",{className:"characters"})})})}}}]);
-//# sourceMappingURL=922.0ab4d50d.chunk.js.map
