@@ -28,6 +28,7 @@ import Etape from "./Etape";
 import Credits from "../pages/Credits";
 import SpringModal from "./Modal";
 import { UserProvider } from '../contexts/UserContext'; // Update the import path accordingly
+import Test from "../pages/Test";
 
 
 
@@ -148,7 +149,7 @@ const App = () => {
                             <Route path="h1" element={<H />} />
                             <Route path="g1" element={<G />} />
                         </Route>
-                    
+                        <Route path="/test" element={<Test />}/>
 
                     </Routes>
                     <SpringModal isOpen={openModal} setOpen={setOpenModal} mode='warningReload'>
