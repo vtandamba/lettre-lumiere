@@ -51,25 +51,22 @@
 
     .progress-global{
         display: flex;
-        // overflow: scroll;
-        flex-direction: column;
-        // height:75vh;
+        flex-direction: column; 
         gap:2.5rem;
         position: fixed; 
-        left: 2rem; 
+        left: 5rem; 
         top: 50%; 
         transform: translateY(-50%);
         z-index: 1000; 
-        // height: 80%;
-        
     }
+
 
     .progress-item{
         @extend %progress;
-        flex-grow: 0; /* Permet à chaque élément de prendre autant d'espace que nécessaire */
-        max-height: calc((65vh - (6 - 1) * 2.5rem) /6 ); /* Hauteur maximale de chaque élément, où n est le nombre d'éléments */
-        box-sizing: border-box; /* Inclure le padding et la bordure dans le calcul de la taille */
-        overflow: hidden; /* Cacher tout contenu dépassant de la hauteur maximale */
+        flex-grow: 0; 
+        max-height: calc((65vh - (6 - 1) * 2.5rem) /6 );
+        box-sizing: border-box; 
+        overflow: hidden; 
         transition: all 0.2s ease-in-out;
          &--orange{
              background-color: $orange ;

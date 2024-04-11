@@ -261,32 +261,7 @@ const Layout = (props) => {
     }
     
 
-    
 
-    // const handleOpenModal = useCallback(() => {
-     
-    //     // setOpenModal(true);
-       
-    //   }, []);
-      
-
-    //   const handleCloseModal = () => {
-    //     console.log('naviguer')
-    //     navigate('/etapes')
-    //   };
-
-
-    // const style = {
-    //     position: 'absolute',
-    //     top: '50%',
-    //     left: '50%',
-    //     transform: 'translate(-50%, -50%)',
-    //     width: 700,
-    //     bgcolor: 'background.paper',
-    //     boxShadow: 24,
-    //     p: 4,
-    // };
-  
     
   return (
     exercises && exercises.length > 0 ? (
@@ -297,7 +272,7 @@ const Layout = (props) => {
                 <div className="header__infos">
                     <div className="header__etape">
                     <img src={imgEtape} alt="" />
-                    <p>Etape {sequence.stage.id}</p>
+                    <p>Etape {sequence?.stage?.id}</p>
                     </div>
                     <p className="header__sequence"> {sequence?.seq_title}</p>
                 </div>
@@ -328,18 +303,10 @@ const Layout = (props) => {
                         <Modal
                             keepMounted
                             open={true}
-                            style={styleseq}
                             aria-labelledby="keep-mounted-modal-title"
                             aria-describedby="keep-mounted-modal-description"
                         >
-                            <Box sx={{
-            
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                        
-                                }}>
+                            <Box sx={ styleseq }>
                                 <Typography 
                                     id="keep-mounted-modal-title" 
                                     variant="h3" component="h2" 

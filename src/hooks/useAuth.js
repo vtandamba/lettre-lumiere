@@ -2,7 +2,7 @@
 const Auth = {
   login: async (username, password) => {
     try {
-      const response = await fetch('http://lettrelumiere.localhost:8000/api/login_check', {
+      const response = await fetch('https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/api/login_check', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,7 +24,7 @@ const Auth = {
       
       
       if (data) {
-        const idResponse = await fetch(`http://lettrelumiere.localhost:8000/apip/users?user_name=${username}`, {
+        const idResponse = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/users?user_name=${username}`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${data.token}`,
