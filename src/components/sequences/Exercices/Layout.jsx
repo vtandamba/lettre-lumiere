@@ -152,15 +152,14 @@ const Layout = (props) => {
                     console.error('Erreur lors de l\'envoi du score :', error);
                    
                 });
-        } else { 
-
-            const allScores = {
-                "idSeq": idSeq,
-                "tabScores": exercisesScore.map((el) => (el === 0 ? null : el))
-
-            }
-
-            savingScore(allScores)
+        }  else {
+           
+            const updatedScores = exercisesScore.map((el, index) => 
+                index === currentExerciseIndex ? score : el === 0 ? null : el
+            );
+    
+            console.log({ idSeq, tabScores: updatedScores }, 'tabScores');
+            savingScore({ idSeq, tabScores: updatedScores });
         }
     }
 
