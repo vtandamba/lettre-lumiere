@@ -50,31 +50,32 @@ const Login = () =>{
 
   
     return <div className="login">
-        <Link to={"/"} className="bouton__croix">
-                            <p style={{ color: "#000" }}>QUITTER </p>
-                            <p><span className="close-icon">&times;</span></p>
-                        </Link>
-        
-        <div>
-            <img src={logo} alt="Logo" className="login__logo"/>
-           
-            {formErrors && <p className="login__error">Identifiants incorrects, veuillez recommencer</p>}
-            <form action="" className="form" method="POST" onSubmit={handleSubmit}>
-                <div className="form__group">
-                    <label className="form__label">Identifiant</label><br></br><br></br>
-                    <input type="text" name="username" required placeholder="identifiant" className="form__input" onChange={(evt)=>setData({...data, user_name:evt.target.value})} />
-                </div>
 
-                <div className="form__group">
-                    <label className="form__label">Mot de passe</label><br></br><br></br>
-                    <input type="password" name="password" required placeholder="Mot de passe" className="form__input" onChange={(evt)=>setData({...data, user_password:evt.target.value})}/>
+                <Link to={"/"} className="bouton__croix">
+                    <p>QUITTER </p>
+                    <p><span className="close-icon">&times;</span></p>
+                </Link>
+        
+                <div>
+                    <img src={logo} alt="Logo" className="login__logo"/>
+                
+                    {formErrors && <p className="login__error">Identifiants incorrects, veuillez recommencer</p>}
+                    <form action="" className="form" method="POST" onSubmit={handleSubmit}>
+                        <div className="form__group">
+                            <label className="form__label">Identifiant</label><br></br><br></br>
+                            <input type="text" name="username" required placeholder="identifiant" className="form__input" onChange={(evt)=>setData({...data, user_name:evt.target.value})} />
+                        </div>
+
+                        <div className="form__group">
+                            <label className="form__label">Mot de passe</label><br></br><br></br>
+                            <input type="password" name="password" required placeholder="Mot de passe" className="form__input" onChange={(evt)=>setData({...data, user_password:evt.target.value})}/>
+                        </div>
+                        <button type="submit" className="form__submit">
+                            OK
+                        </button>
+                    </form>
                 </div>
-                <button type="submit" className="form__submit">
-                    OK
-                </button>
-            </form>
-        </div>
-    </div>
+             </div>
 }
 
 export default Login;
