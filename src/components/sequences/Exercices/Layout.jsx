@@ -239,6 +239,7 @@ const Layout = (props) => {
     };
 
     // Fonction pour add une classe en fonction du score
+    // Le déplacer dans les hooks
     function getProgressClass(score, index) {
  
         if (index === currentExerciseIndex){
@@ -281,10 +282,12 @@ const Layout = (props) => {
 
                 <ul className="progress-global">
                     {exercisesScore.map((score, index) => (
-                    <li key={index} className={`progress-item ${getProgressClass(score, index)}`}>
-                    </li>
+                        <li key={index} className={`progress-item ${getProgressClass(score, index)}`}
+                            style={{ flexBasis: `${100 / exercisesScore.length}%` }}>
+                        </li>
                     ))}
                 </ul>
+
         </header>
        
       
@@ -344,7 +347,7 @@ const Layout = (props) => {
                                 >
                                     Continuer
                                 </Button>
-</Box>
+                            </Box>
 
                         </Modal>
                     </>

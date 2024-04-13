@@ -121,7 +121,6 @@ body {
         background-color: $kepel;
         border-radius: 150px;
         border: none;
-     
         box-shadow: 5px 5px 20px rgb(205, 201, 201);
         display: flex;
         text-align: center;
@@ -130,6 +129,7 @@ body {
         gap:2rem;
         margin: 3rem;
         transition: transform 0.3s ease;
+        z-index: 3000;
 
         &:hover {
             transform: scale(1.08);

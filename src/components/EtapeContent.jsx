@@ -7,9 +7,9 @@ const EtapeContent = (props) => {
     return <>
 
 
-        <a href="" className="Etape__seq">
-            <p className="Etape__content">{content}</p>
-        </a>
+        <p  className="Etape__seq">
+            <span className="Etape__content">{content}</span>
+        </p>
 
 
     </>

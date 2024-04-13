@@ -58,13 +58,14 @@
         top: 50%; 
         transform: translateY(-50%);
         z-index: 1000; 
+        max-height:70vh;
     }
 
 
     .progress-item{
         @extend %progress;
         flex-grow: 0; 
-        max-height: calc((65vh - (6 - 1) * 2.5rem) /6 );
+        min-height:50px;
         box-sizing: border-box; 
         overflow: hidden; 
         transition: all 0.2s ease-in-out;
