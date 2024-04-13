@@ -9,6 +9,8 @@ import { CircleLoader } from "react-spinners";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import SpringModal from "../../Modal";
 import { useUser } from "../../../contexts/UserContext";
+import speak from "../../../hooks/useSpeak";
+import speaker from '../../../assets/images/haut-parleur.svg'
 const Layout = (props) => {
 
     const {db , savingScore} = props;
@@ -287,14 +289,12 @@ const Layout = (props) => {
        
       
         <main className="exercice">
+        <div  className="exercice__consigne" onClick={()=>speak(exercises[currentExerciseIndex].exo_instruction)}>
+                    <img src={speaker} alt="" />
+                    <h1>{exercises[currentExerciseIndex]?.exo_instruction}</h1>
+                </div>
           {renderExerciseComponent(exercises[currentExerciseIndex])}
-          <button onClick={goToNextExercise} 
-                  disabled={currentExerciseIndex === exercises.length - 1} 
-                  className="exercice__validate"
-          >
-            Suivant
-
-                    </button>
+         
         </main>
                 {openModalEndseq && (
                     <>

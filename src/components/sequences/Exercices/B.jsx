@@ -123,10 +123,7 @@ const B = (props) => {
 
     return (
         <React.Fragment>
-             <div  className="exercice__consigne">
-                    <img src={speaker} alt="" />
-                    <h1>{data?.exo_instruction}</h1>
-            </div>
+           
             <div>
                 {data.exo_type === 'B2' ? 
                                         <img src={'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/' + answer.file } 

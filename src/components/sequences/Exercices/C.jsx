@@ -116,10 +116,7 @@ const C = (props) => {
     
     return (
         <React.Fragment>
-             <div  className="exercice__consigne">
-                    <img src={speaker} alt="" />
-                    <h1>{data?.exo_instruction}</h1>
-            </div>
+       
             <div>
                 
                     {showSyllabe ? <div>

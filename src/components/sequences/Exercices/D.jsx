@@ -163,10 +163,7 @@ const D = (props) => {
 
 
     return <React.Fragment>
-                 <div  className="exercice__consigne">
-                    <img src={speaker} alt="" />
-                    <h1>{data?.exo_instruction}</h1>
-                </div>
+             
                 {data.exo_type === "D1" 
                                 ? <p className="exercice__sound" onClick={()=>speak(item.value)}>?</p> 
                                 : <img src={`http://lettrelumiere.localhost:8000/${item?.file}`} 

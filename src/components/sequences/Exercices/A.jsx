@@ -28,10 +28,7 @@ const A = (props) => {
        
     };
     return <React.Fragment>
-                <div  className="exercice__consigne">
-                    <img src={speaker} alt="" />
-                    <h1>{data?.exo_instruction}</h1>
-                </div>
+
                 
                 <ul className="list">
                     {data && data.choice.map((e, index) => <div key={index} className={`${data.exo_type==="A2" && 'group'}`}>

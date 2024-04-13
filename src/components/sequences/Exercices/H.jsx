@@ -129,10 +129,7 @@ const H = (props) => {
 
 return (
   <>
-         <div  className="exercice__consigne">
-                    <img src={speaker} alt="" />
-                    <h1>{data?.exo_instruction}</h1>
-            </div>
+   
       {data.exo_type !== "H1" 
                                 ? <p className="exercice__sound" onClick={()=>speak(answer)}>?</p> 
                                 : <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices${answer?.value}.jpg`} 
