@@ -9,6 +9,7 @@ import nextIcon from '../assets/images/next.svg'
 import CountUp from 'react-countup';
 import MainHeader from "../components/MainHeader";
 import SpringModal from "../components/ModalMedia";
+import closeIcon from '../assets/images/closeIconBlack.svg'
 
 
 //Import des différentes coupes
@@ -257,7 +258,7 @@ const SequenceHome = (props) => {
 
                     <SpringModal isOpen={openModal}  setOpen={setOpenModal} >
                 
-
+                        <img src={closeIcon} alt="Fermer la vidéo" className="close" onClick={()=>setOpenModal(false)}/>
                         <video controls className="sequence__video" onError={(e) => e.target.innerHTML = "La vidéo n'est pas disponible pour le moment. Veuillez réessayer plus tard."}>
                             <source src={video(sequence?.fileName)} type="video/mp4" />
                             <p>

@@ -33,20 +33,32 @@ a:visited {
     color: black;
 }
 
-.hidden{
-    display: none;
-}
+// .hidden{
+//     display: none;
+// }
 
-.translate-x-0{
-    transform: translate(0, 0);
-}
+// .translate-x-0{
+//     transform: translate(0, 0);
+// }
 
-.border-t-2{
-    border-color: pink;
-    height: 3px;
-    position: relative;
-    width: 59px;
-    z-index: 4000
+// .border-t-2{
+//     border-color: pink;
+//     height: 3px;
+//     position: relative;
+//     width: 59px;
+//     z-index: 4000
+// }
+
+.close{
+    width: 4rem;
+    margin-left: auto;
+    fill: #D8DADE;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+    &:hover{
+        transform: scale(1.17);
+        transition: all .2s ease-in-out;
+    }
 }
 
 .list {
