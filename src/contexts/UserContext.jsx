@@ -1,14 +1,14 @@
-// src/contexts/UserContext.js
+
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import {fecthUser} from '../hooks/useDb'
-// Create context
+
 const UserContext = createContext();
 
-// Create and export a custom hook to use the context
+
 export const useUser = () => useContext(UserContext);
 
-// Provider component
+
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'));
@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
   const checkUserStatus = async () => {
     const userId = sessionStorage.getItem('user_id');
     if (userId) {
-        // Remplacer par votre logique de récupération d'utilisateur
+        
         const userInfo = await fecthUser(userId);
         setUser(userInfo);
     } else {

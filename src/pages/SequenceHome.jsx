@@ -188,7 +188,7 @@ const SequenceHome = (props) => {
                         </div>
 
                         <div className="header__actions">
-                            <img src={videoCam} alt="Video Cam" onClick={() => setOpenModal(true)} />
+                            <img src={videoCam} alt="Video Cam" onClick={() => setOpenModal(true)} className="sequence__video"/>
                         </div>
                     </div>
                     <main className="exercises">
