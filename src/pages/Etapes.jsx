@@ -104,7 +104,7 @@ const Etapes = (props) => {
                                      
                                               {/* <p className="Etape__content">{s.seq_title.replace(/-/g, '')}</p> */}
 
-                                                <EtapeContent content={s.seq_title.toUpperCase().replace(/-/g, "   ")} />
+                                                <EtapeContent content={s.seq_title.toUpperCase()} />
                                               
                                       </Link>
                                 })}

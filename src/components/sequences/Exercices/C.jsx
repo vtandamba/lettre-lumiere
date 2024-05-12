@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
 import checkIcon from '../../../assets/images/check.svg'
 import speaker from '../../../assets/images/haut-parleur.svg'
+import ButtonValid from "../../ButtonValid";
 
 
 const C = (props) => {
@@ -152,7 +153,7 @@ const C = (props) => {
                                                             : 'progress__part progress__part--false'}`}></li>
                     ))}
                 </ul>
-                <button className="exercice__valid" onClick={handleSubmit}>Ok <img src={checkIcon} alt="ok" /></button>
+                    <ButtonValid handleClick={handleSubmit} />
             </div>
         </React.Fragment>
     );

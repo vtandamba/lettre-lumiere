@@ -3,6 +3,7 @@ import speak from "../../../hooks/useSpeak";
 import speaker from '../../../assets/images/haut-parleur.svg'
 import { getElementRandom } from "../../../hooks/useRandom";
 import checkIcon from '../../../assets/images/check.svg'
+import ButtonValid from "../../ButtonValid";
 
 
 const D = (props) => {
@@ -191,7 +192,7 @@ const D = (props) => {
                             <li className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                         ))}
                     </ul>
-                    <button className="exercice__valid" onClick={handleChooseResponse}>Ok <img src={checkIcon} alt="ok" /></button>
+                    <ButtonValid handleClick={handleChooseResponse} />
                 </div>
             </React.Fragment>
 }

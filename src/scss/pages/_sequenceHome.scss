@@ -77,6 +77,8 @@
             flex-direction: column;
            justify-content: center;
            gap:2rem;
+
+
         }
 
         &__item{
@@ -85,6 +87,11 @@
             font-size: $font-size-medium;
             font-family: $font-family-ranade;
             gap:30px;
+
+            .consigne::first-letter {
+                text-transform: capitalize;
+            }
+            
         }
 
         &__error{

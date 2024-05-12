@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import speak from "../../hooks/useSpeak";
-import { Box, Modal, Typography } from "@mui/material";
-import { IoArrowForwardSharp } from "react-icons/io5";
-
-import videoLogo from '../../assets/images/video-logo.svg';
+import checkIcon from '../../assets/images/check.svg'
 import hautParleur from '../../assets/images/haut-parleur.svg';
 
 //Import des sons des graphèmes
@@ -50,14 +47,14 @@ const A = () => {
         speak(lettre);
     };
 
-    const handleOpenModal = (lettre, index) => {
+    // const handleOpenModal = (lettre, index) => {
 
-        setOpen(true);
-    };
+    //     setOpen(true);
+    // };
 
-    const handleCloseModal = () => {
-        setOpen(false);
-    };
+    // const handleCloseModal = () => {
+    //     setOpen(false);
+    // };
 
     // Fonction pour déterminer si une couleur est sombre ou claire
     const isDarkColor = (color) => {
@@ -98,7 +95,7 @@ const A = () => {
                 <span>
                     <img src={hautParleur} alt="haut parleur" />
                 </span>
-                Ecoute et répète
+                écoute et répète
             </h2>
         </div>
 
@@ -184,9 +181,9 @@ const A = () => {
         }
         <p className="exercice__validate">
             <Link to={`/${params?.categorie}/exercices/b1`}>
-                Suivant
+                OK 
             </Link>
-            <IoArrowForwardSharp />
+            <img src={checkIcon} alt="ok" />
         </p>
 
 

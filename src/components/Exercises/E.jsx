@@ -98,7 +98,7 @@ const E = () => {
             <button className={`exercice__validate`} >
 
                 <Link to={params.categorie === "alphabet" ? "/alphabet/exercices/h1" : "/graphemes/exercices/g1"}>
-                    Suivant
+                    OK
                 </Link>
                 <IoArrowForwardSharp />
             </button>

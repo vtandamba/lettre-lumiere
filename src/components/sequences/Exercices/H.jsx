@@ -4,6 +4,7 @@ import { getElementRandom, shuffleArray } from "../../../hooks/useRandom";
 import checkIcon from '../../../assets/images/check.svg'
 import speak from "../../../hooks/useSpeak";
 import speaker from '../../../assets/images/haut-parleur.svg'
+import ButtonValid from "../../ButtonValid";
 
 
 const H = (props) => {
@@ -193,7 +194,7 @@ return (
                     <li key={index} className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                 ))}
             </ul>
-            <button type="submit" className="exercice__valid" onClick={handleSubmit}>Ok <img src={checkIcon} alt="ok" /></button>
+            <ButtonValid handleClick={handleSubmit} />
       </div>
   </>
 );

@@ -3,6 +3,7 @@ import { getElementRandom } from "../../../hooks/useRandom";
 import speak from "../../../hooks/useSpeak";
 import checkIcon from '../../../assets/images/check.svg'
 import speaker from '../../../assets/images/haut-parleur.svg'
+import ButtonValid from "../../ButtonValid";
 
 const E = (props) => {
     const { data, onAttemptMade, score, imgNotFound } = props;
@@ -125,10 +126,7 @@ const E = (props) => {
     
 
     return <React.Fragment>
-                 <div  className="exercice__consigne">
-                    <img src={speaker} alt="" />
-                    <h1>{data?.exo_instruction}</h1>
-                </div>
+            
                 <div className="group">
                 {data.exo_type !== "E1" && 
                 <img src={'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/images/choices/' + item?.file } 
@@ -161,7 +159,7 @@ const E = (props) => {
                             <li key={index} className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                         ))}
                     </ul>
-                    <button type="submit" className="exercice__valid" onClick={handleSubmit}>Ok <img src={checkIcon} alt="ok" /></button>
+                    <ButtonValid handleClick={handleSubmit} />
                 </div>
             </React.Fragment>
 }

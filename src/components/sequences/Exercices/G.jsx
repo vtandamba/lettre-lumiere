@@ -3,6 +3,7 @@ import { LinearCountdown, getElementRandom } from "../../../hooks/useRandom";
 import speak from "../../../hooks/useSpeak";
 import speaker from '../../../assets/images/haut-parleur.svg'
 import checkIcon from '../../../assets/images/check.svg'
+import ButtonValid from "../../ButtonValid";
 
 const G = (props) => {
 
@@ -13,7 +14,7 @@ const G = (props) => {
     const [displayItems, setDisplayItems] = useState( );
     const [item, setItem] = useState('');
     const [attemptCount, setAttemptCount] = useState(0);
-    const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
+    const [tabResponses, setTabResponses] = useState(new Array(10).fill(null));
 
                                                         
   
@@ -35,7 +36,7 @@ const G = (props) => {
         if (displayItems?.length > 0) {
 
             let newTabGraphemes = []; 
-            for (let i = 0; i < 3; i++) {
+            for (let i = 0; i < 9; i++) {
               let candidateItems = getElementRandom(displayItems);
               if (!newTabGraphemes.includes(candidateItems)) {
                 newTabGraphemes.push(candidateItems);
@@ -82,7 +83,7 @@ const G = (props) => {
         const secondes = document.querySelector('.exercice__count');
      
 
-        if (times.current <= 4){
+        if (times.current <= 10){
             times.current += 1; // Incrémente times
             
              //Vérifie si l'élément sélectionné est faux ou pas et met le state de la bonne réponse à juste
@@ -101,7 +102,7 @@ const G = (props) => {
             setTabItems(newTabItems);
 
 
-            if (times.current <= 4 || secondes.textContent === false) {
+            if (times.current <= 10 || secondes.textContent === false) {
                 setTimeout(() => {
                     // evt.target.classList.remove('true', 'false');
                     tabItems?.forEach((item) => {return{...item, state: 'initial'}});
@@ -163,7 +164,7 @@ const G = (props) => {
                         <li className={`${response === null ? 'progress__part' : response === true ? 'progress__part progress__part--true' : 'progress__part progress__part--false'}`}></li>
                     ))}
                 </ul>
-                <button className="exercice__valid" onClick={handleClick}>Ok <img src={checkIcon} alt="ok" /></button>
+                <ButtonValid handleClick={handleClick} />
 
             </div>
     </React.Fragment>

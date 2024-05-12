@@ -86,7 +86,7 @@ const C = () => {
         </form>
         <button className="exercice__validate">
           <Link to={`/${params?.categorie}/exercices/d1`}>
-            Suivant
+            OK
 
           </Link>
           <IoArrowForwardSharp />

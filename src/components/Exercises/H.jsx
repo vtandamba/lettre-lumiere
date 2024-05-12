@@ -94,7 +94,7 @@ const H = () => {
         <div className="exercice">
             <button className={`exercice__validate`} >
                 <Link to="/alphabet">
-                    Suivant
+                    OK
                 </Link>
                 <IoArrowForwardSharp />
             </button>

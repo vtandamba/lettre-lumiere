@@ -70,7 +70,7 @@ const GraphemesHome = () => {
 
         <MainHeader link={"/home"} />
         <main className="graphemes">
-            <h1 className="alphabet__title" onClick={handleSpeak}>an  on  in</h1>
+            <h1 className="alphabet__title" onClick={handleSpeak}>an  ou  in</h1>
             <div className="list">
                 {graphemes.map((g, index) => (
                     <div

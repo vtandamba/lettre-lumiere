@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
 import { getElementRandom } from "../../../hooks/useRandom";
-import checkIcon from '../../../assets/images/check.svg'
-import speaker from '../../../assets/images/haut-parleur.svg'
+import ButtonValid from "../../ButtonValid";
+
 
 const B = (props) => {
     const { data, onAttemptMade, score , imgNotFound} = props;
@@ -149,7 +149,8 @@ const B = (props) => {
                       <li key={index} className={`progress__part ${response === true ? 'progress__part--true' : response === false ? 'progress__part--false' : ''}`}></li>
                     ))}
                 </ul>
-                <button className="exercice__valid" onClick={handleClick}>Ok <img src={checkIcon} alt="ok" /></button>
+               
+                <ButtonValid handleClick={handleClick} />
             </div>
         </React.Fragment>
     );

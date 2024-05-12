@@ -163,6 +163,10 @@
         gap:1rem;
         font-family: 'Satoshi', sans-serif;
         padding: 1rem;
+
+        &::first-letter{
+            text-transform: capitalize
+        }
     }
 
     &__img {
@@ -395,7 +399,7 @@
             flex-grow: 0;
             flex-shrink: 0;
             ;
-            flex: 1;
+            flex:  0 0;
             min-width: 10rem;
 
             &--lowercase {
