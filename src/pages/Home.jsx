@@ -44,7 +44,17 @@ const Home = (props) => {
                         animate={{ y: 0, opacity: 1 }} 
                         transition={{duration:1}}
                     />
-                    <motion.select 
+
+                    <motion.div
+                            className="home__selection"
+                            initial={{ y: 100, opacity: 0 }} 
+                            animate={{ y: 0, opacity: 1 }} 
+                            transition={{duration:1}}
+                    >
+                        <Link onClick={()=>setState('identifie')} >Identifié</Link>
+                        <Link onClick={()=>setState('libre')}>Personnalisé</Link>
+                    </motion.div>
+                    {/* <motion.select 
                         name="state" 
                         id="" 
                         onChange={(evt)=>setState(evt.target.value)} 
@@ -56,7 +66,7 @@ const Home = (props) => {
                         <option value="" >Mode</option>
                         <option value="identifie">Identifié</option>
                         <option value="libre">Libre</option>
-                    </motion.select>
+                    </motion.select> */}
                     <p className="home__credits">
                         <Link to="/credits">
                             Credits
