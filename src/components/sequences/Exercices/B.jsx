@@ -11,6 +11,7 @@ const B = (props) => {
     const [selectedAnswer, setSelectedAnswer] = useState("");
     const [tabItems, setTabItems] = useState(data?.choice);
     // const [score, setScore] = useState(0);
+    const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState()
     const [tabResponses, setTabResponses] = useState(new Array(tabItems.length).fill(null));
  
     useEffect(() => {
