@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
-import speaker from '../../../assets/images/haut-parleur.svg'
 import { getElementRandom } from "../../../hooks/useRandom";
-import checkIcon from '../../../assets/images/check.svg'
 import ButtonValid from "../../ButtonValid";
 
 
