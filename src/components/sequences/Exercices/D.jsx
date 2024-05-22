@@ -11,7 +11,6 @@ const D = (props) => {
     const [allItemsWithStyles, setAllItemsWithStyles] = useState(data?.choice);
     const [tabResponses, setTabResponses] = useState(new Array(allItemsWithStyles.length).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
-    const [answerAlreadyTaken, setAnswerAlreadyTaken] = useState([]);
 
     const shuffleArray = (array) => { //Algorithme de mélange de Fisher-Yates 
         for (let i = array?.length - 1; i > 0; i--) {
@@ -44,10 +43,9 @@ const D = (props) => {
          
       
           let newItem = getElementRandom(data?.choice);
-          while (answerAlreadyTaken.includes(newItem)) {
-              const filteredChoices = data?.choice.filter(choice => !answerAlreadyTaken.includes(choice));
-              newItem = getElementRandom(filteredChoices);
-          }
+          const availableChoices = allItemsWithStyles.filter(el => !el.isAlreadyChosen);
+          newItem = getElementRandom(availableChoices);
+
    
           setItem({...newItem, isAlreadyChosen:false});
 
