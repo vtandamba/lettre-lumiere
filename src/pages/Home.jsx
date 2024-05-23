@@ -52,7 +52,7 @@ const Home = (props) => {
                             transition={{duration:1}}
                     >
                         <Link onClick={()=>setState('identifie')} >Identifié</Link>
-                        <Link onClick={()=>setState('libre')}>Personnalisé</Link>
+                        <Link onClick={()=>setState('libre')}>Libre</Link>
                     </motion.div>
                     {/* <motion.select 
                         name="state" 

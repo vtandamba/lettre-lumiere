@@ -64,23 +64,39 @@ export const fetchOneSequence = async(id) => {
 
 
 // les exercices 
+// export const fetchAllExercice = async () => {
+//     try {
+//         const response = await fetch(`${urlExercices}`);
+//         if (!response.ok) {
+//             throw new Error('Erreur lors de la récupération des exercices');
+//         }
+//         const data = await response.json();
+       
+//         return data['hydra:member'];
+//     } catch (error) {
+//         console.error("Erreur lors de la récupération des exercices:", error);
+//         throw error;
+//     }
+// };
+
+// Fonction pour récupérer tous les exercices triés par ordre croissant
 export const fetchAllExercice = async () => {
     try {
-        const response = await fetch(`${urlExercices}`);
+        const response = await fetch(`${urlExercices}?order[exo_type]=asc`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des exercices');
         }
         const data = await response.json();
-       
         return data['hydra:member'];
     } catch (error) {
         console.error("Erreur lors de la récupération des exercices:", error);
         throw error;
     }
 };
+
 export const fetchAllExerciceForSequences = async (sequenceId) => {
     try {
-        const response = await fetch(`${urlExercices}?sequence=${sequenceId}`);
+        const response = await fetch(`${urlExercices}?sequence=${sequenceId}&order[exo_type]=asc`);
         if (!response.ok) {
             throw new Error('Erreur lors de la récupération des exercices');
         }
