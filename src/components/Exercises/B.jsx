@@ -64,7 +64,7 @@ const B = () => {
                         <div onClick={(evt) => speak(`Clique sur ${params.categorie === "alphabet" ? "la lettre" : "le graphème"} correspondante au son écouté`)}>
             <h2 className="exercice__consigne ligne" onClick={(evt) => speak(evt.target.textContent)}>
                 <span>
-                    <img src={hautParleur} />
+                    <img src={hautParleur} alt="haut parleur"/>
                 </span>
                 Clique sur {params.categorie === "alphabet" ? "la lettre" : "le graphème"} correspondante au son écouté
 

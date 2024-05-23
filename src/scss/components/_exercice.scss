@@ -165,8 +165,10 @@
         padding: 1rem;
 
         &::first-letter{
-            text-transform: capitalize
+            text-transform: uppercase
         }
+
+        
     }
 
     &__img {

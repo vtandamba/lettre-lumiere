@@ -1,57 +1,81 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
-import checkIcon from '../../../assets/images/check.svg'
-import speaker from '../../../assets/images/haut-parleur.svg'
 import ButtonValid from "../../ButtonValid";
+import { getElementRandom } from "../../../hooks/useRandom";
 
 
 const C = (props) => {
     const { data, onAttemptMade, score, imgNotFound} = props;
-    const [syllabes, setSyllabes] = useState( data?.choice);
-    const [currentSyllabeIndex, setCurrentSyllabeIndex] = useState(0);
+
+    const [tabItems, setTabItems] = useState([]);
+    const [answer, setAnswer] = useState();
     const [input, setInput] = useState("");
-    const [showSyllabe, setShowSyllabe] = useState(true);
-    const [tabResponses, setTabResponses] = useState(new Array(syllabes.length).fill(null));
+    const [showAnswer, setShowAnswer] = useState(false);
+    const [tabResponses, setTabResponses] = useState(new Array(data?.choice.length).fill(null));
     const [attemptCount, setAttemptCount] = useState(0);
 
-    
 
     useEffect(() => {
-       
-         if (attemptCount === tabResponses.length && attemptCount !== 0) {
-            onAttemptMade(); // Passe à l'exercice suivant immédiatement
-            const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100; //Calule le score final basé sur le nombre de true
-       
+        if (data?.choice) {
+            const initialTabItems = data.choice.map(el => ({
+                value: el.value,
+                file: el.file,
+                isAlreadyChosen: false,
+            }));
+            setTabItems(initialTabItems);
+            selectNewAnswer(initialTabItems);
+        }
+    }, [data?.choice]); 
+    
+
+    const selectNewAnswer = (items) => {
+        if (attemptCount === tabResponses.length && attemptCount !== 0) {
+            onAttemptMade();
+            const scorePercent = tabResponses.filter(el => el === true).length / tabResponses.length * 100;
             score(scorePercent);
+        } else {
+            // Filtrer les réponses qui n'ont pas encore été choisies
+            const availableChoices = items.filter(el => !el.isAlreadyChosen);
+            if (availableChoices.length > 0) {
+                const newAnswer = getElementRandom(availableChoices);
+                setAnswer(newAnswer);
+                speak(newAnswer.value);
+                setShowAnswer(true); // Affiche la réponse après 3 secondes
+                const timer = setTimeout(() => {
+                    setShowAnswer(false);
+                }, 3000);
+    
+                // Marquer la réponse comme choisie
+                setTabItems(prevItems => prevItems.map(item => {
+                    if (item.value === newAnswer.value) {
+                        return { ...item, isAlreadyChosen: true };
+                    }
+                    return item;
+                }));
+    
+                return () => clearTimeout(timer);
+            }
         }
-        else {
-            setShowSyllabe(true);
-            const timer = setTimeout(() => {
-                if (syllabes) {
-                    setShowSyllabe(false);
-                    speak(syllabes[currentSyllabeIndex].value);
-                }
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
-    }, [attemptCount, syllabes, currentSyllabeIndex,  tabResponses]);
+    };
+    
+
 
 
     // Initialise l'input en mettant des _ ou il faut
     useEffect(() => {
         let initialInput = "";
-        const currentSyllabe = syllabes[currentSyllabeIndex];
-        if (currentSyllabe?.chosenSyllable) {
-            initialInput = currentSyllabe.value.split('').map(char => 
-                currentSyllabe.chosenSyllable.includes(char) ? '_' : char
+        
+        if (answer?.chosenSyllable) { // Vérifie s'il contient la propriété adéquate
+            initialInput = answer?.value.split('').map(char => 
+                answer?.chosenSyllable.includes(char) ? '_' : char
             ).join('');
         } else {
-            initialInput = currentSyllabe.value.replace(/./g, '_');
+            initialInput = answer?.value.replace(/./g, '_');
         }
         
         setInput(initialInput);
-        speak(currentSyllabe.value);
-    }, [syllabes, currentSyllabeIndex]); 
+        speak(answer?.value);
+    }, [answer]); 
 
     
 
@@ -80,19 +104,24 @@ const C = (props) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-    
+
         const finalInput = input.endsWith('_') ? input.slice(0, -1) : input;
-        const isCorrect = finalInput.trim().toUpperCase() === syllabes[currentSyllabeIndex]?.value.toUpperCase();
-        
+        const isCorrect = finalInput.trim().toUpperCase() === answer?.value.toUpperCase();
+
         const newTabResponses = [...tabResponses];
         newTabResponses[attemptCount] = isCorrect;
         setTabResponses(newTabResponses);
         setAttemptCount(attemptCount + 1);
-    
+
+        setTabItems(prevItems => prevItems.map(item => {
+            if (item.value === answer?.value) {
+                return { ...item, isAlreadyChosen: true };
+            }
+            return item;
+        }));
+
         setInput(""); // Réinitialise l'input après avoir entré sa réponse
-        if (currentSyllabeIndex + 1 < syllabes.length) {
-            setCurrentSyllabeIndex(prevIndex => prevIndex + 1);
-        }
+        selectNewAnswer(tabItems);
     };
 
 
@@ -120,16 +149,16 @@ const C = (props) => {
        
             <div>
                 
-                    {showSyllabe ? <div>
-                                        {  data.exo_type !== "C1" && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/${syllabes[currentSyllabeIndex].file}`} 
-                                                                      alt={syllabes[currentSyllabeIndex].value}
+                    {showAnswer ? <div>
+                                        {  data.exo_type !== "C1" && <img src={`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/${answer?.file}`} 
+                                                                      alt={answer?.value}
                                                                       className="exercice__img"
                                                                       style={{marginBottom:'1rem'}}
                                                                       onError={(e) => {
                                                                         e.target.src = imgNotFound;
                                                                       }}/>}
                                       
-                                        <p className="list__item">{syllabes[currentSyllabeIndex].value}</p>
+                                        <p className="list__item">{answer?.value}</p>
                                     </div> 
                                  : <form onSubmit={handleSubmit} className="exercice__form">
                                      <input type="text" 
