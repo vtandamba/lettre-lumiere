@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react"
 import logo from '../assets/images/logoLettresEnLumieres.png'
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CircleLoader } from "react-spinners";
 import { motion } from "framer-motion";
 import { useUser } from "../contexts/UserContext";
+import lockedIcon from "../assets/images/user-lock.svg";
+import lockedOpenIcon from "../assets/images/user.svg"
 
 
 const Home = (props) => {
@@ -51,22 +53,16 @@ const Home = (props) => {
                             animate={{ y: 0, opacity: 1 }} 
                             transition={{duration:1}}
                     >
-                        <Link onClick={()=>setState('identifie')} >Identifié</Link>
-                        <Link onClick={()=>setState('libre')}>Libre</Link>
+                        <Link onClick={()=>setState('identifie')} className="home__link">
+                            <p>Identifié</p>
+                            <img src={lockedIcon} alt="Mode Identifié" />
+                            </Link>
+                        <Link onClick={()=>setState('libre')} className="home__link">
+                            <p>Libre</p>
+                            <img src={lockedOpenIcon} alt="Mode Libre" />
+                        </Link>
                     </motion.div>
-                    {/* <motion.select 
-                        name="state" 
-                        id="" 
-                        onChange={(evt)=>setState(evt.target.value)} 
-                        className="home__selection"
-                        initial={{ y: 100, opacity: 0 }} 
-                        animate={{ y: 0, opacity: 1 }} 
-                        transition={{duration:1}}
-                    >
-                        <option value="" >Mode</option>
-                        <option value="identifie">Identifié</option>
-                        <option value="libre">Libre</option>
-                    </motion.select> */}
+         
                     <p className="home__credits">
                         <Link to="/credits">
                             Credits

@@ -58,6 +58,31 @@
     margin-top: 25vh;
     height:100%;
 
+
+
+    &__link{
+      display: flex;
+      justify-content:center ;
+      align-items: center;
+      gap: 2rem;
+
+      img{
+        height: 3rem;
+        rect{
+          color: blue;
+          fill : blue
+        }
+     .icon{
+      rect{
+        fill: blue
+      }
+     }
+       
+      }
+
+      
+    }
+
     &__logo{
       width: clamp(150px, 25vw, 500px);
       margin-bottom:5vh;
