@@ -56,7 +56,7 @@ const Home = (props) => {
                         <Link onClick={()=>setState('identifie')} className="home__link">
                             <p>Identifié</p>
                             <img src={lockedIcon} alt="Mode Identifié" />
-                            </Link>
+                        </Link>
                         <Link onClick={()=>setState('libre')} className="home__link">
                             <p>Libre</p>
                             <img src={lockedOpenIcon} alt="Mode Libre" />
