@@ -3,7 +3,6 @@ import { DndContext, useDraggable } from "@dnd-kit/core";
 import { IoArrowForwardSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import speak from "../../hooks/useSpeak";
-import hautParleur from '../../assets/images/haut-parleur.svg';
 
 const H = () => {
     const lettres = ['A', 'B', 'C'];
@@ -54,15 +53,7 @@ const H = () => {
 
 
     return (<>
-
-        <div onClick={(evt) => speak(" Mets les lettres dans l’ordre.")} >
-            <h2 className="exercice__consigne ligne" onClick={(evt) => speak(evt.target.textContent)}>
-                <span>
-                    <img src={hautParleur} />
-                </span>
-                Mets les lettres dans l’ordre.
-            </h2>
-        </div>
+        <h2 className="exercice__consigne" onClick={(evt)=> speak(evt.target.textContent)}> Mets les lettres dans l’ordre.</h2>
         <DndContext onDragEnd={handleDrop}>
             <div style={{ border: '1px solid black', padding: '10px', margin: '10vw' }}>
                 {/* Affichage des lettres déposées avec la gestion du clic */}
@@ -94,7 +85,7 @@ const H = () => {
         <div className="exercice">
             <button className={`exercice__validate`} >
                 <Link to="/alphabet">
-                    OK
+                    Suivant
                 </Link>
                 <IoArrowForwardSharp />
             </button>
