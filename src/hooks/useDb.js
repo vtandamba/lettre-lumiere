@@ -1,183 +1,122 @@
-
-//  ici on recupere fech les données de db.sqlite qui sont dans l'api http ... 
-const baseUrl = 'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/'
-    
-const urlSequences = baseUrl + 'sequences';
-const urlExercices = baseUrl +'exercises';
-const urlStages = baseUrl +'stages';
-const urlUser = baseUrl +'users'; 
-const urlExercisesRevisions = baseUrl + 'reports'
-const urlChoices = baseUrl + 'choices'
-const urlProgressSeq = baseUrl + 'progress_seqs'
-const urlVideos = 'https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/uploads/videos'
-
+// useDb.js
+import db from '../Dexie.js';
 
 export const fetchAllStages = async () => {
-    try {
-        const response = await fetch(urlStages);
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des étapes');
-        }
-        const data = await response.json();
-       
-        return data['hydra:member'];
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
+  try {
+    const allStages = await db.stages.toArray();
+    return allStages;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des étapes:", error);
+    throw error;
+  }
+}
+
+export const fetchUser = async (id) => {
+  try {
+    const user = await db.users.get(id);
+    return user;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur:", error);
+    throw error;
+  }
+}
+
+export const fetchAllSequences = async () => {
+  try {
+    const allSequences = await db.sequences.toArray();
+    return allSequences;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des séquences:", error);
+    throw error;
+  }
+}
+
+export const fetchOneSequence = async (id) => {
+  try {
+    const sequence = await db.sequences.get(id);
+    return sequence;
+  } catch (error) {
+    console.error("Erreur lors de la récupération de la séquence:", error);
+    throw error;
+  }
+}
+
+// export const fetchAllExerciseForSequences = async (id) => {
+//   try {
+//     const exercises = await db.exercises.where({ sequenceId: Number(id) }).toArray();
+//     return exercises;
+//   } catch (error) {
+//     console.error("Erreur lors de la récupération des exercices :", error);
+//     throw error;
+//   }
+// }
+export const fetchAllExerciseForSequences = async (seqId) => {
+  try {
+      // Vérifiez que seqId est un nombre valide
+      if (isNaN(seqId)) {
+          throw new Error("seqId n'est pas un nombre valide");
+      }
+
+      // Utilisez equals pour récupérer les exercices pour une séquence donnée
+      const exercises = await db.exercises
+          .where('sequenceId')
+          .equals(seqId)
+          .toArray();
+      return exercises;
+  } catch (error) {
+      console.error("Erreur lors de la récupération des exercices :", error);
+      throw error;
+  }
+};
+
+export const fetchAllExercisesForSequence = async (sequenceId) => {
+  try {
+    return await db.exercises.where({ sequenceId }).toArray();
+  } catch (error) {
+    console.error("Erreur lors de la récupération des exercices pour la séquence:", error);
+    return [];
+  }
+};
+export const fetchAllExercisesForRevisions = async (id) => {
+  try {
+    const exercises = await db.exercises.where({ sequenceId: Number(id) }).toArray();
+    return exercises;
+  } catch (error) {
+    console.error("Erreur lors de la récupération des exercices :", error);
+    throw error;
+  }
 }
 
 
-export const fetchAllSequences = async() => {
-    try {
-        const response = await fetch(urlSequences);
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des séquences');
-        }
-        const data = await response.json();
- 
-        return data['hydra:member'];
-    } catch (error) {
-        console.error("Erreur lors de la récupération des séquences:", error);
-        throw error; 
-    }
-}
+///
+// import db from '../Dexie';
 
-
-
-export const fetchOneSequence = async(id) => {
-    try {
-   
-        const response = await fetch(`${urlSequences}/${id}`);
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération de la séquence');
-        }
-        const data = await response.json();
-
-        return data;
-    } catch (error) {
-        console.error("Erreur lors de la récupération de la séquence:", error);
-        throw error; 
-    }
-}
-  
-
-
-// les exercices 
-// export const fetchAllExercice = async () => {
-//     try {
-//         const response = await fetch(`${urlExercices}`);
-//         if (!response.ok) {
-//             throw new Error('Erreur lors de la récupération des exercices');
-//         }
-//         const data = await response.json();
-       
-//         return data['hydra:member'];
-//     } catch (error) {
-//         console.error("Erreur lors de la récupération des exercices:", error);
-//         throw error;
-//     }
+// export const fetchAllStages = async () => {
+//   try {
+//     const allStages = await db.stages.toArray();
+//     return allStages;
+//   } catch (error) {
+//     console.error("Erreur lors de la récupération des étapes:", error);
+//     throw error;
+//   }
 // };
 
-// Fonction pour récupérer tous les exercices triés par ordre croissant
-export const fetchAllExercice = async () => {
-    try {
-        const response = await fetch(`${urlExercices}?order[exo_type]=asc`);
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des exercices');
-        }
-        const data = await response.json();
-        return data['hydra:member'];
-    } catch (error) {
-        console.error("Erreur lors de la récupération des exercices:", error);
-        throw error;
-    }
-};
+// export const fetchAllSequences = async () => {
+//   try {
+//     const allSequences = await db.sequences.toArray();
+//     return allSequences;
+//   } catch (error) {
+//     console.error("Erreur lors de la récupération des séquences:", error);
+//     throw error;
+//   }
+// };
 
-export const fetchAllExerciceForSequences = async (sequenceId) => {
-    try {
-        const response = await fetch(`${urlExercices}?sequence=${sequenceId}&order[exo_type]=asc`);
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des exercices');
-        }
-        const data = await response.json();
-       
-        return data['hydra:member'];
-    } catch (error) {
-        console.error("Erreur lors de la récupération des exercices:", error);
-        throw error;
-    }
-};
-
-export const fetchAllExercisesForRevisions = async(stageId) => {
-    try {
-        console.log(stageId);
-        const response = await fetch(`${urlExercisesRevisions}?stage_id=${stageId}`);
-        if (!response.ok) {
-            
-            throw new Error('Erreur lors de la récupération des exercices du bilan');
-        }
-        return response.json();
-    } catch (error) {
-        console.error("Erreur lors de la récupération des exercices du bilan:", error);
-        throw error;
-    }
-}
-
-// les séquences
-export const fetchSeqByStageId = async (stageId) => {
-    try {
-        const response = await fetch(`${urlSequences}?stage=${stageId}`);
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération de la séquence');
-        }
-        return response.json();
-    } catch (error) {
-        console.error("Erreur lors de la récupération de la séquence:", error);
-        throw error; 
-    }
-};
-
-
-// le user
-export const fecthUser = async (userId) => {
-
-    try{
-        const response = await fetch(`${urlUser}/${userId}`);
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération de l\'utilisateur');
-        }
-        return response.json();
-
-    } catch (error){
-        console.error("Erreur lors de la récupération de  l'utilisateur", error);
-        throw error; 
-    }
-}
-
-
-// Fetch le contenu d'exercices
-export const fetchChoiceDetailsById = async (choiceId) => {
-    const response = await fetch(`${urlChoices}/${choiceId}`);
-    if (!response.ok) {
-        throw new Error('Problème lors de la récupération des détails du choix');
-    }
-    return response.json();
-};
-
-
-
-// Fetch la progression par séquence
-export const fetchUserProgressSeq = async (user, sequence) => {
-    const response = await fetch(`${urlProgressSeq}?user=${user}&sequence=${sequence}`);
-    if (!response.ok) {
-        throw new Error('Problème lors de la récupération de la progression par séquence');
-    }
-    return response.json();
-}
-
-
-    export const video = (file) => {
-        return `${urlVideos}/${file}`
-    }
-
+// export const fetchAllExercisesForSequence = async (sequenceId) => {
+//   try {
+//     const exercises = await db.exercises.where({ sequenceId: Number(sequenceId) }).toArray();
+//     return exercises;
+//   } catch (error) {
+//     console.error("Erreur lors de la récupération des exercices pour la séquence:", error);
+//     throw error;
+//   }
+// };

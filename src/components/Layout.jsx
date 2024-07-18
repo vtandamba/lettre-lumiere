@@ -10,7 +10,7 @@ const Layout = ({ Children }) => {
         <header className="exercices__header">
             <div className="user">
                 <img src={user} alt="Profil utilisateur " className="user__img" />
-                <p className="user__name">José</p>
+                <p className="user__name">Utilisateur</p>
             </div>
             <div className="quit">
                 <Link to='/home'>   <p>Quitter</p> </Link>

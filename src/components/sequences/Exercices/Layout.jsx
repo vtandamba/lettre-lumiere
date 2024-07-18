@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { fetchAllExerciceForSequences, fetchAllExercisesForRevisions,  fetchOneSequence } from "../../../hooks/useDb";
+import { fetchAllExerciseForSequences, fetchAllExercisesForRevisions,  fetchOneSequence } from "../../../hooks/useDb";
 import homeIcon from '../../../assets/images/layoutexercices/home.png'
 import CircularProgress from '@mui/material/CircularProgress';
 import imgEtape from '../../../assets/images/layoutexercices/etape.png';
@@ -54,7 +54,7 @@ const Layout = (props) => {
         const loadExercises = async () => {
             try {
                 if (idSeq) {
-                    const exercisesList = await fetchAllExerciceForSequences(idSeq);
+                    const exercisesList = await fetchAllExerciseForSequences(idSeq);
                     const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
         
                     setExercises(sortedExercises);

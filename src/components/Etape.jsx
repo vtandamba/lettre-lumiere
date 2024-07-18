@@ -1,76 +1,67 @@
-import React, { useEffect, useState } from "react"
-import EtapeContent from "./EtapeContent";
+import React, { useEffect, useState } from "react";
 import MainHeader from "./MainHeader";
 import { fetchAllSequences } from "../hooks/useDb";
 import { Link, useParams } from "react-router-dom";
-import medailleArgent from '../assets/gamification/medailleArgent.png'
+import medailleArgent from '../assets/gamification/medailleArgent.png';
 import { CircleLoader } from "react-spinners";
-const Etape = (props) => {
 
+const Etape = (props) => {
     const { db } = props;
     const params = useParams();
     const idStage = params.etape;
-    console.log(parseInt(idStage, 10) === 1)
     const [sequences, setSequences] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    console.log(sequences[3]?.seq_content);
-
 
     useEffect(() => {
-
         const loadSequences = async () => {
             setIsLoading(true);
-            const loadedSequences = await fetchAllSequences(db);
+            try {
+                const loadedSequences = await fetchAllSequences(db);
+                if (loadedSequences) {
+                    setSequences(loadedSequences.filter((sequence) => sequence.stageId === parseInt(idStage, 10)));
+                }
+            } catch (error) {
+                console.error("Erreur lors du chargement des séquences :", error);
+            }
             setIsLoading(false);
-            console.log(loadedSequences);
-            setSequences(loadedSequences.filter((sequence) => sequence.stage.id === parseInt(idStage, 10)));
-        }
+        };
 
         loadSequences();
+    }, [db, idStage]);
 
-    }, [])
-
-    return <React.Fragment>
-        <MainHeader
-            role={"user"}
-            link={"/etapes"}
-        />
-        <main>
-
-            {
-                isLoading ? (
-                    <CircleLoader color="#36d7b7" size={150} cssOverride={{margin: '20% auto 0 auto'}}/>
-                ) :
-                (
-                    <div class="etape">
-                    {sequences.map((sequence) => {
-                        return <div class="sequenceGroup">
-                            <Link to={`/etapes/${sequence.sequence_id}`} class="sequenceGroup__seq">
-                                <div class="sequenceGroup__content">
-                                {sequence.seq_title}
-    
+    return (
+        <React.Fragment>
+            <MainHeader role={"user"} link={"/etapes"} />
+            <main>
+                {isLoading ? (
+                    <CircleLoader color="#36d7b7" size={150} cssOverride={{ margin: '20% auto 0 auto' }} />
+                ) : (
+                    <div className="etape">
+                        {/* {sequences && sequences.length > 0 ? (
+                            
+                            sequences.map((sequence) => (
+                                <div className="sequenceGroup" key={sequence.sequenceId}>
+                                    <Link to={`/etapes/${sequence.sequenceId}`} className="sequenceGroup__seq">
+                                        <div className="sequenceGroup__content">
+                                            {sequence.title}
+                                        </div>
+                                    </Link>
+                                    <img className="sequenceGroup__recompense" src={medailleArgent} alt="medaille" />
                                 </div>
-                            </Link>
-                            <img class="sequenceGroup__recompense" src={medailleArgent} alt="medaille" />
-                        </div>
-                    })}
-    
-    
-                    <Link to="/" class="etape__bilan">
-    
-                        <p class="sequenceGroup__content">Bilan </p>
-                        <img class="etape__imgBilan" src="img/medaillesCoupes/coupe=argent.png" alt="coupe" />
-    
-                    </Link>
-    
-                </div>
-                )
-            }
-         
+                            ))
+                        ) 
+                        : (
+                            <p>Aucune séquence trouvée.</p>
+                        )} */}
+                        <Link to="/" className="etape__bilan">
+                            <p className="sequenceGroup__content">Bilan</p>
+                            <img className="etape__imgBilan" src="img/medaillesCoupes/coupe=argent.png" alt="coupe" />
+                        </Link>
+                    </div>
+                )}
+            </main>
+        </React.Fragment>
+    );
+};
 
-        </main>
-
-    </React.Fragment>
-
-}
-export default Etape
+export default Etape;

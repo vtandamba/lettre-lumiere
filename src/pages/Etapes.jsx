@@ -1,31 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { fetchAllStages, fetchAllSequences} from "../hooks/useDb";
+import React from "react";
+import { useDbContext } from "../contexts/DbContext";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { Link } from "react-router-dom";
-import {CircleLoader} from 'react-spinners';
+import { CircleLoader } from 'react-spinners';
 import MainHeader from '../components/MainHeader';
-import arrowRight from '../assets/images/arrow.png';
 import { IoMdArrowDropright } from "react-icons/io";
 import EtapeContent from "../components/EtapeContent";
 
-
-
-const Etapes = (props) => {
-
-
-  const { db } = props
-
-  const [etapes, setEtapes] = useState([]);
-  const [sequences, setSequences] = useState([]);
-  // const [seqById, setSeqById] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  fetchAllStages(db);
-  fetchAllSequences(db);
+const Etapes = () => {
+  const { stages, sequences, exercises, isLoading } = useDbContext();
 
   const theme = createTheme({
     components: {
@@ -33,7 +20,7 @@ const Etapes = (props) => {
         styleOverrides: {
           root: {
             boxShadow: 'none',
-            backgroundColor:"fff",
+            backgroundColor: "transparent",
             border: 'none',
             '&:before': {
               display: 'none',
@@ -44,87 +31,49 @@ const Etapes = (props) => {
     },
   });
 
-  useEffect(() => {
-    const loadStages = async () => {
-      setIsLoading(true)
-      const loadedStages = await fetchAllStages(db);
-      setEtapes(loadedStages);
-      setIsLoading(false);
-    };
-
-    const loadSequences = async () => {
-      const loadedSequences = await fetchAllSequences(db);
-      console.log(loadedSequences);
-      setSequences(loadedSequences);
-    }
-    loadStages();
-    loadSequences();
-    // console.log(etapes);
-    // console.log(sequences)
-  }, []);
-
-
-  return <>
-
-
-      {
-        isLoading ? (
-          <CircleLoader color="#36d7b7" size={150} cssOverride={{margin: '20% auto 0 auto'}}/>
-        ) : (
-          <>
-            <MainHeader role="user" link="/home"/>
-            {etapes.length ? (
-              etapes.map((stage) => {
-                return (
-                  <ThemeProvider theme={theme} key={stage.stage_id}>
-                    <Accordion style={{ border: 'none' , backgroundColor:"transparent"}}>
-                      <AccordionSummary
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                        
-                      >
-                        <Typography className="Etape">
-                          <button className="Etape__accordion"></button>
-                     
-                          <div className="Etape__Title">
-                            <h2>{stage.sta_name}</h2>
-                            <Link to={`/etape/${stage.id}`}>
-                              <IoMdArrowDropright size={55} color="#FFF"/>
-                            </Link>
-                          </div>
-                          <div className="Etape__container"></div>
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Typography className="Etape__container">
-                        {sequences.filter((sequence) => sequence.stage.id === stage.id)
-                                .map((s, index) => {
-                                  // console.log('la sequence ', sequences)
-                                  return  <Link to={`${s.id}`} key={index}>
-                                     
-                                              {/* <p className="Etape__content">{s.seq_title.replace(/-/g, '')}</p> */}
-
-                                                <EtapeContent content={s.seq_title.toUpperCase()} />
-                                              
-                                      </Link>
-                                })}
-                        </Typography>
-                      </AccordionDetails>
-                    </Accordion>
-                  </ThemeProvider>
-                );
-              })
-            ) : (
-              <p>Aucune étape enregistrée pour le moment</p>
-            )}
-          </>
-        )
-      }
-
-
-  </>
-
-
-}
+  return (
+    <>
+      {isLoading ? (
+        <CircleLoader color="#36d7b7" size={150} cssOverride={{ margin: '20% auto 0 auto' }} />
+      ) : (
+        <>
+          <MainHeader role="user" link="/home" />
+          {stages.length ? (
+            stages.map((stage) => (
+              <ThemeProvider theme={theme} key={stage.id}>
+                <Accordion style={{ border: 'none', backgroundColor: "transparent" }}>
+                  <AccordionSummary aria-controls="panel1-content" id="panel1-header">
+                    <Typography className="Etape">
+                      <button className="Etape__accordion"></button>
+                      <div className="Etape__Title">
+                        <h2>{stage.name}</h2>
+                        <Link to={`/etape/${stage.id}`}>
+                          <IoMdArrowDropright size={55} color="#FFF" />
+                        </Link>
+                      </div>
+                      <div className="Etape__container"></div>
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <Typography className="Etape__container">
+                      {sequences.filter(sequence => sequence.stageId === stage.stageId)
+                        .map((s, index) => (
+                          <Link to={`${s.stageId}`} key={index}>
+                            <EtapeContent content={s.title.toUpperCase()} />
+                          </Link>
+                        ))}
+                    </Typography>
+                  </AccordionDetails>
+                </Accordion>
+              </ThemeProvider>
+            ))
+          ) : (
+            <p>Aucune étape enregistrée pour le moment</p>
+          )}
+        </>
+      )}
+    </>
+  );
+};
 
 export default Etapes;
