@@ -12,7 +12,7 @@ import { IoMdArrowDropright } from "react-icons/io";
 import EtapeContent from "../components/EtapeContent";
 
 const Etapes = () => {
-  const { stages, sequences, exercises, isLoading } = useDbContext();
+  const { stages, sequences,  isLoading } = useDbContext();
 
   const theme = createTheme({
     components: {

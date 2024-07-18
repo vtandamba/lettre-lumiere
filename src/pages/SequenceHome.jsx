@@ -1,86 +1,66 @@
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useParams } from "react-router-dom";
-import { fetchAllExerciseForSequences, fetchOneSequence } from "../hooks/useDb";
-import DOMPurify from 'dompurify';
-import videoCam from '../assets/images/camera.svg';
-import imgEtape from '../assets/images/layoutexercices/etape.png';
 import { BounceLoader } from 'react-spinners';
-import nextIcon from '../assets/images/next.svg';
 import CountUp from 'react-countup';
 import MainHeader from "../components/MainHeader";
 import SpringModal from "../components/ModalMedia";
-import closeIcon from '../assets/images/closeIconBlack.svg';
+import DOMPurify from 'dompurify';
+import videoCam from '../assets/images/camera.svg';
+import imgEtape from '../assets/images/layoutexercices/etape.png';
+import nextIcon from '../assets/images/next.svg';
+import { useUser } from "../contexts/UserContext";
+import { useDbContext } from "../contexts/DbContext";
 import silverMedal from '../assets/gamification/silverMedal.png';
 import goldMedal from '../assets/gamification/goldenMedal.png';
 import bronzeMedal from '../assets/gamification/bronzeMedal.png';
-import { useUser } from "../contexts/UserContext";
 import video1 from '../assets/video/r.mp4';
-import video2 from '../assets/video/r.mp4';
+import closeIcon from '../assets/images/closeIconBlack.svg';
 
 const SequenceHome = () => {
     const { user } = useUser();
-    const params = useParams();
-    const id = params?.sequence;
-    const idSeq = parseInt(id, 10);
-
-    const [sequence, setSequence] = useState(null);
-    const [exercises, setExercises] = useState([]);
+    const { sequenceId } = useParams(); // Récupère l'ID de la séquence depuis les paramètres d'URL
+    const { stages, sequences, exercises, isLoading, fetchSequenceById, oneSequence,error } = useDbContext();
     const [tabScore, setTabScore] = useState([]);
     const [finalScore, setFinalScore] = useState(0);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
     const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
-      const loadData = async () => {
-          setIsLoading(true);
-          try {
-              const exercisesList = await fetchAllExerciseForSequences(idSeq);
-              const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
-              setExercises(sortedExercises);
-          } catch (error) {
-              setError("Impossible de charger les données");
-              console.error("Erreur lors du chargement des données :", error);
-          }
-          setIsLoading(false);
-      };
-
-      loadData();
-  }, [idSeq]);
-
-  // if (isLoading) return <div>Loading...</div>;
-  // if (error) return <div>{error}</div>;
-
+        if (sequenceId) {
+            fetchSequenceById(sequenceId); // Charge la séquence correspondant à l'ID
+        }
+    }, [sequenceId, fetchSequenceById]);
 
     useEffect(() => {
-        const fetchScores = async () => {
-            if (user) {
-                try {
-                    const scorePromises = exercises.map(async (exercise) => {
-                        const response = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
-                        if (!response.ok) {
-                            return null;
-                        }
-                        const data = await response.json();
-                        const scores = data['hydra:member'];
-                        const highestScore = scores.reduce((maxScore, current) => {
-                            if (current.pro_score === null || current.pro_score === undefined) {
-                                return maxScore;
+        if (exercises && exercises.length > 0) {
+            const fetchScores = async () => {
+                if (user) {
+                    try {
+                        const scorePromises = exercises.map(async (exercise) => {
+                            const response = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/user_progresses?user=${sessionStorage.getItem('user_id')}&exercise=${exercise.id}`);
+                            if (!response.ok) {
+                                return null;
                             }
-                            return maxScore === null ? current.pro_score : Math.max(maxScore, current.pro_score);
-                        }, null);
-                        return highestScore;
-                    });
+                            const data = await response.json();
+                            const scores = data['hydra:member'];
+                            const highestScore = scores.reduce((maxScore, current) => {
+                                if (current.pro_score === null || current.pro_score === undefined) {
+                                    return maxScore;
+                                }
+                                return maxScore === null ? current.pro_score : Math.max(maxScore, current.pro_score);
+                            }, null);
+                            return highestScore;
+                        });
 
-                    const scores = await Promise.all(scorePromises);
-                    setTabScore(scores.filter(score => score !== null));
-                } catch (error) {
-                    console.error("Erreur lors de la récupération des scores :", error);
+                        const scores = await Promise.all(scorePromises);
+                        setTabScore(scores.filter(score => score !== null));
+                    } catch (error) {
+                        console.error("Erreur lors de la récupération des scores :", error);
+                    }
                 }
-            }
-        };
+            };
 
-        fetchScores();
+            fetchScores();
+        }
     }, [user, exercises]);
 
     useEffect(() => {
@@ -100,11 +80,10 @@ const SequenceHome = () => {
                     <div className="header__title">
                         <div className="header__etape">
                             <img src={imgEtape} alt="Icone Etape" />
-                            {/* {console.log('les sequences', sequence)}
-                             {console.log('les etapes', sequence)} */}
-                            <p>Etape {sequence?.stage.stageId}</p>
+                            <p>Etape {sequences?.title}</p>
+                            {console.log(oneSequence)}
                         </div>
-                        <p className="header__sequence">{sequence?.seq_title}</p>
+                        <p className="header__sequence">{sequences?.title}</p>
                     </div>
                     <div className="header__percent">
                         <p><CountUp end={finalScore} /> %</p>
