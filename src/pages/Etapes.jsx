@@ -58,7 +58,7 @@ const Etapes = () => {
                     <Typography className="Etape__container">
                       {sequences.filter(sequence => sequence.stageId === stage.stageId)
                         .map((s, index) => (
-                          <Link to={`${s.stageId}`} key={index}>
+                          <Link to={`${s.sequenceId}`} key={index}>
                             <EtapeContent content={s.title.toUpperCase()} />
                           </Link>
                         ))}
