@@ -145,7 +145,7 @@ const SequenceHome = (props) => {
 
         exercisesScore();
     }, [exercises, user, idSeq])
-
+// dynamiser l'affichage des video
     useEffect(() => {
         if (sequence?.title) {
             import(`../assets/video/${sequence?.title}.mp4`)

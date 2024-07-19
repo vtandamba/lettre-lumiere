@@ -86,7 +86,15 @@ export const fetchAllExercisesForRevisions = async (id) => {
     throw error;
   }
 }
-
+// Exemple de fonction pour sauvegarder le score de progression de l'utilisateur
+export const saveUserProgress = async (progressData) => {
+  try {
+      await db.userProgress.add(progressData);
+      console.log('Progression de l\'utilisateur sauvegardée avec succès dans Dexie');
+  } catch (error) {
+      console.error('Erreur lors de la sauvegarde de la progression de l\'utilisateur dans Dexie:', error);
+  }
+};
 
 ///
 // import db from '../Dexie';

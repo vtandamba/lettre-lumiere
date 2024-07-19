@@ -40,14 +40,14 @@ const Etapes = () => {
           <MainHeader role="user" link="/home" />
           {stages.length ? (
             stages.map((stage) => (
-              <ThemeProvider theme={theme} key={stage.id}>
+              <ThemeProvider theme={theme} key={stage.stageId}>
                 <Accordion style={{ border: 'none', backgroundColor: "transparent" }}>
                   <AccordionSummary aria-controls="panel1-content" id="panel1-header">
                     <Typography className="Etape">
                       <button className="Etape__accordion"></button>
                       <div className="Etape__Title">
-                        <h2>{stage.name}</h2>
-                        <Link to={`/etape/${stage.id}`}>
+                        <h2> {stage.name}</h2>
+                        <Link to={`/etape/${stage.stageId}`}>
                           <IoMdArrowDropright size={55} color="#FFF" />
                         </Link>
                       </div>
