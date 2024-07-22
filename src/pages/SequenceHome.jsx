@@ -142,7 +142,7 @@ const SequenceHome = (props) => {
             }
         };
 
-
+ // todo faire les exo de tyoe D
         exercisesScore();
     }, [exercises, user, idSeq])
 // dynamiser l'affichage des video

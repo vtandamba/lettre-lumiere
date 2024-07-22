@@ -32,6 +32,7 @@ db.transaction('rw', 'users', 'stages', 'sequences', 'exercises', 'userProgress'
             { username: "Marilyne", password: "marilyne", level: "bronze", score: 0 },
             { username: "Victoria", password: "victoria", level: "bronze", score: 0 },
             { username: "Loane", password: "loane", level: "bronze", score: 0 },
+            { username: "atest", password: "atest", level: "bronze", score: 0 },
         ]);
     }
 

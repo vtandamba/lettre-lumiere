@@ -234,7 +234,7 @@ const Layout = (props) => {
                         <img src={speaker} alt="" />
                         <h1>{exercises[currentExerciseIndex]?.consigne}</h1>
                     </div>
-                    {/* {renderExerciseComponent(exercises[currentExerciseIndex])} */}
+                    {renderExerciseComponent(exercises[currentExerciseIndex])}
                     <button onClick={goToNextExercise}
                         disabled={currentExerciseIndex === exercises.length - 1}
                         className="exercice__validate"
