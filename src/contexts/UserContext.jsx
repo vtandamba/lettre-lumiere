@@ -1,6 +1,8 @@
-// UserContext.js
+// src/contexts/UserContext.js
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { fetchUser } from '../hooks/useDb'; // Assure-toi que fetchUser est importé correctement
+import { authenticateUser } from '../hooks/useAuth';
+import db, { fetchUser } from '../hooks/useDb';
+
 const UserContext = createContext();
 
 export const useUser = () => useContext(UserContext);
@@ -11,11 +13,34 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userInfo = idUser ? await fetchUser(parseInt(idUser, 10)) : null;
-      setUser(userInfo);
+      if (idUser) {
+        const userInfo = await fetchUser(parseInt(idUser, 10));
+        setUser(userInfo);
+      }
     };
     fetchUserData();
   }, [idUser]);
+
+  const login = async (username, password) => {
+    try {
+      const userInfo = await authenticateUser(username, password);
+      if (userInfo) {
+        sessionStorage.setItem('user_id', userInfo.userId);
+        setUser(userInfo);
+        return userInfo;
+      } else {
+        throw new Error('Erreur de connexion');
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'authentification : ", error);
+      return null;
+    }
+  };
+
+  const logout = () => {
+    sessionStorage.removeItem('user_id');
+    setUser(null);
+  };
 
   const checkUserStatus = async () => {
     const userId = sessionStorage.getItem('user_id');
@@ -28,27 +53,21 @@ export const UserProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    checkUserStatus(); // Vérifie l'état initial au montage du composant
-
+    checkUserStatus();
     const handleStorageChange = (event) => {
       if (event.key === 'user_id') {
-        checkUserStatus(); // Vérifie et met à jour l'état de l'utilisateur si nécessaire
+        checkUserStatus();
       }
     };
-
     window.addEventListener('storage', handleStorageChange);
-
     return () => {
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
-  const value = {
-    user,
-    setUser,
-    idUser,
-    setIdUser
-  };
-
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, setUser, login, logout }}>
+      {children}
+    </UserContext.Provider>
+  );
 };

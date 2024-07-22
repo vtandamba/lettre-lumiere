@@ -108,19 +108,19 @@ const Layout = (props) => {
     };
 
     const fetchScore = (score) => {
-        console.log('enregistrement du score');
         if (user) {
             // const date = new Date();
-            // const scoreData = {
-            //     userId: user.id,
-            //     sequenceId: idSeq,
-            //     exerciseId: exercises[currentExerciseIndex]?.id,
-            //     status: 'completed',
-            //     score: score,
-            //     createdAt: date.toISOString(),
-            // };
-
-            // saveUserProgress(scoreData);
+            const scoreData = {
+                userId: user.userId,
+                sequenceId: idSeq,
+                exerciseId: exercises[currentExerciseIndex]?.exerciseId,
+                status: 'completed',
+                score: score,
+                // createdAt: date.toISOString(),
+            };
+            saveUserProgress(scoreData);
+            console.log('saving',  saveUserProgress(scoreData) )
+            console.log('enregistrement du score', scoreData);
         } else {
             const updatedScores = exercisesScore.map((el, index) =>
                 index === currentExerciseIndex ? score : el === 0 ? null : el
@@ -187,8 +187,8 @@ const Layout = (props) => {
             return null;
         }
     };
-    console.log('========================>', exercises[currentExerciseIndex])
-    console.log('============score============>', exercisesScore)
+    // console.log('========================>', exercises[currentExerciseIndex])
+    // console.log('============score============>', exercisesScore)
     function getProgressClass(score, index) {
         if (index === currentExerciseIndex) {
             return "progress-item--current";

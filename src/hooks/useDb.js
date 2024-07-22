@@ -41,6 +41,16 @@ export const fetchOneSequence = async (id) => {
   }
 }
 
+
+// todo 
+export const authenticateUser = async (username, password) => {
+  return await db.users.get({ username, password });
+};
+
+export const addUser = async (user) => {
+  return await db.users.add(user);
+};
+// fin dtodo
 // export const fetchAllExerciseForSequences = async (id) => {
 //   try {
 //     const exercises = await db.exercises.where({ sequenceId: Number(id) }).toArray();
@@ -96,35 +106,6 @@ export const saveUserProgress = async (progressData) => {
   }
 };
 
-///
-// import db from '../Dexie';
 
-// export const fetchAllStages = async () => {
-//   try {
-//     const allStages = await db.stages.toArray();
-//     return allStages;
-//   } catch (error) {
-//     console.error("Erreur lors de la récupération des étapes:", error);
-//     throw error;
-//   }
-// };
 
-// export const fetchAllSequences = async () => {
-//   try {
-//     const allSequences = await db.sequences.toArray();
-//     return allSequences;
-//   } catch (error) {
-//     console.error("Erreur lors de la récupération des séquences:", error);
-//     throw error;
-//   }
-// };
-
-// export const fetchAllExercisesForSequence = async (sequenceId) => {
-//   try {
-//     const exercises = await db.exercises.where({ sequenceId: Number(sequenceId) }).toArray();
-//     return exercises;
-//   } catch (error) {
-//     console.error("Erreur lors de la récupération des exercices pour la séquence:", error);
-//     throw error;
-//   }
-// };
+export default db;

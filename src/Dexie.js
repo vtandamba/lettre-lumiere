@@ -1,9 +1,11 @@
+/* This JavaScript code snippet is setting up a database using Dexie, which is a minimalistic IndexedDB
+wrapper library. Here's a breakdown of what the code is doing: */
 import Dexie from 'dexie';
 
 const db = new Dexie('MyDatabase');
 
 db.version(1).stores({
-    users: "++userId, username, password, level, score",
+    users: "++userId, username, password, token, level, score",
     sequences: '++sequenceId, title, stageId, description, content, medal',
     stages: '++stageId, name, description',
     exercises: '++exerciseId, sequenceId, type, consigne, complete, content, image, etiquette, order',
@@ -32,7 +34,7 @@ db.transaction('rw', 'users', 'stages', 'sequences', 'exercises', 'userProgress'
             { username: "Marilyne", password: "marilyne", level: "bronze", score: 0 },
             { username: "Victoria", password: "victoria", level: "bronze", score: 0 },
             { username: "Loane", password: "loane", level: "bronze", score: 0 },
-            { username: "atest", password: "atest", level: "bronze", score: 0 },
+            { username: "josé", password: "josé", level: "bronze", score: 0 },
         ]);
     }
 

@@ -19,64 +19,64 @@ const Index = () => {
     }
 
     const handleCloseModal = () => {
-      
+
         setTimeout(() => {
             navigate('/')
         })
 
         setUser(null)
         sessionStorage.clear()
-        
+
     }
 
     console.log(user);
 
     return (<div className="index">
-        
-        <MainHeader role="general" link="/"/>
+
+        <MainHeader role="general" link="/" />
         <main>
-        {
-            user && 
-            <div className="progress-container">
-            <div className="progress-bar" data-percentage="10"> </div>
-        </div>
-        }
-           
-            <p className="index__message">Bonjour {sessionStorage.getItem("user_name")}</p>
+            {
+                user &&
+                <div className="progress-container">
+                    <div className="progress-bar" data-percentage="10"> </div>
+                </div>
+            }
+
+            <p className="index__message">Bonjour {user?.username}</p>
 
             <div className="parts">
-             
-                    <Link to="/etapes"> 
-                        <motion.div
-                            className="index__logoBrain"
-                            initial={{ y: 100}} 
-                            animate={{
-                                y: [-10, 0, -10], 
-                                transition: { duration: 1.5, repeat: Infinity },
-                          
-                            }}
-                        >
-                            <img src={logoBrain} alt="" />
-                        </motion.div>
-                    </Link>
-           
+
+                <Link to="/etapes">
+                    <motion.div
+                        className="index__logoBrain"
+                        initial={{ y: 100 }}
+                        animate={{
+                            y: [-10, 0, -10],
+                            transition: { duration: 1.5, repeat: Infinity },
+
+                        }}
+                    >
+                        <img src={logoBrain} alt="" />
+                    </motion.div>
+                </Link>
+
                 <Link to="/alphabet">
 
                     <motion.div
-                            className="parts__alphabet"
-                            initial={{ x: -500, opacity: 0 }} 
-                            animate={{ x: 0, opacity: 1 }} 
-                            transition={{duration:0.5}}
+                        className="parts__alphabet"
+                        initial={{ x: -500, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.5 }}
                     >
                         <p> a b c </p>
                     </motion.div>
                 </Link>
                 <Link to="/graphemes">
                     <motion.div
-                           className="parts__phonemes"
-                            initial={{ x: 500, opacity: 0 }} 
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{duration:0.5}} 
+                        className="parts__phonemes"
+                        initial={{ x: 500, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.5 }}
                     >
                         <p> an on in </p>
                     </motion.div>
@@ -91,8 +91,8 @@ const Index = () => {
             <SpringModal isOpen={openModal} setOpen={setOpenModal} handleClose={handleCloseModal}>
                 <p>Etes vous sûrs de vouloir vous déconnecter ?</p>
             </SpringModal>
-           
-            {user && <img src={logoutIcon} alt="logout" className="index__logout" onClick={handleOpenModal}/>}
+
+            {user && <img src={logoutIcon} alt="logout" className="index__logout" onClick={handleOpenModal} />}
         </main>
 
 

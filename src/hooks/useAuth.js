@@ -1,55 +1,31 @@
+// src/hooks/useAuth.js
+import db from '../Dexie';
 
-const Auth = {
-  login: async (username, password) => {
-    try {
-      const response = await fetch('https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/api/login_check', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erreur de connexion');
-      }
-
-      const data = await response.json();
-      console.log(data, 'user auth avec token');
-
-      sessionStorage.setItem('token', data.token);
-      
-      
-      if (data) {
-        const idResponse = await fetch(`https://mtsene.lpmiaw.univ-lr.fr/lettrelumiere/public/apip/users?user_name=${username}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${data.token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (idResponse.ok) {
-          const userData = await idResponse.json();
-     
-          return userData['hydra:member'][0]
-        }
-      }
-    } catch (error) {
-      console.error("Erreur lors de l'authentification : ", error);
+export const authenticateUser = async (username, password) => {
+  try {
+    const user = await db.users.get({ username, password });
+    if (user) {
+      return user;
     }
-  },
-
-  isAuthenticated: () => {
-    return !!sessionStorage.getItem('user_id');
-  },
-
-  logout: () => {
-    sessionStorage.removeItem('user_id');
+    throw new Error('Invalid credentials');
+  } catch (error) {
+    console.error("Erreur lors de l'authentification : ", error);
+    return null;
   }
 };
 
-export default Auth;
+export const addUser = async (user) => {
+  return await db.users.add(user);
+};
+
+ 
+export const saveScore = async (userId, exerciseId, score) => {
+  try {
+    await db.userProgress.put({ userId, exerciseId, score });
+    console.log('Score sauvegardé avec succès');
+  } catch (error) {
+    console.error('Erreur lors de la sauvegarde du score :', error);
+  }
+};
+
+export default db;
