@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Link, Outlet, useParams } from "react-router-dom";
-import { fetchAllExerciseForSequences, fetchOneSequence } from "../hooks/useDb";
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet, useParams } from 'react-router-dom';
+import { fetchAllExerciseForSequences, fetchOneSequence } from '../hooks/useDb';
 import DOMPurify from 'dompurify';
 import videoCam from '../assets/images/camera.svg';
 import imgEtape from '../assets/images/layoutexercices/etape.png';
 import { BounceLoader } from 'react-spinners';
 import nextIcon from '../assets/images/next.svg';
 import CountUp from 'react-countup';
-import MainHeader from "../components/MainHeader";
-import SpringModal from "../components/ModalMedia";
+import MainHeader from '../components/MainHeader';
+import SpringModal from '../components/ModalMedia';
 import closeIcon from '../assets/images/closeIconBlack.svg';
-import { useUser } from "../contexts/UserContext";
-import { saveScore } from "../hooks/useAuth";
+import { useUser } from '../contexts/UserContext';
+import { saveScore } from '../hooks/useAuth';
 import silverMedal from '../assets/gamification/silverMedal.png';
 import goldMedal from '../assets/gamification/goldenMedal.png';
 import bronzeMedal from '../assets/gamification/bronzeMedal.png';
 import db from '../Dexie'; // Importer la base de données
+import ModalPdf from '../components/ModalPdf';
 
 const SequenceHome = (props) => {
   const { allScoreByExercises } = props;
   const { user } = useUser();
   const [videoSrc, setVideoSrc] = useState('');
-
   const params = useParams();
   const id = params?.sequence;
   const idSeq = parseInt(id, 10);
-
   const [sequence, setSequence] = useState();
   const [exercises, setExercises] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [tabScore, setTabScore] = useState([]);
   const [finalScore, setFinalScore] = useState(0);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [openPdfModal, setOpenPdfModal] = useState(false);
 
   useEffect(() => {
     const loadSequences = async () => {
@@ -48,8 +48,8 @@ const SequenceHome = (props) => {
         const sortedExercises = exercisesList.sort((a, b) => a.order - b.order);
         setExercises(sortedExercises);
       } catch (error) {
-        setError("Impossible de charger les exercices");
-        console.error("Erreur lors du chargement des exercices :", error);
+        setError('Impossible de charger les exercices');
+        console.error('Erreur lors du chargement des exercices :', error);
       }
       setIsLoading(false);
     };
@@ -57,32 +57,33 @@ const SequenceHome = (props) => {
     loadExercises();
     loadSequences();
   }, [idSeq]);
-// console.log(user)
+  console.log(exercises)
+  console.log(tabScore)
+
   useEffect(() => {
     const exercisesScore = async () => {
       if (user) {
         try {
           const scorePromises = exercises?.map(async (exercise) => {
-            // Assurez-vous que exercise.exerciseId est correct
             const scores = await db.userProgress
               .where({ userId: user.userId, exerciseId: exercise.exerciseId })
               .toArray();
-              // console.log('Scores récupérés:', scores);
+
             if (scores.length === 0) {
               return null;
             }
-    
+
             const highestScore = scores.reduce((maxScore, current) => {
               return (current.score === null || current.score === undefined) ? maxScore : Math.max(maxScore, current.score);
             }, null);
-    
+
             return highestScore;
           });
-    
+
           const scores = await Promise.all(scorePromises);
           setTabScore(scores);
         } catch (error) {
-          console.error("Erreur lors de la récupération des scores:", error);
+          console.error('Erreur lors de la récupération des scores:', error);
         }
       } else if (!user && allScoreByExercises && allScoreByExercises.length > 0) {
         const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
@@ -94,7 +95,6 @@ const SequenceHome = (props) => {
         }
       }
     };
-    
 
     exercisesScore();
   }, [exercises, user, idSeq]);
@@ -106,7 +106,7 @@ const SequenceHome = (props) => {
           setVideoSrc(module.default);
         })
         .catch((err) => {
-          console.error("Erreur lors du chargement de la vidéo:", err);
+          console.error('Erreur lors du chargement de la vidéo:', err);
         });
     }
   }, [sequence?.title]);
@@ -142,6 +142,7 @@ const SequenceHome = (props) => {
           </div>
           <div className="header__actions">
             <img src={videoCam} alt="Video Cam" onClick={() => setOpenModal(true)} className="sequence__video" />
+            <button onClick={() => setOpenPdfModal(true)}>Voir PDF</button>
           </div>
         </div>
         <main className="exercises">
@@ -150,17 +151,17 @@ const SequenceHome = (props) => {
           ) : exercises.length ? (
             <ul className="exercises__list">
               {exercises.map((el, index) => {
-                let progressClass = "progress-item--no-score";
+                let progressClass = 'progress-item--no-score';
                 if (user && tabScore.length > 0) {
                   if (tabScore[index] !== null) {
                     if (tabScore[index] >= 0 && tabScore[index] < 25) {
-                      progressClass = "progress-item--orange";
+                      progressClass = 'progress-item--orange';
                     } else if (tabScore[index] >= 25 && tabScore[index] < 50) {
-                      progressClass = "progress-item--rouge";
+                      progressClass = 'progress-item--rouge';
                     } else if (tabScore[index] >= 50 && tabScore[index] < 75) {
-                      progressClass = "progress-item--jaune";
+                      progressClass = 'progress-item--jaune';
                     } else if (tabScore[index] >= 75) {
-                      progressClass = "progress-item--vert";
+                      progressClass = 'progress-item--vert';
                     }
                   }
                 } else {
@@ -170,16 +171,16 @@ const SequenceHome = (props) => {
                       const tabScores = filteredScores[0].tabScores;
                       if (tabScores[index] !== null) {
                         if (tabScores[index] >= 0 && tabScores[index] < 25) {
-                          progressClass = "progress-item--orange";
+                          progressClass = 'progress-item--orange';
                         } else if (tabScores[index] >= 25 && tabScores[index] < 50) {
-                          progressClass = "progress-item--rouge";
+                          progressClass = 'progress-item--rouge';
                         } else if (tabScores[index] >= 50 && tabScores[index] < 75) {
-                          progressClass = "progress-item--jaune";
+                          progressClass = 'progress-item--jaune';
                         } else if (tabScores[index] >= 75) {
-                          progressClass = "progress-item--vert";
+                          progressClass = 'progress-item--vert';
                         }
                       } else {
-                        progressClass = "progress-item-no-score";
+                        progressClass = 'progress-item-no-score';
                       }
                     }
                   }
@@ -205,6 +206,7 @@ const SequenceHome = (props) => {
               <img src={nextIcon} alt="next" />
             </div>
           </Link>}
+          console.log('les scores Tabscore :',  tabScore)
         </footer>
         <SpringModal isOpen={openModal} setOpen={setOpenModal}>
           <img src={closeIcon} alt="Fermer la vidéo" className="close" onClick={() => setOpenModal(false)} />
@@ -219,6 +221,14 @@ const SequenceHome = (props) => {
             </p>
           </video>
         </SpringModal>
+        <ModalPdf
+  isOpen={openPdfModal}
+  onRequestClose={() => setOpenPdfModal(false)}
+  user={user}
+  exercises={exercises}
+  tabScore={tabScore} // Assurez-vous que vous passez tabScore ici
+/>
+{/* {console.log('les scores Tabscore :',  tabScore)} */}
       </div>
     </React.Fragment>
   );

@@ -84,6 +84,7 @@ const Layout = (props) => {
     const goToNextExercise = () => {
         setCurrentExerciseIndex((prevIndex) => prevIndex + 1);
     };
+    console.log(exercisesScore, 'le score user')
 
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
@@ -130,7 +131,6 @@ const Layout = (props) => {
             savingScore({ idSeq, tabScores: updatedScores });
         }
     };
-
     const onAttemptMade = () => {
         if (currentExerciseIndex < exercises.length - 1) {
             setShouldGoToNextExercise(true);
