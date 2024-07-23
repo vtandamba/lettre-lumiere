@@ -24,7 +24,7 @@ import { useScoreByExo } from '../contexts/ScoreContext';
 const SequenceHome = (props) => {
   const { allScoreByExercises } = props;
   const { user } = useUser();
-  const { scoreByExo, updateScoreByExo } = useScoreByExo();
+  const { scoreByExo, finalScores, updateScoreByExo, updateFinalScore } = useScoreByExo();
   const [videoSrc, setVideoSrc] = useState('');
   const params = useParams();
   const id = params?.sequence;
@@ -46,6 +46,12 @@ const SequenceHome = (props) => {
       updateScoreByExo(idSeq, filteredScores || []);
     }
   }, [user, tabScore, allScoreByExercises, idSeq, updateScoreByExo]);
+
+  useEffect(() => {
+    if (finalScore) {
+      updateFinalScore(idSeq, finalScore);
+    }
+  }, [finalScore, idSeq, updateFinalScore]);
 
   useEffect(() => {
     const loadSequences = async () => {
@@ -147,13 +153,13 @@ const SequenceHome = (props) => {
             <p className="header__sequence">{sequence?.title}</p>
           </div>
           <div className="header__percent">
-            <p><CountUp end={finalScore} /> %</p>
-            {finalScore === 0 && <img src={noMedal} alt="médaille" />}
-            {finalScore === 100 && <img src={perfectMedal} alt="médaille" />}
-            {finalScore > 0 && finalScore < 100 && (
+            <p><CountUp end={finalScores[idSeq] || finalScore} /> %</p>
+            {finalScores[idSeq] === 0 && <img src={noMedal} alt="médaille" />}
+            {finalScores[idSeq] === 100 && <img src={perfectMedal} alt="médaille" />}
+            {finalScores[idSeq] > 0 && finalScores[idSeq] < 100 && (
               <img src={
-                finalScore < 30 ? bronzeMedal :
-                  finalScore >= 30 && finalScore < 60 ? silverMedal :
+                finalScores[idSeq] < 30 ? bronzeMedal :
+                  finalScores[idSeq] >= 30 && finalScores[idSeq] < 60 ? silverMedal :
                     goldMedal
               } alt="médaille" />
             )}
