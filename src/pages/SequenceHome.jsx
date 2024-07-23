@@ -34,6 +34,10 @@ const SequenceHome = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [openPdfModal, setOpenPdfModal] = useState(false);
 
+  // const scorebyExo = allScoreByExercises[0]?.tabScores;
+  const scorebyExo = user ? tabScore : allScoreByExercises[0]?.tabScores;
+  console.log('scorebyExo', allScoreByExercises)
+  console.log('scorebyExo --- tabscore', tabScore)
   useEffect(() => {
     const loadSequences = async () => {
       const loadedSequences = await fetchOneSequence(idSeq);
@@ -57,8 +61,7 @@ const SequenceHome = (props) => {
     loadExercises();
     loadSequences();
   }, [idSeq]);
-  console.log(exercises)
-  console.log(tabScore)
+
 
   useEffect(() => {
     const exercisesScore = async () => {
@@ -206,7 +209,7 @@ const SequenceHome = (props) => {
               <img src={nextIcon} alt="next" />
             </div>
           </Link>}
-          console.log('les scores Tabscore :',  tabScore)
+     
         </footer>
         <SpringModal isOpen={openModal} setOpen={setOpenModal}>
           <img src={closeIcon} alt="Fermer la vidéo" className="close" onClick={() => setOpenModal(false)} />
@@ -222,13 +225,13 @@ const SequenceHome = (props) => {
           </video>
         </SpringModal>
         <ModalPdf
-  isOpen={openPdfModal}
-  onRequestClose={() => setOpenPdfModal(false)}
-  user={user}
-  exercises={exercises}
-  tabScore={tabScore} // Assurez-vous que vous passez tabScore ici
-/>
-{/* {console.log('les scores Tabscore :',  tabScore)} */}
+          isOpen={openPdfModal}
+          onRequestClose={() => setOpenPdfModal(false)}
+          user={user}
+          exercises={exercises}
+          scorebyExo={scorebyExo}
+        />
+        {console.log('test', scorebyExo)}
       </div>
     </React.Fragment>
   );

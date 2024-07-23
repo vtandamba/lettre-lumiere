@@ -42,7 +42,9 @@ const style = {
   outline: 'none',
 };
 
-const ModalPdf = ({ isOpen, onRequestClose, user, exercises }) => {
+const ModalPdf = ({ isOpen, onRequestClose, user, exercises, scorebyExo }) => {
+  console.log('Props in ModalPdf:', { user, exercises, scorebyExo });
+
   return (
     <Modal
       open={isOpen}
@@ -50,16 +52,14 @@ const ModalPdf = ({ isOpen, onRequestClose, user, exercises }) => {
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
-        style: { backgroundColor: 'rgba(0, 0, 0, 0.5)' }, // Arrière-plan sombre
+        style: { backgroundColor: 'rgba(0, 0, 0, 0.5)' },
       }}
     >
       <Fade in={isOpen}>
         <Box sx={style}>
-          {/* <button onClick={onRequestClose} style={{ marginBottom: '10px' }}>Fermer</button> */}
-          <img src={closeIcon} alt="Fermer le fichier pdf de la progression" className="close" onClick={onRequestClose}   />
-
+          <img src={closeIcon} alt="Fermer le fichier pdf de la progression" className="close" onClick={onRequestClose} />
           <PDFViewer width="100%" height="90%">
-            <ProgressionPdf user={user} exercises={exercises} />
+            <ProgressionPdf user={user} exercises={exercises} scorebyExo={scorebyExo} />
           </PDFViewer>
         </Box>
       </Fade>
@@ -67,11 +67,13 @@ const ModalPdf = ({ isOpen, onRequestClose, user, exercises }) => {
   );
 };
 
+
 ModalPdf.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onRequestClose: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   exercises: PropTypes.array.isRequired,
+  scorebyExo: PropTypes.array.isRequired,
 };
 
 export default ModalPdf;

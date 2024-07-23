@@ -85,7 +85,7 @@ const Layout = (props) => {
         setCurrentExerciseIndex((prevIndex) => prevIndex + 1);
     };
     console.log(exercisesScore, 'le score user')
-
+const scorebyExo = exercisesScore;
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
             return "A";
