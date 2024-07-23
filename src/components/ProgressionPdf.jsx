@@ -4,9 +4,7 @@ import logoLettres from '../assets/images/Logo lettres en lumière.png'; // Assu
 import logo from '../assets/images/logoLettresEnLumieres.png'; // Assurez-vous que le chemin est correct
 
 const ProgressionPdf = ({ user, exercises, scorebyExo }) => {
-    console.log('Exercices dans PDF:', exercises);
-    console.log('Scores dans PDF:', scorebyExo);
-    console.log('User dans PDF:', user);
+
 
     const styles = StyleSheet.create({
         page: {
@@ -63,7 +61,7 @@ const ProgressionPdf = ({ user, exercises, scorebyExo }) => {
                         exercises.map((exercise, index) => (
                             <View key={index} style={{ marginBottom: 5 }}>
                                 <Text style={styles.text}>
-                                    {index + 1}. {exercise.consigne || 'Exercice inconnu'} - Progression: {exercise.order || 0}%
+                                    {index + 1}. {exercise.consigne || 'Exercice inconnu'} 
                                 </Text>
                                 {scorebyExo && scorebyExo[index] !== undefined ? (
                                     <Text style={styles.score}>

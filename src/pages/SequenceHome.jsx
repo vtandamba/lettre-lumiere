@@ -12,15 +12,19 @@ import SpringModal from '../components/ModalMedia';
 import closeIcon from '../assets/images/closeIconBlack.svg';
 import { useUser } from '../contexts/UserContext';
 import { saveScore } from '../hooks/useAuth';
-import silverMedal from '../assets/gamification/silverMedal.png';
-import goldMedal from '../assets/gamification/goldenMedal.png';
-import bronzeMedal from '../assets/gamification/bronzeMedal.png';
+import perfectMedal from '../assets/gamification/Level=6.svg';
+import silverMedal from '../assets/gamification/Level=4.svg';
+import goldMedal from '../assets/gamification/Level=5.svg';
+import bronzeMedal from '../assets/gamification/Level=3.svg';
+import noMedal from '../assets/gamification/Level=0.svg';
 import db from '../Dexie'; // Importer la base de données
 import ModalPdf from '../components/ModalPdf';
+import { useScoreByExo } from '../contexts/ScoreContext';
 
 const SequenceHome = (props) => {
   const { allScoreByExercises } = props;
   const { user } = useUser();
+  const { scoreByExo, updateScoreByExo } = useScoreByExo();
   const [videoSrc, setVideoSrc] = useState('');
   const params = useParams();
   const id = params?.sequence;
@@ -34,10 +38,15 @@ const SequenceHome = (props) => {
   const [openModal, setOpenModal] = useState(false);
   const [openPdfModal, setOpenPdfModal] = useState(false);
 
-  // const scorebyExo = allScoreByExercises[0]?.tabScores;
-  const scorebyExo = user ? tabScore : allScoreByExercises[0]?.tabScores;
-  console.log('scorebyExo', allScoreByExercises)
-  console.log('scorebyExo --- tabscore', tabScore)
+  useEffect(() => {
+    if (user) {
+      updateScoreByExo(idSeq, tabScore);
+    } else if (allScoreByExercises && allScoreByExercises.length > 0) {
+      const filteredScores = allScoreByExercises.find(el => el.idSeq === idSeq)?.tabScores;
+      updateScoreByExo(idSeq, filteredScores || []);
+    }
+  }, [user, tabScore, allScoreByExercises, idSeq, updateScoreByExo]);
+
   useEffect(() => {
     const loadSequences = async () => {
       const loadedSequences = await fetchOneSequence(idSeq);
@@ -61,7 +70,6 @@ const SequenceHome = (props) => {
     loadExercises();
     loadSequences();
   }, [idSeq]);
-
 
   useEffect(() => {
     const exercisesScore = async () => {
@@ -89,18 +97,17 @@ const SequenceHome = (props) => {
           console.error('Erreur lors de la récupération des scores:', error);
         }
       } else if (!user && allScoreByExercises && allScoreByExercises.length > 0) {
-        const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
-        if (filteredScores.length > 0) {
-          const tabScores = filteredScores[0].tabScores;
-          const sumScores = tabScores.reduce((accumulator, currentValue) => accumulator + (currentValue !== null ? currentValue : 0), 0);
-          const avgScore = sumScores / tabScores.length;
+        const filteredScores = allScoreByExercises.find(el => el.idSeq === idSeq)?.tabScores;
+        if (filteredScores) {
+          const sumScores = filteredScores.reduce((accumulator, currentValue) => accumulator + (currentValue !== null ? currentValue : 0), 0);
+          const avgScore = sumScores / filteredScores.length;
           setFinalScore(avgScore);
         }
       }
     };
 
     exercisesScore();
-  }, [exercises, user, idSeq]);
+  }, [exercises, user, idSeq, allScoreByExercises]);
 
   useEffect(() => {
     if (sequence?.title) {
@@ -141,7 +148,15 @@ const SequenceHome = (props) => {
           </div>
           <div className="header__percent">
             <p><CountUp end={finalScore} /> %</p>
-            {finalScore !== 0 && <img src={(finalScore < 30) ? bronzeMedal : (finalScore > 30 && finalScore < 60) ? silverMedal : goldMedal} alt="médaille" />}
+            {finalScore === 0 && <img src={noMedal} alt="médaille" />}
+            {finalScore === 100 && <img src={perfectMedal} alt="médaille" />}
+            {finalScore > 0 && finalScore < 100 && (
+              <img src={
+                finalScore < 30 ? bronzeMedal :
+                  finalScore >= 30 && finalScore < 60 ? silverMedal :
+                    goldMedal
+              } alt="médaille" />
+            )}
           </div>
           <div className="header__actions">
             <img src={videoCam} alt="Video Cam" onClick={() => setOpenModal(true)} className="sequence__video" />
@@ -169,17 +184,16 @@ const SequenceHome = (props) => {
                   }
                 } else {
                   if (allScoreByExercises && allScoreByExercises.length > 0) {
-                    const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
-                    if (filteredScores.length > 0) {
-                      const tabScores = filteredScores[0].tabScores;
-                      if (tabScores[index] !== null) {
-                        if (tabScores[index] >= 0 && tabScores[index] < 25) {
+                    const filteredScores = allScoreByExercises.find(el => el.idSeq === idSeq)?.tabScores;
+                    if (filteredScores) {
+                      if (filteredScores[index] !== null) {
+                        if (filteredScores[index] >= 0 && filteredScores[index] < 25) {
                           progressClass = 'progress-item--orange';
-                        } else if (tabScores[index] >= 25 && tabScores[index] < 50) {
+                        } else if (filteredScores[index] >= 25 && filteredScores[index] < 50) {
                           progressClass = 'progress-item--rouge';
-                        } else if (tabScores[index] >= 50 && tabScores[index] < 75) {
+                        } else if (filteredScores[index] >= 50 && filteredScores[index] < 75) {
                           progressClass = 'progress-item--jaune';
-                        } else if (tabScores[index] >= 75) {
+                        } else if (filteredScores[index] >= 75) {
                           progressClass = 'progress-item--vert';
                         }
                       } else {
@@ -209,7 +223,6 @@ const SequenceHome = (props) => {
               <img src={nextIcon} alt="next" />
             </div>
           </Link>}
-     
         </footer>
         <SpringModal isOpen={openModal} setOpen={setOpenModal}>
           <img src={closeIcon} alt="Fermer la vidéo" className="close" onClick={() => setOpenModal(false)} />
@@ -229,9 +242,10 @@ const SequenceHome = (props) => {
           onRequestClose={() => setOpenPdfModal(false)}
           user={user}
           exercises={exercises}
-          scorebyExo={scorebyExo}
+          scorebyExo={scoreByExo[idSeq]}
         />
-        {console.log('test', scorebyExo)}
+        {console.log('allScoreByExercises', allScoreByExercises)}
+        {console.log('test', scoreByExo)}
       </div>
     </React.Fragment>
   );

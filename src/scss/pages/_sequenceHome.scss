@@ -47,7 +47,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: rgba(59, 155, 165, 0.7);
+            background-color: rgb(213 251 255 / 51%);
+            border: 1px solid $kepel;
             font-family: $font-family-general ;
             font-size: $font-size-large;
             padding: 1rem 3.48rem;
