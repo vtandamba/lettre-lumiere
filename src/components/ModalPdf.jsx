@@ -43,7 +43,7 @@ const style = {
 };
 
 const ModalPdf = ({ isOpen, onRequestClose, user, exercises, scorebyExo }) => {
-  console.log('Props in ModalPdf:', { user, exercises, scorebyExo });
+  // console.log('Props in ModalPdf:', { user, exercises, scorebyExo });
 
   return (
     <Modal

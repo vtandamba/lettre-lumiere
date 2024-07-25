@@ -55,7 +55,10 @@ const getUserProgressForSequence = async (userId, sequenceId) => {
     try {
         // Récupérer toutes les progressions pour l'utilisateur et la séquence donnés
         const progressList = await db.userProgress
-            .where({ userId, sequenceId })
+              // TODO  optomiser
+
+            // .where({ userId, sequenceId })
+            .where({ sequenceId })
             .toArray();
 
         // Filtrer les doublons par combinaison de userId, sequenceId et exerciseId

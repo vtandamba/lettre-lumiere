@@ -77,7 +77,10 @@ const SequenceHome = (props) => {
         try {
           const scorePromises = exercises?.map(async (exercise) => {
             const scores = await db.userProgress
-              .where({ userId: user.userId, exerciseId: exercise.exerciseId })
+              // TODO  optomiser
+              //  .where({ userId: user.userId, exerciseId: exercise.exerciseId })
+              .where({ exerciseId: exercise.exerciseId })
+
               .toArray();
 
             if (scores.length === 0) {
