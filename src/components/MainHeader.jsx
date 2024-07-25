@@ -29,8 +29,8 @@ const MainHeader = (props) => {
         }
     };
 
-    const username = user?.username;
-    const userLevel = user?.level; // Niveau de l'utilisateur
+    const username = user?.username || 'utilisateur';
+    const userLevel = user?.level || 'nobe'; // Niveau de l'utilisateur avec valeur par défaut
     const userAvatar = getUserIcon(userLevel); // Icône basée sur le niveau
 
     return (
@@ -38,8 +38,8 @@ const MainHeader = (props) => {
             {role !== "user"
                 ? <img src={logoLettres} alt="Page des étapes" className="header__logo" />
                 : <div className="user">
-                    <img src={userAvatar} alt="Profil utilisateur " className="user__img" />
-                    <p className="user__name">{username || 'utilisateur'}</p>
+                    <img src={userAvatar} alt="Profil utilisateur" className="user__img" />
+                    <p className="user__name">{username}</p>
                 </div>}
             <Link to={link} className="bouton__croix">
                 <p style={{ color: "#000" }}>QUITTER</p>

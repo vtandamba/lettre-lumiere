@@ -1,18 +1,15 @@
+import { useState } from "react";
+import Water from "../components/water";
+
 const EtapeContent = (props) => {
+    const { content, progress, sequenceId } = props;
 
-    const {
-        content
-    } = props
-
-    return <>
-
-
-        <p  className="Etape__seq">
+    return (
+        <div className={`Etape__seq water-${sequenceId}`}>
+            <Water scorePercentage={progress/100} sequenceId={sequenceId} />
             <span className="Etape__content">{content}</span>
-        </p>
+        </div>
+    );
+};
 
-
-    </>
-
-}
-export default EtapeContent
+export default EtapeContent;

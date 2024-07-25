@@ -1,8 +1,8 @@
-// src/contexts/UserContext.js
+// UserContext.js
 
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { authenticateUser } from '../hooks/useAuth';
-import db, { fetchUser, fetchUserProgress } from '../hooks/useDb';
+import db, { fetchUser, fetchUserProgress, updateUserScore } from '../hooks/useDb';
 
 const UserContext = createContext();
 
@@ -75,8 +75,40 @@ export const UserProvider = ({ children }) => {
     };
   }, []);
 
+  // Fonction pour déterminer le niveau en fonction du score
+  const determineLevel = (score) => {
+    if (score >= 800) return 'perfect';
+    if (score >= 600) return 'gold';
+    if (score >= 400) return 'silver';
+    if (score >= 200) return 'bronze';
+    // TODO remettre le 200 pour bronze
+    return 'nobe';
+  };
+
+  // Fonction pour calculer et mettre à jour le score global
+  const calculateAndUpdateScore = async (sequenceProgress) => {
+    if (user && sequenceProgress) {
+      const totalSequences = Object.keys(sequenceProgress).length;
+      const totalScore = Object.values(sequenceProgress).reduce((acc, currProgress) => {
+        // Chaque séquence est notée sur 100, donc calculer le score proportionnel pour chaque séquence
+        const sequenceScore = (currProgress / 100) * 100; 
+        return acc + sequenceScore;
+      }, 0);
+      
+      // Calculer le score global sur une échelle de 1000 points
+      const finalScore = Math.min((totalScore / totalSequences) * 10, 1000);
+      
+      // Déterminer le niveau basé sur le score
+      const level = determineLevel(finalScore);
+
+      // Mise à jour du score et du niveau dans la base de données
+      await updateUserScore(user.userId, finalScore, level);
+      setUser((prevUser) => ({ ...prevUser, score: finalScore, level }));
+    }
+  };
+
   return (
-    <UserContext.Provider value={{ user, setUser, userProgress, login, logout }}>
+    <UserContext.Provider value={{ user, setUser, userProgress, login, logout, calculateAndUpdateScore }}>
       {children}
     </UserContext.Provider>
   );

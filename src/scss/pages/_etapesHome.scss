@@ -10,11 +10,15 @@
 
 .water::before {
     content: "";
+    // width: var(--before-width, 200%);
+    // height: var(--before-height, 200%);
     width: 200%;
     height: 200%;
-    background-color: #ececec;
+    background-color: var(--before-bg-color, #ececec);
+    height: 200%;
+    // background-color: #ececec;
     position: absolute;
-    top: -150%;
+    top: var(--before-top, 200%);
     left: -50%;
     border-radius: 40%;
     animation: anim 12s linear infinite;
@@ -24,13 +28,27 @@
     content: "";
     width: 204%;
     height: 204%;
+    background-color: var(--after-bg-color, #ececec80);
+    height: 204%;
     background-color: #ececec80;
     position: absolute;
-    top: -150%;
+    top: var(--after-top, -0%);
+    // top: var(--after-top, -150%);
     left: -52%;
     border-radius: 40%;
     animation: anim 12s linear infinite;
     animation-delay: 0.5s;
+}
+
+
+@keyframes anim {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes anim {

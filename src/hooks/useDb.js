@@ -122,4 +122,17 @@ export const saveUserProgress = async (progress) => {
       return db.userProgress.add(progress);
   }
 };
+
+// src/hooks/useDb.js
+
+// Fonction pour mettre à jour le score utilisateur
+export const updateUserScore = async (userId, score) => {
+  try {
+    await db.users.update(userId, { score });
+    console.log('user score à jour de ',score)
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour du score utilisateur:', error);
+  }
+};
+
 export default db;

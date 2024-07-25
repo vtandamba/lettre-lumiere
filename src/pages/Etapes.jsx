@@ -14,7 +14,7 @@ import { useUser } from "../contexts/UserContext";
 
 const Etapes = () => {
   const { stages, sequences, isLoading, getUserProgressForSequence } = useDbContext();
-  const { user } = useUser();
+  const { user, calculateAndUpdateScore } = useUser();
   const [sequenceProgress, setSequenceProgress] = useState({});
 
   const theme = createTheme({
@@ -43,11 +43,14 @@ const Etapes = () => {
           progressData[sequence.sequenceId] = averageScore;
         }
         setSequenceProgress(progressData);
+
+        // Recalculer et mettre à jour le score global après avoir chargé les progrès
+        await calculateAndUpdateScore(progressData);
       }
     };
 
     loadProgress();
-  }, [user, sequences, getUserProgressForSequence]);
+  }, [user, sequences, getUserProgressForSequence, calculateAndUpdateScore]);
 
   return (
     <>
@@ -78,7 +81,11 @@ const Etapes = () => {
                         .map((s) => (
                           <div key={s.sequenceId}>
                             <Link to={`${s.sequenceId}`}>
-                              <EtapeContent content={s.title.toUpperCase()} />
+                              <EtapeContent 
+                                content={s.title.toUpperCase()} 
+                                progress={sequenceProgress[s.sequenceId]} 
+                                sequenceId={s.sequenceId}
+                              />
                             </Link>
                             {sequenceProgress[s.sequenceId] !== undefined && (
                               <div>
