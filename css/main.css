@@ -1262,6 +1262,10 @@ a:visited {
   width: 100%;
   cursor: pointer;
 }
+.sequence__print {
+  width: 100%;
+  cursor: pointer;
+}
 .sequence .header {
   margin-top: 2rem;
   display: flex;
@@ -1311,6 +1315,11 @@ a:visited {
   text-transform: uppercase;
   font-weight: 800;
 }
+.sequence .header__actions {
+  display: flex;
+  gap: 2vw;
+  padding: 0.5vw;
+}
 .sequence .exercises {
   position: relative;
 }
@@ -1351,6 +1360,34 @@ a:visited {
   width: 2.7rem;
   margin-top: 5px;
   animation: bounceRight 1s infinite;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* Utilisez une couleur correcte si nécessaire */
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #3B9BA5; /* Couleur de fond pour le tooltip */
+  color: #fff; /* Couleur du texte */
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position au-dessus de l'élément */
+  left: 50%;
+  margin-left: -60px; /* Centrer le tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
 
 .progress-container {

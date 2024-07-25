@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDbContext } from "../contexts/DbContext";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Accordion from '@mui/material/Accordion';
@@ -10,9 +10,12 @@ import { CircleLoader } from 'react-spinners';
 import MainHeader from '../components/MainHeader';
 import { IoMdArrowDropright } from "react-icons/io";
 import EtapeContent from "../components/EtapeContent";
+import { useUser } from "../contexts/UserContext";
 
 const Etapes = () => {
-  const { stages, sequences,  isLoading } = useDbContext();
+  const { stages, sequences, isLoading, getUserProgressForSequence } = useDbContext();
+  const { user } = useUser();
+  const [sequenceProgress, setSequenceProgress] = useState({});
 
   const theme = createTheme({
     components: {
@@ -31,6 +34,21 @@ const Etapes = () => {
     },
   });
 
+  useEffect(() => {
+    const loadProgress = async () => {
+      if (user) {
+        const progressData = {};
+        for (const sequence of sequences) {
+          const averageScore = await getUserProgressForSequence(user.userId, sequence.sequenceId);
+          progressData[sequence.sequenceId] = averageScore;
+        }
+        setSequenceProgress(progressData);
+      }
+    };
+
+    loadProgress();
+  }, [user, sequences, getUserProgressForSequence]);
+
   return (
     <>
       {isLoading ? (
@@ -46,7 +64,7 @@ const Etapes = () => {
                     <Typography className="Etape">
                       <button className="Etape__accordion"></button>
                       <div className="Etape__Title">
-                        <h2> {stage.name}</h2>
+                        <h2>{stage.name}</h2>
                         <Link to={`/etape/${stage.stageId}`}>
                           <IoMdArrowDropright size={55} color="#FFF" />
                         </Link>
@@ -57,10 +75,17 @@ const Etapes = () => {
                   <AccordionDetails>
                     <Typography className="Etape__container">
                       {sequences.filter(sequence => sequence.stageId === stage.stageId)
-                        .map((s, index) => (
-                          <Link to={`${s.sequenceId}`} key={index}>
-                            <EtapeContent content={s.title.toUpperCase()} />
-                          </Link>
+                        .map((s) => (
+                          <div key={s.sequenceId}>
+                            <Link to={`${s.sequenceId}`}>
+                              <EtapeContent content={s.title.toUpperCase()} />
+                            </Link>
+                            {sequenceProgress[s.sequenceId] !== undefined && (
+                              <div>
+                                <h3>Progression: {sequenceProgress[s.sequenceId].toFixed(2)}%</h3>
+                              </div>
+                            )}
+                          </div>
                         ))}
                     </Typography>
                   </AccordionDetails>

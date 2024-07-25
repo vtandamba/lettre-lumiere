@@ -28,4 +28,5 @@ export const saveScore = async (userId, exerciseId, score) => {
   }
 };
 
+
 export default db;

@@ -1,3 +1,5 @@
+// src/components/Layout.js
+
 import React, { Suspense, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { fetchAllExerciseForSequences, fetchAllExercisesForRevisions, fetchOneSequence, saveUserProgress } from "../../../hooks/useDb";
@@ -11,10 +13,12 @@ import SpringModal from "../../Modal";
 import { useUser } from "../../../contexts/UserContext";
 import speak from "../../../hooks/useSpeak";
 import speaker from '../../../assets/images/haut-parleur.svg';
+import useUserProgress from '../../../hooks/useUserProgress';
 
 const Layout = (props) => {
     const { savingScore } = props;
-    const { user } = useUser();
+    const { user, userProgress } = useUser();
+    const { updateUserScoreAndLevel } = useUserProgress(); // Utilisation du hook
     const params = useParams();
 
     const id = params?.sequence;
@@ -84,8 +88,9 @@ const Layout = (props) => {
     const goToNextExercise = () => {
         setCurrentExerciseIndex((prevIndex) => prevIndex + 1);
     };
-    console.log(exercisesScore, 'le score user')
-const scorebyExo = exercisesScore;
+
+    const scorebyExo = exercisesScore;
+
     const getExerciseComponentName = (exerciseType) => {
         if (exerciseType.startsWith("A")) {
             return "A";
@@ -110,18 +115,17 @@ const scorebyExo = exercisesScore;
 
     const fetchScore = (score) => {
         if (user) {
-            // const date = new Date();
             const scoreData = {
                 userId: user.userId,
                 sequenceId: idSeq,
                 exerciseId: exercises[currentExerciseIndex]?.exerciseId,
                 status: 'completed',
                 score: score,
-                // createdAt: date.toISOString(),
             };
             saveUserProgress(scoreData);
-            console.log('saving',  saveUserProgress(scoreData) )
+            console.log('saving', saveUserProgress(scoreData))
             console.log('enregistrement du score', scoreData);
+
         } else {
             const updatedScores = exercisesScore.map((el, index) =>
                 index === currentExerciseIndex ? score : el === 0 ? null : el
@@ -131,6 +135,7 @@ const scorebyExo = exercisesScore;
             savingScore({ idSeq, tabScores: updatedScores });
         }
     };
+
     const onAttemptMade = () => {
         if (currentExerciseIndex < exercises.length - 1) {
             setShouldGoToNextExercise(true);
@@ -157,8 +162,13 @@ const scorebyExo = exercisesScore;
             }, 0);
             const avgScore = sumScores / exercisesScore.length;
             setFinalScore(avgScore);
+
+            // Mise à jour du score et niveau de l'utilisateur à la fin de la séquence
+            if (user) {
+                updateUserScoreAndLevel(user.userId); // Assurez-vous que userId est défini
+            }
         }
-    }, [exercisesScore, currentExerciseIndex, exercises.length]);
+    }, [exercisesScore, currentExerciseIndex, exercises.length, user, updateUserScoreAndLevel]);
 
     const recordAnswer = (percent) => {
         const updatedScores = [...exercisesScore];
@@ -187,8 +197,7 @@ const scorebyExo = exercisesScore;
             return null;
         }
     };
-    // console.log('========================>', exercises[currentExerciseIndex])
-    // console.log('============score============>', exercisesScore)
+
     function getProgressClass(score, index) {
         if (index === currentExerciseIndex) {
             return "progress-item--current";
@@ -306,3 +315,4 @@ const scorebyExo = exercisesScore;
 };
 
 export default Layout;
+

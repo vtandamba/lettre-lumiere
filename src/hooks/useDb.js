@@ -96,16 +96,30 @@ export const fetchAllExercisesForRevisions = async (id) => {
     throw error;
   }
 }
-// Exemple de fonction pour sauvegarder le score de progression de l'utilisateur
-export const saveUserProgress = async (progressData) => {
-  try {
-      await db.userProgress.add(progressData);
-      console.log('Progression de l\'utilisateur sauvegardée avec succès dans Dexie');
-  } catch (error) {
-      console.error('Erreur lors de la sauvegarde de la progression de l\'utilisateur dans Dexie:', error);
-  }
+
+export const fetchUserProgress = async (userId) => {
+  return db.userProgress.where({ userId }).toArray();
 };
 
+// Exemple de fonction pour sauvegarder le score de progression de l'utilisateur
+export const saveUserProgress = async (progress) => {
+  // Ajoute la date actuelle
+  progress.date = new Date().toISOString();
+  
+  // Vérifie si une progression existe déjà pour les mêmes identifiants
+  const existingProgress = await db.userProgress
+      .where({ userId: progress.userId, sequenceId: progress.sequenceId, exerciseId: progress.exerciseId })
+      .first();
 
+  if (existingProgress) {
+      // Met à jour la progression existante
+      console.log('update')
 
+      return db.userProgress.update(existingProgress.progressId, progress);
+  } else {
+      // Insère une nouvelle progression
+      console.log('new')
+      return db.userProgress.add(progress);
+  }
+};
 export default db;

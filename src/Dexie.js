@@ -9,7 +9,7 @@ db.version(1).stores({
     sequences: '++sequenceId, title, stageId, description, content, medal',
     stages: '++stageId, name, description',
     exercises: '++exerciseId, sequenceId, type, consigne, complete, content, image, etiquette, order',
-    userProgress: '++progressId, userId, sequenceId, exerciseId, status, score',
+    userProgress: '++progressId, userId, sequenceId, exerciseId, status, score, createAt',
     test: '++testId, userId, sequenceId, score'
 });
 
@@ -31,10 +31,10 @@ db.transaction('rw', 'users', 'stages', 'sequences', 'exercises', 'userProgress'
 
     if (countUsers === 0) {
         await db.users.bulkAdd([
-            { username: "Marilyne", password: "marilyne", level: "bronze", score: 0 },
-            { username: "Victoria", password: "victoria", level: "bronze", score: 0 },
-            { username: "Loane", password: "loane", level: "bronze", score: 0 },
-            { username: "josé", password: "josé", level: "bronze", score: 0 },
+            { username: "Marilyne", password: "marilyne", level: "nobe", score: 0 },
+            { username: "Victoria", password: "victoria", level: "nobe", score: 0 },
+            { username: "Loane", password: "loane", level: "nobe", score: 0 },
+            { username: "josé", password: "josé", level: "nobe", score: 0 },
         ]);
     }
 

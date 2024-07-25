@@ -1,7 +1,8 @@
 // src/contexts/UserContext.js
+
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { authenticateUser } from '../hooks/useAuth';
-import db, { fetchUser } from '../hooks/useDb';
+import db, { fetchUser, fetchUserProgress } from '../hooks/useDb';
 
 const UserContext = createContext();
 
@@ -10,12 +11,15 @@ export const useUser = () => useContext(UserContext);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [idUser, setIdUser] = useState(sessionStorage.getItem('user_id'));
+  const [userProgress, setUserProgress] = useState([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
       if (idUser) {
         const userInfo = await fetchUser(parseInt(idUser, 10));
         setUser(userInfo);
+        const progress = await fetchUserProgress(parseInt(idUser, 10));
+        setUserProgress(progress);
       }
     };
     fetchUserData();
@@ -27,6 +31,8 @@ export const UserProvider = ({ children }) => {
       if (userInfo) {
         sessionStorage.setItem('user_id', userInfo.userId);
         setUser(userInfo);
+        const progress = await fetchUserProgress(userInfo.userId);
+        setUserProgress(progress);
         return userInfo;
       } else {
         throw new Error('Erreur de connexion');
@@ -40,6 +46,7 @@ export const UserProvider = ({ children }) => {
   const logout = () => {
     sessionStorage.removeItem('user_id');
     setUser(null);
+    setUserProgress([]);
   };
 
   const checkUserStatus = async () => {
@@ -47,8 +54,11 @@ export const UserProvider = ({ children }) => {
     if (userId) {
       const userInfo = await fetchUser(parseInt(userId, 10));
       setUser(userInfo);
+      const progress = await fetchUserProgress(parseInt(userId, 10));
+      setUserProgress(progress);
     } else {
-      setUser(null); 
+      setUser(null);
+      setUserProgress([]);
     }
   };
 
@@ -66,7 +76,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, login, logout }}>
+    <UserContext.Provider value={{ user, setUser, userProgress, login, logout }}>
       {children}
     </UserContext.Provider>
   );

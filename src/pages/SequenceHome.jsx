@@ -3,6 +3,7 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import { fetchAllExerciseForSequences, fetchOneSequence } from '../hooks/useDb';
 import DOMPurify from 'dompurify';
 import videoCam from '../assets/images/camera.svg';
+import print from '../assets/images/print_icon.svg';
 import imgEtape from '../assets/images/layoutexercices/etape.png';
 import { BounceLoader } from 'react-spinners';
 import nextIcon from '../assets/images/next.svg';
@@ -12,19 +13,21 @@ import SpringModal from '../components/ModalMedia';
 import closeIcon from '../assets/images/closeIconBlack.svg';
 import { useUser } from '../contexts/UserContext';
 import { saveScore } from '../hooks/useAuth';
-import perfectMedal from '../assets/gamification/Level=6.svg';
-import silverMedal from '../assets/gamification/Level=4.svg';
-import goldMedal from '../assets/gamification/Level=5.svg';
-import bronzeMedal from '../assets/gamification/Level=3.svg';
-import noMedal from '../assets/gamification/Level=0.svg';
+// import silverMedal from '../assets/images/gamification/silverMedal.png';
+// import goldMedal from '../assets/images/gamification/goldenMedal.png';
+// import bronzeMedal from '../assets/images/gamification/bronzeMedal.png';
+import perfectMedal from '../assets/images/gamification/Level=6.svg';
+import silverMedal from '../assets/images/gamification/Level=4.svg';
+import goldMedal from '../assets/images/gamification/Level=5.svg';
+import bronzeMedal from '../assets/images/gamification/Level=3.svg';
+import noMedal from '../assets/images/gamification/Level=0.svg';
 import db from '../Dexie'; // Importer la base de données
 import ModalPdf from '../components/ModalPdf';
-import { useScoreByExo } from '../contexts/ScoreContext';
+ 
 
 const SequenceHome = (props) => {
   const { allScoreByExercises } = props;
   const { user } = useUser();
-  const { scoreByExo, finalScores, updateScoreByExo, updateFinalScore } = useScoreByExo();
   const [videoSrc, setVideoSrc] = useState('');
   const params = useParams();
   const id = params?.sequence;
@@ -35,23 +38,13 @@ const SequenceHome = (props) => {
   const [error, setError] = useState(null);
   const [tabScore, setTabScore] = useState([]);
   const [finalScore, setFinalScore] = useState(0);
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
   const [openPdfModal, setOpenPdfModal] = useState(false);
+  
+  // const scorebyExo = allScoreByExercises[0]?.tabScores;
+  const scorebyExo = user ? tabScore : allScoreByExercises[0]?.tabScores;
 
-  useEffect(() => {
-    if (user) {
-      updateScoreByExo(idSeq, tabScore);
-    } else if (allScoreByExercises && allScoreByExercises.length > 0) {
-      const filteredScores = allScoreByExercises.find(el => el.idSeq === idSeq)?.tabScores;
-      updateScoreByExo(idSeq, filteredScores || []);
-    }
-  }, [user, tabScore, allScoreByExercises, idSeq, updateScoreByExo]);
-
-  useEffect(() => {
-    if (finalScore) {
-      updateFinalScore(idSeq, finalScore);
-    }
-  }, [finalScore, idSeq, updateFinalScore]);
+ 
 
   useEffect(() => {
     const loadSequences = async () => {
@@ -76,6 +69,7 @@ const SequenceHome = (props) => {
     loadExercises();
     loadSequences();
   }, [idSeq]);
+
 
   useEffect(() => {
     const exercisesScore = async () => {
@@ -103,17 +97,18 @@ const SequenceHome = (props) => {
           console.error('Erreur lors de la récupération des scores:', error);
         }
       } else if (!user && allScoreByExercises && allScoreByExercises.length > 0) {
-        const filteredScores = allScoreByExercises.find(el => el.idSeq === idSeq)?.tabScores;
-        if (filteredScores) {
-          const sumScores = filteredScores.reduce((accumulator, currentValue) => accumulator + (currentValue !== null ? currentValue : 0), 0);
-          const avgScore = sumScores / filteredScores.length;
+        const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
+        if (filteredScores.length > 0) {
+          const tabScores = filteredScores[0].tabScores;
+          const sumScores = tabScores.reduce((accumulator, currentValue) => accumulator + (currentValue !== null ? currentValue : 0), 0);
+          const avgScore = sumScores / tabScores.length;
           setFinalScore(avgScore);
         }
       }
     };
 
     exercisesScore();
-  }, [exercises, user, idSeq, allScoreByExercises]);
+  }, [exercises, user, idSeq]);
 
   useEffect(() => {
     if (sequence?.title) {
@@ -153,21 +148,26 @@ const SequenceHome = (props) => {
             <p className="header__sequence">{sequence?.title}</p>
           </div>
           <div className="header__percent">
-            <p><CountUp end={finalScores[idSeq] || finalScore} /> %</p>
-            {finalScores[idSeq] === 0 && <img src={noMedal} alt="médaille" />}
-            {finalScores[idSeq] === 100 && <img src={perfectMedal} alt="médaille" />}
-            {finalScores[idSeq] > 0 && finalScores[idSeq] < 100 && (
+            <p><CountUp end={finalScore} /> %</p>
+            {finalScore === 0 && <img src={noMedal} alt="médaille" />}
+            {finalScore === 100 && <img src={perfectMedal} alt="médaille" />}
+            {finalScore > 0 && finalScore < 100 && (
               <img src={
-                finalScores[idSeq] < 30 ? bronzeMedal :
-                  finalScores[idSeq] >= 30 && finalScores[idSeq] < 60 ? silverMedal :
+                finalScore < 30 ? bronzeMedal :
+                  finalScore >= 30 && finalScore < 60 ? silverMedal :
                     goldMedal
               } alt="médaille" />
             )}
           </div>
           <div className="header__actions">
-            <img src={videoCam} alt="Video Cam" onClick={() => setOpenModal(true)} className="sequence__video" />
-            <button onClick={() => setOpenPdfModal(true)}>Voir PDF</button>
-          </div>
+    <img src={videoCam} alt="Video Cam" onClick={() => setOpenModal(true)} className="sequence__video" />
+    <div className="tooltip sequence__print">
+        <img src={print} alt="imprimer" onClick={() => setOpenPdfModal(true)}  />
+        <span className="tooltiptext">Imprimer</span>
+    </div>
+</div>
+
+          
         </div>
         <main className="exercises">
           {isLoading ? (
@@ -190,16 +190,17 @@ const SequenceHome = (props) => {
                   }
                 } else {
                   if (allScoreByExercises && allScoreByExercises.length > 0) {
-                    const filteredScores = allScoreByExercises.find(el => el.idSeq === idSeq)?.tabScores;
-                    if (filteredScores) {
-                      if (filteredScores[index] !== null) {
-                        if (filteredScores[index] >= 0 && filteredScores[index] < 25) {
+                    const filteredScores = allScoreByExercises.filter(el => el.idSeq === idSeq);
+                    if (filteredScores.length > 0) {
+                      const tabScores = filteredScores[0].tabScores;
+                      if (tabScores[index] !== null) {
+                        if (tabScores[index] >= 0 && tabScores[index] < 25) {
                           progressClass = 'progress-item--orange';
-                        } else if (filteredScores[index] >= 25 && filteredScores[index] < 50) {
+                        } else if (tabScores[index] >= 25 && tabScores[index] < 50) {
                           progressClass = 'progress-item--rouge';
-                        } else if (filteredScores[index] >= 50 && filteredScores[index] < 75) {
+                        } else if (tabScores[index] >= 50 && tabScores[index] < 75) {
                           progressClass = 'progress-item--jaune';
-                        } else if (filteredScores[index] >= 75) {
+                        } else if (tabScores[index] >= 75) {
                           progressClass = 'progress-item--vert';
                         }
                       } else {
@@ -229,6 +230,7 @@ const SequenceHome = (props) => {
               <img src={nextIcon} alt="next" />
             </div>
           </Link>}
+
         </footer>
         <SpringModal isOpen={openModal} setOpen={setOpenModal}>
           <img src={closeIcon} alt="Fermer la vidéo" className="close" onClick={() => setOpenModal(false)} />
@@ -248,10 +250,10 @@ const SequenceHome = (props) => {
           onRequestClose={() => setOpenPdfModal(false)}
           user={user}
           exercises={exercises}
-          scorebyExo={scoreByExo[idSeq]}
+          scorebyExo={scorebyExo}
         />
-        {console.log('allScoreByExercises', allScoreByExercises)}
-        {console.log('test', scoreByExo)}
+        {/* {console.log('allScoreByExercises', allScoreByExercises)}
+        {console.log('test', scorebyExo)} */}
       </div>
     </React.Fragment>
   );

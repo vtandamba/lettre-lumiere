@@ -24,7 +24,6 @@ import SpringModal from "./Modal";
 import { UserProvider } from '../contexts/UserContext';
 import { DbProvider } from '../contexts/DbContext';
 import Test from "../pages/Test";
-import { ScoreProvider } from '../contexts/ScoreContext';
 
 const App = () => {
   const [scores, setScores] = useState([]);
@@ -56,7 +55,6 @@ const App = () => {
 console.log('le score dans app', scores)
   return (
     <UserProvider>
-      <ScoreProvider>
       <DbProvider>
         <HashRouter>
           <Routes>
@@ -85,7 +83,6 @@ console.log('le score dans app', scores)
           <SpringModal openModal={openModal} setOpenModal={setOpenModal} />
         </HashRouter>
       </DbProvider>
-      </ScoreProvider>
     </UserProvider>
   );
 };
