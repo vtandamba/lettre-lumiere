@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getElementRandom } from "../../hooks/useRandom";
-import speak from "../../hooks/useSpeak";
 import { IoArrowForwardSharp } from "react-icons/io5";
 import hautParleur from '../../assets/images/haut-parleur.svg';
+import useSpeak from "../../hooks/useSpeak";
 
 const B = () => {
 
     const [item, setItem] = useState();
     const [displayItems, setDisplayItems] = useState([]) // Pour veiller à ce qu'ils le même phonème ne s'affiche pas
     const params = useParams();
+    const speak = useSpeak(); 
 
     const alphabet = Array.from({ length: 26 }, (_, i) => String.fromCharCode(i + 65));
     const colors = ['#3CA83D', '#F26A1B', '#F2E52E', '#7BA1CE', '#B05C0E', '#F20002', '#000000', '#B9829E', '#7B0D80', '#EEEEEE'];
@@ -78,12 +79,10 @@ const B = () => {
                 </ul>
 
         
-                  <button className="exercice__validate">
-                    <Link to={`/${params?.categorie}/exercices/c1`}>
-                        OK
-                    </Link>
-                    <IoArrowForwardSharp />
-                </button>
+                <Link className="exercice__validate" to={`/${params?.categorie}/exercices/c1`}>
+                <p>OK</p>
+                <IoArrowForwardSharp />
+            </Link>
         </React.Fragment>
 }
 

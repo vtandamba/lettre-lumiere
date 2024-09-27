@@ -1,16 +1,17 @@
 
 
 import React, { useEffect, useState } from "react";
-import speak from "../../hooks/useSpeak";
+ 
 import { IoArrowForwardSharp } from "react-icons/io5";
 import { getElementRandom } from "../../hooks/useRandom";
 import { useNavigate, useParams } from "react-router-dom";
 import hautParleur from '../../assets/images/haut-parleur.svg';
+import useSpeak from "../../hooks/useSpeak";
 
 
 const D = (props) => {
 
-
+    const speak = useSpeak(); 
     const [item, setItem] = useState();
     // const [tabItems, setTabItems] = useState();
     // const [validate, setValidate] = useState(false);
@@ -131,47 +132,48 @@ const D = (props) => {
             const allItemsChosen = allItemsWithStyles.filter(el => el.state === 'choosen');
             console.log(allItemsChosen);
             if (allItemsChosen.length > 0) {
-
+    
                 const updatedItems = allItemsWithStyles.map(el => {  //Mettre à vrai ou faux les items correspondant
-
                     if (el.state === 'choosen') {
                         return {
                             ...el,
                             state: el.value.toLowerCase() === item.toLowerCase() ? 'true' : 'false',
                         };
                     } else {
-
                         return {
                             ...el,
                             state: el.value.toLowerCase() === item.toLowerCase() ? 'true' : el.state,
                         };
                     }
                 });
+    
                 setAllItemsWithStyles(updatedItems); //L'assigner pour le nouvel affichage
-
+    
+                // Ajout du délai de 3 secondes avant de passer au prochain élément
                 const timeOutId = setTimeout(() => {
                     setTabResponses(prev => {
                         const newTabResponses = [...prev];
                         newTabResponses[attemptCount] = allItemsChosen.some(el => el.value.toLowerCase() === item);
                         return newTabResponses;
                     });
-
+    
                     setAttemptCount(prevCount => {
                         if (prevCount + 1 < tabResponses.length) {
-                            //Prochain essaie
+                            // Prochain essai
                             setItem(getElementRandom(allItemsWithStyles).value);
                         }
                         return prevCount + 1;
                     });
-
+    
                     resetAllItemsState();
-                }, 1000);
-                return () => clearTimeout(timeOutId)
+                }, 3000); // Attendre 3 secondes avant de changer l'élément
+    
+                return () => clearTimeout(timeOutId);
             }
             console.log(attemptCount);
         }
     };
-
+    
     function resetAllItemsState() {
         setAllItemsWithStyles(currentItems =>
             currentItems.map(item => ({ ...item, state: 'initial' }))
