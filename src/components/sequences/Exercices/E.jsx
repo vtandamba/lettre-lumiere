@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getElementRandom } from "../../../hooks/useRandom";
-import speak from "../../../hooks/useSpeak";
+import useSpeak from "../../../hooks/useSpeak";
 
 const E = (props) => {
     const { data, onAttemptMade, score } = props;
@@ -8,6 +8,7 @@ const E = (props) => {
     const [input, setInput] = useState("");
     const [attemptCount, setAttemptCount] = useState(0);
     const [tabResponses, setTabResponses] = useState([null, null, null, null]);
+    const speak = useSpeak();
 
     useEffect(() => {
         speak(item);

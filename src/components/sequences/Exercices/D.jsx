@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import speak from "../../../hooks/useSpeak";
 import { IoArrowForwardSharp } from "react-icons/io5";
 import { getElementRandom } from "../../../hooks/useRandom";
+import useSpeak from "../../../hooks/useSpeak";
 
 
 const D = (props) => {
-
+    const speak = useSpeak();
     const { data, onAttemptMade, score } = props;
     const [item, setItem] = useState();
     // const [tabItems, setTabItems] = useState();

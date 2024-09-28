@@ -4,6 +4,7 @@ import speak from "../../../hooks/useSpeak";
 import speaker from '../../../assets/images/haut-parleur.svg'
 import checkIcon from '../../../assets/images/check.svg'
 import ButtonValid from "../../ButtonValid";
+import useSpeak from "../../../hooks/useSpeak";
 
 const G = (props) => {
 
@@ -16,20 +17,21 @@ const G = (props) => {
     const [attemptCount, setAttemptCount] = useState(0);
     const [tabResponses, setTabResponses] = useState(new Array(10).fill(null));
 
-                                                        
+                     const speak = useSpeak()                                   
   
     useEffect(() => {
-        if (data?.choice || data?.rep_contenu) {
-            const initialDisplayItems = (data.choice|| data.choices).map(el => ({
-                value: el.value, 
-                image: el.file,
+        // Correction ici pour utiliser data.content.choices
+        if (data?.content?.choices) {
+            const initialDisplayItems = data.content.choices.map((el) => ({
+                value: el,
+                image: null, // Pas d'image dans les données fournies
                 state: 'initial'
             }));
             setDisplayItems(initialDisplayItems);
         }
-    }, [data]); 
+    }, [data]);
                       
-
+console.log(' la data ==============> ',data)
 
     const updateTabItems = useCallback(() => {
       

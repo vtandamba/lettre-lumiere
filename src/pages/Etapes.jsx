@@ -11,6 +11,7 @@ import MainHeader from '../components/MainHeader';
 import { IoMdArrowDropright } from "react-icons/io";
 import EtapeContent from "../components/EtapeContent";
 import { useUser } from "../contexts/UserContext";
+import { AiOutlineReload } from 'react-icons/ai';
 
 const Etapes = () => {
   const { stages, sequences, isLoading, getUserProgressForSequence } = useDbContext();
@@ -100,7 +101,15 @@ const Etapes = () => {
               </ThemeProvider>
             ))
           ) : (
+            <div>
             <p>Aucune étape enregistrée pour le moment</p>
+            <AiOutlineReload 
+              size={24} 
+              onClick={() => window.location.reload()} // Rafraîchir la page
+              style={{ cursor: 'pointer', marginLeft: '10px', color: '#36d7b7' }} // Ajoutez du style selon vos préférences
+              title="Rafraîchir la page"
+            />
+          </div>
           )}
         </>
       )}

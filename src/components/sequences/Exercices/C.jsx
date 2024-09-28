@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import speak from "../../../hooks/useSpeak";
 import ButtonValid from "../../ButtonValid";
 import { getElementRandom } from "../../../hooks/useRandom";
 import imgNotFound from '../../../assets/images/not-found-image.jpg';
+import useSpeak from "../../../hooks/useSpeak";
 
 const C = (props) => {
     const { data, onAttemptMade, score, imgNotFound } = props;
-
+    const speak = useSpeak();
     const [syllabes, setSyllabes] = useState(data?.content.choices || []);
     const [currentSyllabeIndex, setCurrentSyllabeIndex] = useState(0);
     const [input, setInput] = useState("");

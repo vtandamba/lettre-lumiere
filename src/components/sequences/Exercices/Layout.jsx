@@ -11,16 +11,16 @@ import { CircleLoader } from "react-spinners";
 import { Box, Button, Modal, Typography } from "@mui/material";
 import SpringModal from "../../Modal";
 import { useUser } from "../../../contexts/UserContext";
-import speak from "../../../hooks/useSpeak";
 import speaker from '../../../assets/images/haut-parleur.svg';
 import useUserProgress from '../../../hooks/useUserProgress';
+import useSpeak from "../../../hooks/useSpeak";
 
 const Layout = (props) => {
     const { savingScore } = props;
     const { user, userProgress } = useUser();
     const { updateUserScoreAndLevel } = useUserProgress(); // Utilisation du hook
     const params = useParams();
-
+    const speak = useSpeak();
     const id = params?.sequence;
     const idStage = params?.etape;
     const navigate = useNavigate();

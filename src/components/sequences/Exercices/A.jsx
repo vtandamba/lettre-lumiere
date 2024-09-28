@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import speak from "../../../hooks/useSpeak"
+import useSpeak from "../../../hooks/useSpeak";
 const A = (props) => {
     const { data, onAttemptMade, score } = props;
     const [tabResponses, setTabResponses] = useState(new Array(data?.content.choices.length).fill(null));
@@ -9,6 +9,7 @@ const A = (props) => {
     //some
     //map
     ///flatMap
+    const speak = useSpeak()
     useEffect(() => {
 
         const allListened = tabResponses.every(response => response === true);

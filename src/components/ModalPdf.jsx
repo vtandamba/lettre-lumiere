@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -44,6 +44,18 @@ const style = {
 
 const ModalPdf = ({ isOpen, onRequestClose, user, exercises, scorebyExo }) => {
   // console.log('Props in ModalPdf:', { user, exercises, scorebyExo });
+  useEffect(() => {
+    if (isOpen) {
+    
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   return (
     <Modal

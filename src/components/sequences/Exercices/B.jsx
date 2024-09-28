@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import speak from "../../../hooks/useSpeak";
 import { getElementRandom } from "../../../hooks/useRandom";
+import useSpeak from "../../../hooks/useSpeak";
 
 const B = (props) => {
     const { data, onAttemptMade, score } = props;
@@ -11,7 +12,7 @@ const B = (props) => {
     // const [score, setScore] = useState(0);
     const [tabResponses, setTabResponses] = useState(new Array(4).fill(null));
 
-
+    const speak = useSpeak();
     useEffect(() => {
         if (data?.content.choices) {
             const initialTabItems = data.content.choices.map(el => ({
