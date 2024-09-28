@@ -82,9 +82,9 @@ const Etapes = () => {
                         .map((s) => (
                           <div key={s.sequenceId}>
                             <Link to={`${s.sequenceId}`}>
-                              <EtapeContent 
-                                content={s.title.toUpperCase()} 
-                                progress={sequenceProgress[s.sequenceId]} 
+                              <EtapeContent
+                                content={s.title.toUpperCase()}
+                                progress={sequenceProgress[s.sequenceId]}
                                 sequenceId={s.sequenceId}
                               />
                             </Link>
@@ -101,15 +101,18 @@ const Etapes = () => {
               </ThemeProvider>
             ))
           ) : (
-            <div>
-            <p>Aucune étape enregistrée pour le moment</p>
-            <AiOutlineReload 
-              size={24} 
-              onClick={() => window.location.reload()} // Rafraîchir la page
-              style={{ cursor: 'pointer', marginLeft: '10px', color: '#36d7b7' }} // Ajoutez du style selon vos préférences
-              title="Rafraîchir la page"
-            />
-          </div>
+            <div className="flex items-center justify-center border-solid border-2 border-cyan-600 h-24">
+              <p className=" text-4xl">Aucune étape enregistrée pour le moment</p>
+              <AiOutlineReload 
+              className="animate-bounce "
+                size={24}
+                onClick={() => window.location.reload()} // Rafraîchir la page
+                style={{ cursor: 'pointer', marginLeft: '10px', color: '#f18910' }} // Ajoutez du style selon vos préférences
+                title="Rafraîchir pour afficher les données"
+              />
+              <p className=" text-4xl">    </p>
+
+            </div>
           )}
         </>
       )}

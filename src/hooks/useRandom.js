@@ -41,7 +41,7 @@ export function diviserEnSyllabes(mot) {
   }
 
 
- export  function extraireSyllabes(mot) {
+  export function extraireSyllabes(mot) {
     // Supprimer les caractères spéciaux et les espaces
     const motNettoye = mot.toLowerCase().replace(/[^a-z]/g, '');
   
@@ -56,52 +56,53 @@ export function diviserEnSyllabes(mot) {
   
     // Fonction pour vérifier si une lettre est une voyelle
     function estVoyelle(lettre) {
-      return voyellesAccentuees.includes(lettre);
-    }
-  
-    // Fonction pour vérifier si une lettre est une consonne
-    function estConsonne(lettre) {
-      return !estVoyelle(lettre);
+        return voyellesAccentuees.includes(lettre);
     }
   
     // Diviser le mot en syllabes
     let syllabeCourante = '';
     for (let i = 0; i < motNettoye.length; i++) {
-      const lettreCourante = motNettoye[i];
+        const lettreCourante = motNettoye[i];
   
-      // Ajouter la première lettre à la syllabe courante
-      if (syllabeCourante === '') {
-        syllabeCourante += lettreCourante;
-        continue;
-      }
+        // Ajouter la première lettre à la syllabe courante
+        if (syllabeCourante === '') {
+            syllabeCourante += lettreCourante;
+            continue;
+        }
   
-      const lettrePrecedente = motNettoye[i - 1];
+        const lettrePrecedente = motNettoye[i - 1];
   
-      // Traiter les groupes de consonnes
-      const groupeConsonnes = lettrePrecedente + lettreCourante;
-      if (groupesConsonnes.includes(groupeConsonnes)) {
-        syllabeCourante += lettreCourante;
-        continue;
-      }
+        // Traiter les groupes de consonnes
+        const groupeConsonnes = lettrePrecedente + lettreCourante;
+        if (groupesConsonnes.includes(groupeConsonnes)) {
+            syllabeCourante += lettreCourante;
+            continue;
+        }
   
-      // Vérifier si la lettre courante est une voyelle
-      if (estVoyelle(lettreCourante)) {
-        // Ajouter la syllabe courante au tableau des syllabes
-        syllabes.push(syllabeCourante);
+        // Vérifier si la lettre courante est une voyelle
+        if (estVoyelle(lettreCourante)) {
+            // Si la dernière syllabe est différente de la courante, l'ajouter
+            if (syllabes.length === 0 || syllabes[syllabes.length - 1] !== syllabeCourante) {
+                syllabes.push(syllabeCourante);
+            }
   
-        // Commencer une nouvelle syllabe
-        syllabeCourante = lettreCourante;
-      } else {
-        // Ajouter la lettre courante à la syllabe courante
-        syllabeCourante += lettreCourante;
-      }
+            // Commencer une nouvelle syllabe
+            syllabeCourante = lettreCourante;
+        } else {
+            // Ajouter la lettre courante à la syllabe courante
+            syllabeCourante += lettreCourante;
+        }
     }
   
-    // Ajouter la dernière syllabe au tableau des syllabes
-    syllabes.push(syllabeCourante);
+    // Ajouter la dernière syllabe si elle n'est pas répétée
+    if (syllabes.length === 0 || syllabes[syllabes.length - 1] !== syllabeCourante) {
+        syllabes.push(syllabeCourante);
+    }
   
     return syllabes;
-  }
+}
+
+
 
 
     

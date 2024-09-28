@@ -1,0 +1,13 @@
+
+            { sequenceId: 6, type: "A1", consigne: "Ecoute et répète", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: null, order: 1 },
+            { sequenceId: 6, type: "B1", consigne: "Trouve la bonne syllabe", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: null, order: 2 },
+            { sequenceId: 6, type: "C1", consigne: "Écris la syllabe (avec modèle)", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: "la", order: 3 },
+            { sequenceId: 6, type: "D1", consigne: "Trouve les 3 écritures de la même syllabe", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: "la", order: 4 },
+            { sequenceId: 6, type: "E1", consigne: "Écris la syllabe (sans modèle)", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: "la", order: 5 },
+            { sequenceId: 6, type: "G1", consigne: "Trouve la bonne syllabe le plus vite possible.", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: "la", order: 6 },
+            { sequenceId: 6, type: "A1", consigne: "Ecoute et répète", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: null, order: 1 },
+            { sequenceId: 6, type: "B1", consigne: "Trouve la bonne syllabe", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: null, order: 2 },
+            { sequenceId: 6, type: "C1", consigne: "Écris la syllabe (avec modèle)", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: "la", order: 3 },
+            { sequenceId: 6, type: "D1", consigne: "Trouve les 3 écritures de la même syllabe", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: "la", order: 4 },
+            { sequenceId: 6, type: "E1", consigne: "Écris la syllabe (sans modèle)", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: "la", order: 5 },
+            { sequenceId: 6, type: "G1", consigne: "Trouve la bonne syllabe le plus vite possible.", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: "la", order: 6 },

@@ -56,18 +56,34 @@ db.transaction('rw', 'users', 'stages', 'sequences', 'exercises', 'userProgress'
 
     if (countExercises === 0) {
         await db.exercises.bulkAdd([
-            { sequenceId: 1, type: "A1", consigne: "Ecoute et répète", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: null, order: 1 },
-            { sequenceId: 1, type: "B1", consigne: "Trouve la bonne syllabe", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: null, order: 2 },
-            { sequenceId: 1, type: "C1", consigne: "Écris la syllabe (avec modèle)", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: "la", order: 3 },
-            { sequenceId: 1, type: "D1", consigne: "Trouve les 3 écritures de la même syllabe", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: "la", order: 4 },
-            { sequenceId: 1, type: "E1", consigne: "Écris la syllabe (sans modèle)", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: "la", order: 5 },
-            { sequenceId: 1, type: "G1", consigne: "Trouve la bonne syllabe le plus vite possible.", complete: false, content: { choices: ["la", "le", "li", "ma", "mi", "pe"], answer: null }, image: null, etiquette: "la", order: 6 },
-            { sequenceId: 2, type: "A1", consigne: "Ecoute et répète", complete: false, content: { choices: ["lo", "lu", "lé", "mo", "mu", "pé"], answer: null }, image: null, etiquette: null, order: 1 },
-            { sequenceId: 2, type: "B1", consigne: "Trouve la bonne syllabe", complete: false, content: { choices: ["lo", "lu", "lé", "mo", "mu", "pé"], answer: null }, image: null, etiquette: null, order: 2 },
-            { sequenceId: 2, type: "C1", consigne: "Écris la syllabe (avec modèle)", complete: false, content: { choices: ["lo", "lu", "lé", "mo", "mu", "pé"], answer: null }, image: null, etiquette: "la", order: 3 },
-            { sequenceId: 2, type: "D1", consigne: "Trouve les 3 écritures de la même syllabe", complete: false, content: { choices: ["lo", "lu", "lé", "mo", "mu", "pé"], answer: null }, image: null, etiquette: "la", order: 4 },
-            { sequenceId: 2, type: "E1", consigne: "Écris la syllabe (sans modèle)", complete: false, content: { choices: ["lo", "lu", "lé", "mo", "mu", "pé"], answer: null }, image: null, etiquette: "la", order: 5 },
-            { sequenceId: 2, type: "G1", consigne: "Trouve la bonne syllabe le plus vite possible.", complete: false, content: { choices: ["lo", "lu", "lé", "mo", "mu", "pé"], answer: null }, image: null, etiquette: "la", order: 6 },
+            { sequenceId: 1, type: "A1", consigne: "Ecoute et répète", complete: false, content: { choices: ["a", "e", "i"], answer: null }, image: null, etiquette: null, order: 1 },
+            { sequenceId: 1, type: "B1", consigne: "Trouve la bonne lettre", complete: false, content: { choices: ["a", "e", "i"], answer: null }, image: null, etiquette: null, order: 2 },
+            { sequenceId: 1, type: "C1", consigne: "Écris la lettre (avec modèle)", complete: false, content: { choices: ["a", "e", "i"], answer: null }, image: null, etiquette: " ", order: 3 },
+            { sequenceId: 1, type: "D1", consigne: "Trouve les 3 écritures de la même lettre", complete: false, content: { choices: ["a", "e", "i"], answer: null }, image: null, etiquette: " ", order: 4 },
+            { sequenceId: 1, type: "E1", consigne: "Écris la lettre (sans modèle)", complete: false, content: { choices: ["a", "e", "i"], answer: null }, image: null, etiquette: " ", order: 5 },
+            { sequenceId: 1, type: "G1", consigne: "Trouve la bonne lettre le plus vite possible.", complete: false, content: { choices: ["a", "e", "i"], answer: null }, image: null, etiquette: " ", order: 6 },
+
+            { sequenceId: 2, type: "A1", consigne: "Ecoute et répète", complete: false, content: { choices: ["o", "u", "é"], answer: null }, image: null, etiquette: null, order: 1 },
+            { sequenceId: 2, type: "B1", consigne: "Trouve la bonne lettre", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: null, order: 2 },
+            { sequenceId: 2, type: "C1", consigne: "Écris la lettre (avec modèle)", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: " ", order: 3 },
+            { sequenceId: 2, type: "D1", consigne: "Trouve les 3 écritures de la même lettre", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: " ", order: 4 },
+            { sequenceId: 2, type: "E1", consigne: "Écris la lettre (sans modèle)", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: " ", order: 5 },
+            { sequenceId: 2, type: "G1", consigne: "Trouve la bonne lettre le plus vite possible.", complete: false, content: { choices: ["o", "u", "é", "a", "e", "i"], answer: null }, image: null, etiquette: " ", order: 6 },
+
+            { sequenceId: 3, type: "A1", consigne: "Ecoute et répète", complete: false, content: { choices: ["la", "le", "li", "lo", "lu", "le"], answer: null }, image: null, etiquette: null, order: 1 },
+            { sequenceId: 3, type: "B1", consigne: "Trouve la bonne syllabe", complete: false, content: { choices: ["la", "le", "li", "lo", "lu", "le"], answer: null }, image: null, etiquette: null, order: 2 },
+            { sequenceId: 3, type: "C1", consigne: "Écris la syllabe (avec modèle)", complete: false, content: { choices: ["la", "le", "li", "lo", "lu", "le"], answer: null }, image: null, etiquette: " ", order: 3 },
+            { sequenceId: 3, type: "D1", consigne: "Trouve les 3 écritures de la même syllabe", complete: false, content: { choices: ["la", "le", "li", "lo", "lu", "le"], answer: null }, image: null, etiquette: " ", order: 4 },
+            { sequenceId: 3, type: "E1", consigne: "Écris la syllabe (sans modèle)", complete: false, content: { choices: ["la", "le", "li", "lo", "lu", "le"], answer: null }, image: null, etiquette: " ", order: 5 },
+            { sequenceId: 3, type: "G1", consigne: "Trouve la bonne syllabe le plus vite possible.", complete: false, content: { choices: ["la", "le", "li", "lo", "lu", "le"], answer: null }, image: null, etiquette: " ", order: 6 },
+
+
+            { sequenceId: 4, type: "A1", consigne: "Ecoute et répète", complete: false, content: { choices: ["ra", "re", "ri", "ro", "ru", "re"], answer: null }, image: null, etiquette: null, order: 1 },
+            { sequenceId: 4, type: "B1", consigne: "Trouve la bonne syllabe", complete: false, content: { choices: ["ra", "re", "ri", "ro", "ru", "re"], answer: null }, image: null, etiquette: null, order: 2 },
+            { sequenceId: 4, type: "C1", consigne: "Écris la syllabe (avec modèle)", complete: false, content: { choices: ["ra", "re", "ri", "ro", "ru", "re"], answer: null }, image: null, etiquette: " ", order: 3 },
+            { sequenceId: 4, type: "D1", consigne: "Trouve les 3 écritures de la même syllabe", complete: false, content: { choices: ["ra", "re", "ri", "ro", "ru", "re"], answer: null }, image: null, etiquette: " ", order: 4 },
+            { sequenceId: 4, type: "E1", consigne: "Écris la syllabe (sans modèle)", complete: false, content: { choices: ["ra", "re", "ri", "ro", "ru", "re"], answer: null }, image: null, etiquette: " ", order: 5 },
+            { sequenceId: 4, type: "G1", consigne: "Trouve la bonne syllabe le plus vite possible.", complete: false, content: { choices: ["ra", "re", "ri", "ro", "ru", "re"], answer: null }, image: null, etiquette: " ", order: 6 },
         ]);
     }
 }).catch((e) => {
